@@ -1,0 +1,10 @@
+services:
+  wisave-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wisave-ui
+    ports:
+      - "4200:80"
+    environment:
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:5100/api}
