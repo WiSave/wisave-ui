@@ -9,3 +9,4 @@ node_modules
 storybook-static
 tmp
 .DS_Store
+.cloudflared-token

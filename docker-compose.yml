@@ -4,7 +4,19 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: wisave-ui
-    ports:
-      - "4200:80"
     environment:
-      API_BASE_URL: ${API_BASE_URL:-http://localhost:5100/api}
+      API_BASE_URL: ${API_BASE_URL:-/api}
+      BACKEND_UPSTREAM: ${BACKEND_UPSTREAM:-}
+    expose:
+      - "80"
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.3.0
+    container_name: wisave-cloudflared
+    depends_on:
+      - wisave-ui
+    command: tunnel --no-autoupdate run --token-file /run/secrets/cloudflared-token
+    volumes:
+      - ./.cloudflared-token:/run/secrets/cloudflared-token:ro
+    restart: unless-stopped

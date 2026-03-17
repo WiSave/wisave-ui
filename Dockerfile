@@ -23,6 +23,7 @@ COPY --from=build /app/dist/WiSaveUI/browser ./
 
 RUN chmod +x /docker-entrypoint.d/40-env-config.sh
 
-ENV API_BASE_URL=http://localhost:5100/api
+ENV API_BASE_URL=/api
+ENV BACKEND_UPSTREAM=
 
 EXPOSE 80

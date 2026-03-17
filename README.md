@@ -22,16 +22,31 @@ By default it calls the backend at `http://localhost:5100/api`.
 
 ## Docker
 
+Docker now uses Cloudflare Tunnel as the public entrypoint for `wisave.app`, which works behind CGNAT and does not require inbound port forwarding. The backend stays private on your LAN and is reverse-proxied internally by NGINX under `/api`.
+
+Create a local tunnel token file first:
+
+```bash
+printf '%s' 'your-token' > .cloudflared-token
+chmod 600 .cloudflared-token
+```
+
 ```bash
 docker compose up --build
 ```
 
-The container serves the app on `http://localhost:4200`.
+Expected public URL:
+- `https://wisave.app`
 
-You can point the UI at another backend without rebuilding:
+By default:
+- frontend runtime API base URL inside the container is `/api`
+- NGINX returns `404` for `/api/*` until `BACKEND_UPSTREAM` is set
+- `cloudflared` connects outbound to Cloudflare and publishes the app without exposing local ports
+
+You can point the internal reverse proxy at another backend without rebuilding:
 
 ```bash
-API_BASE_URL=http://localhost:5100/api docker compose up --build
+BACKEND_UPSTREAM=http://192.168.1.50:5100 docker compose up --build
 ```
 
 ## Remote OrbStack deploy
@@ -42,17 +57,16 @@ Default target:
 - Host: `192.168.1.100`
 - User: `server`
 - Remote dir: `~/apps/wisave-ui`
-- Public URL: `http://192.168.1.100:4200`
+- Public URL: `https://wisave.app`
 
 Example:
 
 ```bash
-./scripts/deploy-orbstack.sh --api-base-url http://192.168.1.50:5100/api
+bash scripts/deploy-orbstack.sh --backend-upstream http://192.168.1.50:5100
 ```
 
 The script:
 - uploads the repository to the remote Mac
-- checks whether remote port `4200` is free or already used by the previous `wisave-ui` container
 - rebuilds the Docker image there
 - starts the stack with `docker compose up -d --build`
 
@@ -60,14 +74,29 @@ You can override defaults with flags or environment variables:
 
 ```bash
 DEPLOY_HOST=192.168.1.100 \
-API_BASE_URL=http://192.168.1.50:5100/api \
-./scripts/deploy-orbstack.sh
+API_BASE_URL=/api \
+BACKEND_UPSTREAM=http://192.168.1.50:5100 \
+CLOUDFLARE_TUNNEL_TOKEN_FILE=.cloudflared-token \
+bash scripts/deploy-orbstack.sh
 ```
+
+Cloudflare requirements outside the repo:
+1. Add `wisave.app` to Cloudflare and switch the domain to Cloudflare nameservers at Name.com.
+2. Create a remote-managed Cloudflare Tunnel.
+3. Add public hostnames in the Cloudflare Zero Trust dashboard:
+   - `wisave.app` -> `wisave-ui:80`
+4. Save the tunnel token to `.cloudflared-token` and keep that file out of git.
+
+This setup does not require:
+- public IPv4 on your router
+- port forwarding on `80/443`
+- direct exposure of the OrbStack host to the internet
+- a separate public `api.wisave.app` hostname for the backend
 
 ## Runtime config
 
 The frontend reads its backend base URL from `window.__env.API_BASE_URL`, served from `/env.js`.
 
 - Local default: `http://localhost:5100/api`
-- Docker default: `http://localhost:5100/api`
-- Kubernetes-ready: override `API_BASE_URL` with an environment-specific public backend URL
+- Docker default: `/api`
+- Recommended public deployment: keep the backend disabled by default and only enable the internal `/api` reverse proxy when `BACKEND_UPSTREAM` is explicitly set

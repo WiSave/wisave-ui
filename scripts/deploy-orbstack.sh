@@ -6,25 +6,26 @@ show_help() {
 Deploy WiSave UI to a remote OrbStack host over SSH.
 
 Usage:
-  ./scripts/deploy-orbstack.sh [options]
+  bash scripts/deploy-orbstack.sh [options]
 
 Options:
-  --host HOST              Remote host or IP address (default: 192.168.1.100)
-  --user USER              SSH user (default: server)
-  --port PORT              SSH port (default: 22)
-  --dir DIR                Remote deployment directory (default: ~/apps/wisave-ui)
-  --app-port PORT          Public app port on the remote host (default: 4200)
-  --api-base-url URL       API base URL injected into the container
-  --help                   Show this help
+  --host HOST                  Remote host or IP address (default: 192.168.1.100)
+  --user USER                  SSH user (default: server)
+  --port PORT                  SSH port (default: 22)
+  --dir DIR                    Remote deployment directory (default: ~/apps/wisave-ui)
+  --api-base-url URL           Frontend runtime API base URL (default: /api)
+  --backend-upstream URL       Backend origin proxied internally by NGINX (default: disabled)
+  --tunnel-token-file PATH     Local file containing the Cloudflare Tunnel token (default: ./.cloudflared-token)
+  --help                       Show this help
 
 Environment variable fallbacks:
   DEPLOY_HOST
   DEPLOY_USER
   DEPLOY_PORT
   DEPLOY_DIR
-  APP_PORT
-  CONTAINER_NAME
   API_BASE_URL
+  BACKEND_UPSTREAM
+  CLOUDFLARE_TUNNEL_TOKEN_FILE
 EOF
 }
 
@@ -35,13 +36,21 @@ require_command() {
   fi
 }
 
+require_file() {
+  if [[ ! -f "$1" ]]; then
+    echo "Missing required file: $1" >&2
+    exit 1
+  fi
+}
+
 DEPLOY_HOST="${DEPLOY_HOST:-192.168.1.100}"
 DEPLOY_USER="${DEPLOY_USER:-server}"
 DEPLOY_PORT="${DEPLOY_PORT:-22}"
 DEPLOY_DIR="${DEPLOY_DIR:-~/apps/wisave-ui}"
-APP_PORT="${APP_PORT:-4200}"
-CONTAINER_NAME="${CONTAINER_NAME:-wisave-ui}"
-API_BASE_URL="${API_BASE_URL:-http://localhost:5100/api}"
+API_BASE_URL="${API_BASE_URL:-/api}"
+BACKEND_UPSTREAM="${BACKEND_UPSTREAM:-}"
+CLOUDFLARE_TUNNEL_TOKEN_FILE="${CLOUDFLARE_TUNNEL_TOKEN_FILE:-}"
+EMPTY_BACKEND_SENTINEL="__WISAVE_EMPTY_BACKEND__"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -61,12 +70,16 @@ while [[ $# -gt 0 ]]; do
       DEPLOY_DIR="$2"
       shift 2
       ;;
-    --app-port)
-      APP_PORT="$2"
-      shift 2
-      ;;
     --api-base-url)
       API_BASE_URL="$2"
+      shift 2
+      ;;
+    --backend-upstream)
+      BACKEND_UPSTREAM="$2"
+      shift 2
+      ;;
+    --tunnel-token-file)
+      CLOUDFLARE_TUNNEL_TOKEN_FILE="$2"
       shift 2
       ;;
     --help|-h)
@@ -88,11 +101,19 @@ require_command tar
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+if [[ -z "${CLOUDFLARE_TUNNEL_TOKEN_FILE}" ]]; then
+  CLOUDFLARE_TUNNEL_TOKEN_FILE="${ROOT_DIR}/.cloudflared-token"
+fi
+
+require_file "${CLOUDFLARE_TUNNEL_TOKEN_FILE}"
+
 SSH_TARGET="${DEPLOY_USER}@${DEPLOY_HOST}"
-PUBLIC_URL="http://${DEPLOY_HOST}:${APP_PORT}"
+PUBLIC_URL="https://wisave.app"
 TMP_DIR="$(mktemp -d -t wisave-ui-deploy)"
 TMP_ARCHIVE="${TMP_DIR}/wisave-ui-deploy.tar.gz"
 REMOTE_ARCHIVE="/tmp/wisave-ui-deploy-${DEPLOY_USER}-$$.tar.gz"
+REMOTE_TOKEN_FILE="/tmp/wisave-ui-token-${DEPLOY_USER}-$$"
 SSH_CONTROL_SOCKET="/tmp/wisave-ui-ssh-%C"
 SSH_OPTIONS=(
   -p "${DEPLOY_PORT}"
@@ -117,62 +138,16 @@ trap cleanup EXIT
 echo "Deploying to ${SSH_TARGET}:${DEPLOY_DIR}"
 echo "Expected public URL: ${PUBLIC_URL}"
 echo "Using API_BASE_URL=${API_BASE_URL}"
+echo "Using BACKEND_UPSTREAM=${BACKEND_UPSTREAM}"
 
 ssh "${SSH_OPTIONS[@]}" -MNf "${SSH_TARGET}"
 
-ssh "${SSH_OPTIONS[@]}" "${SSH_TARGET}" "bash -s" -- "${DEPLOY_DIR}" "${APP_PORT}" "${CONTAINER_NAME}" <<'EOF'
+ssh "${SSH_OPTIONS[@]}" "${SSH_TARGET}" "bash -s" -- "${DEPLOY_DIR}" <<'EOF'
 set -euo pipefail
 
 deploy_dir="$1"
-app_port="$2"
-container_name="$3"
 expanded_deploy_dir="${deploy_dir/#\~/$HOME}"
 parent_dir="$(dirname "${expanded_deploy_dir}")"
-
-export PATH="$HOME/.orbstack/bin:/Applications/OrbStack.app/Contents/MacOS/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
-
-find_docker_bin() {
-  local candidate
-
-  for candidate in \
-    "${HOME}/.orbstack/bin/docker" \
-    "/Applications/OrbStack.app/Contents/MacOS/bin/docker" \
-    "/opt/homebrew/bin/docker" \
-    "/usr/local/bin/docker" \
-    "docker"
-  do
-    if command -v "${candidate}" >/dev/null 2>&1; then
-      command -v "${candidate}"
-      return 0
-    fi
-  done
-
-  return 1
-}
-
-if ! DOCKER_BIN="$(find_docker_bin)"; then
-  echo "Remote host does not expose docker in standard OrbStack/macOS locations." >&2
-  exit 1
-fi
-
-published_container="$("${DOCKER_BIN}" ps --filter "publish=${app_port}" --format '{{.Names}}' | head -n 1)"
-
-if [[ -n "${published_container}" && "${published_container}" != "${container_name}" ]]; then
-  echo "Remote port ${app_port} is already used by another container: ${published_container}" >&2
-  exit 1
-fi
-
-if [[ -z "${published_container}" ]] && command -v lsof >/dev/null 2>&1; then
-  if lsof -nP -iTCP:"${app_port}" -sTCP:LISTEN >/dev/null 2>&1; then
-    echo "Remote port ${app_port} is already occupied by a non-target process." >&2
-    lsof -nP -iTCP:"${app_port}" -sTCP:LISTEN >&2 || true
-    exit 1
-  fi
-fi
-
-if [[ -n "${published_container}" ]]; then
-  echo "Remote port ${app_port} is occupied by previous ${container_name} container. Deployment will replace it."
-fi
 
 mkdir -p "${parent_dir}"
 rm -rf "${expanded_deploy_dir}"
@@ -184,6 +159,7 @@ tar \
   --exclude='.idea' \
   --exclude='.vscode' \
   --exclude='.angular' \
+  --exclude='.cloudflared-token' \
   --exclude='coverage' \
   --exclude='dist' \
   --exclude='node_modules' \
@@ -195,15 +171,26 @@ tar \
   .
 
 scp "${SCP_OPTIONS[@]}" -q "${TMP_ARCHIVE}" "${SSH_TARGET}:${REMOTE_ARCHIVE}"
+scp "${SCP_OPTIONS[@]}" -q "${CLOUDFLARE_TUNNEL_TOKEN_FILE}" "${SSH_TARGET}:${REMOTE_TOKEN_FILE}"
 
-ssh "${SSH_OPTIONS[@]}" "${SSH_TARGET}" "bash -s" -- "${DEPLOY_DIR}" "${API_BASE_URL}" "${CONTAINER_NAME}" "${REMOTE_ARCHIVE}" <<'EOF'
+remote_backend_upstream="${BACKEND_UPSTREAM}"
+if [[ -z "${remote_backend_upstream}" ]]; then
+  remote_backend_upstream="${EMPTY_BACKEND_SENTINEL}"
+fi
+
+ssh "${SSH_OPTIONS[@]}" "${SSH_TARGET}" "bash -s" -- "${DEPLOY_DIR}" "${API_BASE_URL}" "${remote_backend_upstream}" "${REMOTE_ARCHIVE}" "${REMOTE_TOKEN_FILE}" <<'EOF'
 set -euo pipefail
 
 deploy_dir="$1"
 api_base_url="$2"
-container_name="$3"
+backend_upstream="$3"
 remote_archive="$4"
+remote_token_file="$5"
 expanded_deploy_dir="${deploy_dir/#\~/$HOME}"
+
+if [[ "${backend_upstream}" == "__WISAVE_EMPTY_BACKEND__" ]]; then
+  backend_upstream=""
+fi
 
 export PATH="$HOME/.orbstack/bin:/Applications/OrbStack.app/Contents/MacOS/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
 
@@ -234,17 +221,18 @@ fi
 cd "${expanded_deploy_dir}"
 tar -xzf "${remote_archive}" -C "${expanded_deploy_dir}"
 rm -f "${remote_archive}"
+install -m 600 "${remote_token_file}" "${expanded_deploy_dir}/.cloudflared-token"
+rm -f "${remote_token_file}"
 
 if ! "${DOCKER_BIN}" compose version >/dev/null 2>&1; then
   echo "Remote docker CLI does not provide 'docker compose'." >&2
   exit 1
 fi
 
-if "${DOCKER_BIN}" ps -a --format '{{.Names}}' | grep -Fx "${container_name}" >/dev/null 2>&1; then
-  "${DOCKER_BIN}" rm -f "${container_name}" >/dev/null
-fi
+API_BASE_URL="${api_base_url}" \
+BACKEND_UPSTREAM="${backend_upstream}" \
+"${DOCKER_BIN}" compose up -d --build --remove-orphans
 
-API_BASE_URL="${api_base_url}" "${DOCKER_BIN}" compose up -d --build --remove-orphans
 "${DOCKER_BIN}" compose ps
 EOF
 

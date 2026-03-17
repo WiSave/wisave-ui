@@ -55,6 +55,7 @@ Thumbs.db
 
 # Claude Code (personal settings - don't commit)
 .claude/settings.local.json
+.cloudflared-token
 
 *storybook.log
 storybook-static

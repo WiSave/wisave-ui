@@ -68,10 +68,10 @@ yarn format:check
 docker compose up --build
 
 # Remote OrbStack deploy over SSH
-./scripts/deploy-orbstack.sh --api-base-url http://192.168.1.50:5100/api
+bash scripts/deploy-orbstack.sh --backend-upstream http://192.168.1.50:5100
 ```
 
-Remote deploy assumes SSH user `server`, a stable public URL on `http://192.168.1.100:4200` by default, and the script checks whether that port is free or already occupied by the previous `wisave-ui` container before replacing it.
+Remote deploy assumes SSH user `server`, Cloudflare-managed domain `wisave.app`, and a Cloudflare Tunnel token stored in a local `.cloudflared-token` file.
 
 ## Architecture
 
@@ -174,7 +174,10 @@ Features are lazy-loaded via router:
 - The app currently uses REST, not GraphQL.
 - Prefer Angular `HttpClient` services under `features/<feature>/services/`.
 - Runtime API base URL comes from `window.__env.API_BASE_URL`, generated from `/env.js`.
-- Default local and Docker backend URL: `http://localhost:5100/api`
+- Local dev default backend URL: `http://localhost:5100/api`
+- Docker/public deployment default frontend API base URL: `/api`
+- Public deployments are expected to expose only `wisave.app` through Cloudflare Tunnel.
+- `/api/*` is disabled by default and only proxied internally when `BACKEND_UPSTREAM` is explicitly configured.
 - Legacy `graphql/` directories may still exist in the tree, but they are not part of the active integration path and should not be used for new work.
 
 ## Styling
