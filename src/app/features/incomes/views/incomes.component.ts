@@ -28,7 +28,10 @@ import { type IncomeId } from '../types/income-id.type';
   template: `
     <div class="flex h-full min-w-0 flex-1 gap-8 p-4">
       <div class="flex min-w-0 flex-2 flex-col gap-4 2xl:flex-3">
-        <div class="flex items-center justify-end">
+        <div class="flex items-start justify-between gap-4">
+          <header class="space-y-1">
+            <p class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold uppercase tracking-[0.24em]">Incomes</p>
+          </header>
           <app-segmented-toggle [options]="statsScopeOptions" [value]="statsScope()" (valueChange)="onStatsScopeChange($event)" />
         </div>
         <app-stat-group [items]="statItems()" />
