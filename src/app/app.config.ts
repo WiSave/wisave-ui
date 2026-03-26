@@ -1,10 +1,12 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { type ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { providePrimeNG } from 'primeng/config';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { authInterceptor } from '@core/interceptors/auth.interceptor';
 
 import WiSaveTheme from '../theme';
 import { routes } from './app.routes';
@@ -30,6 +32,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };

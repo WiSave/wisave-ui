@@ -1,0 +1,49 @@
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+
+import { AuthService } from '@core/services/auth.service';
+
+import { LoginFormComponent } from '../components/login-form/login-form.component';
+
+@Component({
+  selector: 'app-login-view',
+  host: { class: 'block w-full max-w-3xl px-4' },
+  imports: [RouterLink, LoginFormComponent],
+  template: `
+    <div class="bg-secondary-50 dark:bg-dark-primary-900 border-secondary-200 dark:border-dark-primary-700 rounded-2xl border p-8 shadow-xl sm:p-10">
+      <app-login-form [isLoading]="isLoading()" [error]="error()" (submitted)="onLogin($event)" (registerClicked)="onGoToRegister()" />
+    </div>
+
+    <div class="mt-6 text-center">
+      <span class="text-secondary-600 dark:text-dark-secondary-300 text-sm">Don't have an account? </span>
+      <a class="text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 text-sm font-semibold transition-colors" routerLink="/auth/register"> Create one </a>
+    </div>
+  `,
+})
+export class LoginViewComponent {
+  readonly #authService = inject(AuthService);
+  readonly #router = inject(Router);
+
+  readonly isLoading = signal(false);
+  readonly error = signal<string | null>(null);
+
+  onLogin(credentials: { email: string; password: string }): void {
+    this.isLoading.set(true);
+    this.error.set(null);
+
+    this.#authService.login(credentials).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        void this.#router.navigate(['/incomes']);
+      },
+      error: (err: { error?: { message?: string } }) => {
+        this.isLoading.set(false);
+        this.error.set(err?.error?.message ?? 'Login failed. Please try again.');
+      },
+    });
+  }
+
+  onGoToRegister(): void {
+    void this.#router.navigate(['/auth/register']);
+  }
+}

@@ -1,9 +1,10 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Button } from 'primeng/button';
 
+import { AuthService } from '@core/services/auth.service';
 import { SIDEBAR_NAV_ITEMS } from '@layout/constants/sidebar-navigation.constant';
 import { type ISidebarNavItem } from '@layout/types/sidebar-navigation.interface';
 import { ThemeIconButtonComponent } from '@shared/components/button';
@@ -49,7 +50,7 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
       </nav>
 
       <div class="sidebar-actions mt-auto flex flex-row justify-around gap-2">
-        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-sign-out" size="small" />
+        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-sign-out" size="small" (onClick)="onLogout()" />
         <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-cog" size="small" />
         <app-theme-icon-button class="sidebar-btn" />
       </div>
@@ -58,5 +59,10 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
   styles: ``,
 })
 export class SidebarComponent {
+  readonly #authService = inject(AuthService);
   readonly navItems: ISidebarNavItem[] = SIDEBAR_NAV_ITEMS;
+
+  onLogout(): void {
+    this.#authService.logout();
+  }
 }
