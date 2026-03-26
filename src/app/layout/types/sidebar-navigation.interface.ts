@@ -4,6 +4,7 @@ export interface ISidebarNavItem {
   exact: boolean;
   icon: string;
   children?: ISidebarNavChild[];
+  requiredPermission?: string;
 }
 
 export interface ISidebarNavChild {

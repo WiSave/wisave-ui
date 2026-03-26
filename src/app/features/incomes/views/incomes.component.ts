@@ -43,7 +43,6 @@ import { type IncomeId } from '../types/income-id.type';
           [currentPage]="pagination().currentPage"
           [pageInfo]="pagination().pageInfo"
           (navigatePage)="onNavigatePage($event)"
-          (deleteClicked)="onDelete($event)"
           (editClicked)="onEdit($event)"
           (importClicked)="onImport()"
           (addClicked)="onAdd()"
@@ -52,13 +51,19 @@ import { type IncomeId } from '../types/income-id.type';
           (filtersCleared)="onFiltersClear()" />
       </div>
       <div class="min-w-0 flex-1">
-        <app-chart-card title="Yearly income">
-          <app-monthly-income-chart
-            [stats]="monthlyStats()"
-            [loading]="monthlyStatsLoading()"
-            [year]="monthlyStatsYear()"
-            (navigate)="onMonthlyStatsYearChange($event)" />
-        </app-chart-card>
+        @defer (on viewport) {
+          <app-chart-card title="Yearly income">
+            <app-monthly-income-chart
+              [stats]="monthlyStats()"
+              [loading]="monthlyStatsLoading()"
+              [year]="monthlyStatsYear()"
+              (navigate)="onMonthlyStatsYearChange($event)" />
+          </app-chart-card>
+        } @placeholder {
+          <div class="bg-white dark:bg-dark-primary-850 border border-secondary-200 dark:border-dark-divider rounded-2xl shadow-xs h-72 flex items-center justify-center">
+            <i class="pi pi-spin pi-spinner text-secondary-400 text-xl"></i>
+          </div>
+        }
       </div>
     </div>
     <app-dialog [visible]="isChildRouteActive()" (visibleChange)="onDialogClose()">
@@ -148,8 +153,6 @@ export class IncomesComponent implements OnInit {
   onNavigatePage(event: IPageNavigationEvent): void {
     this.#dispatch.navigatePage({ direction: event.direction, cursor: event.cursor, pageSize: event.pageSize });
   }
-
-  onDelete(_id: IncomeId): void {}
 
   onAdd(): void {
     void this.#router.navigate([INCOMES_ROUTES.ADD], { relativeTo: this.#route });

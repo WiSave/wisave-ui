@@ -190,9 +190,57 @@ Features are lazy-loaded via router:
 
 Theme toggle managed by `ThemeService` with localStorage persistence.
 
+### PrimeNG Button Severity
+
+Always set explicit `severity` on `<p-button>`. The default primary maps to accent (yellow) which clashes in most contexts.
+- Primary actions (save, submit): `severity="secondary"` or `severity="success"`
+- Cancel/dismiss: `severity="secondary"` with `[text]="true"`
+- Destructive (delete, remove): `severity="danger"`
+- Never leave severity unset — it renders yellow
+
+### PrimeNG Chart Sizing
+
+`p-chart` wraps a Chart.js canvas. CSS height/width on a parent div is unreliable — the canvas ignores it.
+- Use `width` and `height` input props on `<p-chart>` for fixed-size charts (e.g. doughnut)
+- For fluid charts, use a parent with explicit height and `class="w-full"` on `<p-chart>`
+- Always set `responsive: true` and `maintainAspectRatio: false` in chart options
+- Disable the default Chart.js legend (`legend: { display: false }`) when using a custom HTML legend
+
+### Money Formatting
+
+Use `createMoney()` and `formatMoney()` from `@core/types/money.interface` instead of Angular pipes (`DecimalPipe`, `CurrencyPipe`). Prefer computed properties over template pipes:
+```typescript
+readonly formattedBalance = computed(() => formatMoney(createMoney(this.balance(), this.currency())));
+```
+
+### Shell Components
+
+Feature groups use a shell component (`*-shell.component.ts`) in `layout/` that provides:
+- Feature header (uppercase tracking label)
+- Tab-style `<nav>` with `RouterLink`/`RouterLinkActive` for sub-routes
+- `<router-outlet>` for child views
+
+Child views should NOT duplicate headers or padding — the shell owns those.
+Active tab style: `bg-secondary-200 dark:bg-dark-primary-700` (not accent/yellow).
+
 ## Additional Docs
 
-- `README.md` - Project setup, Docker usage, runtime API configuration
+**Read these before working on a feature or making architectural decisions:**
+
+- `docs/ARCHITECTURE.md` — full system architecture: gateway (YARP/Portal), auth (BFF/cookie model), deployment topology, Kubernetes plans, observability. Read when touching API integration, auth, or deployment.
+- `docs/features/` — per-feature frontend documentation. Each file covers routes, stores, components, API contracts, and key types. **Read the relevant feature doc before modifying any feature.** Files:
+  - `docs/features/expenses.md` — expense transactions (table, filtering, pagination)
+  - `docs/features/expense-accounts.md` — account management (cards, bank accounts, grouped layout)
+  - `docs/features/expense-budget.md` — budgets, month navigation, insights, analysis store
+  - `docs/features/incomes.md` — income tracking, stats, monthly charts
+  - `docs/features/stock.md` — stock portfolio (stub/placeholder)
+  - `docs/features/auth.md` — login, registration wizard, guards
+- `README.md` — project setup, Docker usage, runtime API configuration
+- External documentation repo (`/Users/jakubchwastek/Desktop/Projects/wisave_project/wisave-documentation/`):
+  - `specs/` — feature design specs (e.g. `2026-03-26-expenses-feature-design.md`, `2026-03-28-expenses-microservice-design.md`)
+  - `plans/` — implementation plans (e.g. `2026-03-26-expenses-feature-implementation.md`)
+  - `architecture/` — architecture decisions
+  - `adr/` — architecture decision records
 
 ## Testing
 

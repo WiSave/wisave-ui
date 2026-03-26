@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { AuthService } from '@core/services/auth.service';
+import { AuthService } from '@core/services/auth/auth.service';
 
 import { RegisterAccountStepComponent } from '../components/register-account-step/register-account-step.component';
 import { RegisterPlanStepComponent } from '../components/register-plan-step/register-plan-step.component';
@@ -42,7 +42,7 @@ import { type IAccountStepData, type IPlan } from '../types/auth.types';
 
       <!-- Card container -->
       <div
-        class="bg-secondary-50 dark:bg-dark-primary-900 border-secondary-200 dark:border-dark-primary-700 mx-auto flex min-h-136 rounded-2xl border p-8 shadow-xl transition-all duration-300 sm:p-10"
+        class="bg-white dark:bg-dark-primary-900 border-secondary-200 dark:border-dark-primary-700 mx-auto flex min-h-136 rounded-2xl border p-8 shadow-xl transition-all duration-300 sm:p-10"
         [class]="currentStep() === 1 ? 'max-w-5xl' : 'max-w-3xl'">
         @switch (currentStep()) {
           @case (0) {
@@ -56,12 +56,18 @@ import { type IAccountStepData, type IPlan } from '../types/auth.types';
 
     <div class="mt-6 text-center">
       <span class="text-secondary-500 dark:text-dark-secondary-400 text-sm">Already have an account? </span>
-      <a class="text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 text-sm font-semibold transition-colors" routerLink="/auth/login"> Sign in </a>
+      <a
+        class="text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 text-sm font-semibold transition-colors"
+        [queryParams]="loginQueryParams()"
+        routerLink="/auth/login">
+        Sign in
+      </a>
     </div>
   `,
 })
 export class RegisterViewComponent {
   readonly #authService = inject(AuthService);
+  readonly #route = inject(ActivatedRoute);
   readonly #router = inject(Router);
 
   readonly steps = ['Account', 'Plan'];
@@ -93,12 +99,24 @@ export class RegisterViewComponent {
     this.#authService.register({ ...account, planId: plan.id }).subscribe({
       next: () => {
         this.isLoading.set(false);
-        void this.#router.navigate(['/incomes']);
+        void this.#router.navigateByUrl(this.returnUrl());
       },
-      error: (err: { error?: { errors?: string[]; message?: string } }) => {
+      error: (err: { status?: number; error?: { errors?: string[]; message?: string } }) => {
         this.isLoading.set(false);
+        if (err.status === 400) {
+          this.error.set('Security validation expired. Please try again.');
+          return;
+        }
+
         this.error.set(err?.error?.errors?.join(' ') ?? err?.error?.message ?? 'Registration failed. Please try again.');
       },
     });
   }
+
+  readonly returnUrl = () => this.#route.snapshot.queryParamMap.get('returnUrl') ?? '/incomes';
+
+  readonly loginQueryParams = () => {
+    const returnUrl = this.#route.snapshot.queryParamMap.get('returnUrl');
+    return returnUrl ? { returnUrl } : {};
+  };
 }

@@ -6,6 +6,7 @@ export interface IPageInfo {
 }
 
 export type CursorDirection = 'next' | 'previous' | 'first';
+export type ApiCursorDirection = 'next' | 'prev';
 
 export interface ICursorPaginationRequest {
   direction: CursorDirection;

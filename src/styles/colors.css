@@ -79,4 +79,43 @@
   --color-text-700: hsl(54, 12%, 12%);
   --color-text-800: hsl(54, 15%, 8%);
   --color-text-900: hsl(54, 18%, 5%);
+
+  /* Surface: light body/page background */
+  --color-surface: hsl(210, 14%, 95%);
+  --color-dark-surface: hsl(220, 55%, 12%);
+
+  /* Semantic status: info */
+  --color-info-50: hsl(210, 50%, 96%);
+  --color-info-100: hsl(210, 48%, 89%);
+  --color-info-200: hsl(210, 45%, 78%);
+  --color-info-500: hsl(210, 60%, 36%);
+  --color-info-600: hsl(210, 55%, 36%);
+  --color-info-700: hsl(210, 55%, 30%);
+  --color-dark-info-400: hsl(210, 50%, 65%);
+  --color-dark-info-500: hsl(210, 50%, 55%);
+
+  /* Semantic status: danger */
+  --color-danger-50: hsl(0, 60%, 97%);
+  --color-danger-100: hsl(0, 55%, 90%);
+  --color-danger-400: hsl(0, 65%, 58%);
+  --color-danger-500: hsl(0, 70%, 50%);
+  --color-danger-600: hsl(0, 70%, 42%);
+  --color-danger-700: hsl(0, 65%, 35%);
+  --color-dark-danger-400: hsl(0, 55%, 65%);
+  --color-dark-danger-900-20: hsl(0, 40%, 20%);
+
+  /* Semantic status: success/positive */
+  --color-positive-500: hsl(160, 55%, 40%);
+  --color-positive-600: hsl(160, 55%, 34%);
+  --color-dark-positive-400: hsl(160, 50%, 55%);
+
+  /* Semantic status: warning */
+  --color-warning-500: hsl(38, 80%, 50%);
+  --color-dark-warning-400: hsl(38, 75%, 58%);
+
+  /* Progress bar */
+  --color-progress: hsl(210, 50%, 52%);
+  --color-progress-end: hsl(210, 55%, 42%);
+  --color-dark-progress: hsl(215, 45%, 52%);
+  --color-dark-progress-end: hsl(215, 45%, 42%);
 }

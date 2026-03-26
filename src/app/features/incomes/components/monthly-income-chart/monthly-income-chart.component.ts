@@ -5,7 +5,8 @@ import { ChartModule } from 'primeng/chart';
 
 import { type IIncomeMonthlyStats } from '@features/incomes/types/incomes-state.types';
 
-import { ThemeService } from '@core/services/theme.service';
+import { getChartThemeColors, getIncomeChartColors } from '@core/config/chart-colors.config';
+import { ThemeService } from '@core/services/theme/theme.service';
 
 @Component({
   selector: 'app-monthly-income-chart',
@@ -14,9 +15,9 @@ import { ThemeService } from '@core/services/theme.service';
   template: `
     <div class="flex flex-col gap-4">
       <div class="flex items-center justify-center gap-2">
-        <p-button [outlined]="true" [rounded]="true" [disabled]="!canGoBack()" [loading]="loading()" (onClick)="onGoBack()" icon="pi pi-chevron-left" size="small" severity="success" />
+        <p-button [outlined]="true" [rounded]="true" [disabled]="!canGoBack()" [loading]="loading()" (onClick)="onGoBack()" icon="pi pi-chevron-left" size="small" severity="secondary" />
         <span class="min-w-16 text-center font-semibold">{{ year() }}</span>
-        <p-button [outlined]="true" [rounded]="true" [disabled]="!canGoForward()" [loading]="loading()" (onClick)="onGoForward()" icon="pi pi-chevron-right" size="small" severity="success" />
+        <p-button [outlined]="true" [rounded]="true" [disabled]="!canGoForward()" [loading]="loading()" (onClick)="onGoForward()" icon="pi pi-chevron-right" size="small" severity="secondary" />
       </div>
       <div class="h-56 flex w-full xl:h-72 2xl:h-96">
         <p-chart [data]="chartData()" [options]="chartOptions()" [plugins]="chartPlugins" class="w-full" type="bar" />
@@ -186,27 +187,14 @@ export class MonthlyIncomeChartComponent {
 
   #getColors() {
     const isDark = this.#theme.isDarkMode();
+    const theme = getChartThemeColors(isDark);
+    const income = getIncomeChartColors(isDark);
 
-    return isDark
-      ? {
-          recurring: 'hsl(215, 45%, 52%)',
-          recurringBorder: 'hsl(215, 45%, 44%)',
-          nonRecurring: 'hsl(215, 15%, 35%)',
-          nonRecurringBorder: 'hsl(215, 15%, 28%)',
-          average: 'hsl(38, 80%, 52%)',
-          text: 'hsl(210, 15%, 92%)',
-          textMuted: 'hsl(210, 12%, 58%)',
-          grid: 'hsla(215, 20%, 50%, 0.12)',
-        }
-      : {
-          recurring: 'hsl(215, 50%, 55%)',
-          recurringBorder: 'hsl(215, 50%, 48%)',
-          nonRecurring: 'hsl(213, 14%, 82%)',
-          nonRecurringBorder: 'hsl(213, 14%, 72%)',
-          average: 'hsl(36, 90%, 45%)',
-          text: 'hsl(220, 30%, 14%)',
-          textMuted: 'hsl(215, 14%, 46%)',
-          grid: 'hsla(215, 15%, 50%, 0.10)',
-        };
+    return {
+      ...income,
+      text: theme.text,
+      textMuted: theme.textMuted,
+      grid: theme.grid,
+    };
   }
 }

@@ -1,0 +1,44 @@
+# Expenses Feature
+
+Expense transaction management — recording, filtering, sorting, and paginating spending entries.
+
+## Routes
+
+| Path | Component | Description |
+|------|-----------|-------------|
+| `/expenses/list` | `ExpensesComponent` | Main table with account balance cards |
+| `/expenses/list/add` | `AddExpenseComponent` | Dialog: create new expense |
+| `/expenses/list/edit/:id` | `EditExpenseComponent` | Dialog: edit existing expense |
+
+## Store
+
+`ExpensesStore` — root-provided, entity-based.
+
+**State:** `isLoading`, `error`, `pagination` (cursor-based), `filter` (`IExpensesFilter`), `sort` (`IExpensesSortOrder`), `availableCategories`, `availableAccounts`, `selectedExpense`, entities (`IExpense[]`).
+
+**Page events:** `opened`, `navigatePage`, `pageSizeChanged`, `add`, `update`, `remove`, `filterApplied`, `filtersCleared`, `sortChanged`, `selectExpense`
+
+## Components
+
+- `ExpensesTableComponent` — PrimeNG table with inline filtering, sorting, row actions
+- `AccountBalanceCardsComponent` — top-level account balances summary
+- `ExpenseEditFormComponent` — reactive form with metadata key-value pairs
+
+## API
+
+`ExpensesApiService` → `/expenses`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/expenses` | Cursor-paginated list with filter/sort params |
+| GET | `/expenses/:id` | Single expense |
+| POST | `/expenses` | Create expense |
+| PUT | `/expenses/:id` | Update expense |
+| DELETE | `/expenses/:id` | Delete expense |
+| GET | `/expenses/categories` | Category list |
+
+## Key Types
+
+- `IExpense` — id, date, description, categoryId, subcategoryId, accountId, amount (IMoney), recurring, metadata
+- `IExpensesFilter` — dateRange, searchQuery, categoryIds, accountIds, recurring
+- `IExpensesSortOrder` — field (date|amount|description|createdAt), direction
