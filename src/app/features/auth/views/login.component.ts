@@ -36,9 +36,13 @@ export class LoginViewComponent {
         this.isLoading.set(false);
         void this.#router.navigate(['/incomes']);
       },
-      error: (err: { error?: { message?: string } }) => {
+      error: (err: { status?: number; error?: { errors?: string[]; message?: string } }) => {
         this.isLoading.set(false);
-        this.error.set(err?.error?.message ?? 'Login failed. Please try again.');
+        if (err.status === 401) {
+          this.error.set('Invalid email or password.');
+        } else {
+          this.error.set(err?.error?.errors?.join(' ') ?? err?.error?.message ?? 'Login failed. Please try again.');
+        }
       },
     });
   }

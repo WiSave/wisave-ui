@@ -95,9 +95,9 @@ export class RegisterViewComponent {
         this.isLoading.set(false);
         void this.#router.navigate(['/incomes']);
       },
-      error: (err: { error?: { message?: string } }) => {
+      error: (err: { error?: { errors?: string[]; message?: string } }) => {
         this.isLoading.set(false);
-        this.error.set(err?.error?.message ?? 'Registration failed. Please try again.');
+        this.error.set(err?.error?.errors?.join(' ') ?? err?.error?.message ?? 'Registration failed. Please try again.');
       },
     });
   }
