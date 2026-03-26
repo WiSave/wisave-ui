@@ -1,7 +1,8 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { AuthService } from '@core/services/auth/auth.service';
 import { ThemeIconButtonComponent } from '@shared/components/button';
 
 @Component({
@@ -36,7 +37,7 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
       </div>
 
       <!-- Content panel -->
-      <main class="bg-secondary-50 dark:bg-dark-primary-950 relative flex flex-1 flex-col items-center justify-center p-6 sm:p-10">
+      <main class="bg-white dark:bg-dark-primary-950 relative flex flex-1 flex-col items-center justify-center p-6 sm:p-10">
         <!-- Mobile logo (hidden on lg+) -->
         <div class="mb-10 flex flex-col items-center gap-2 lg:hidden">
           <img class="h-20 w-auto" priority [ngSrc]="'/logo2.png'" width="768" height="768" alt="WiSave" />
@@ -51,4 +52,10 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
     </div>
   `,
 })
-export class AuthLayoutComponent {}
+export class AuthLayoutComponent {
+  readonly #authService = inject(AuthService);
+
+  constructor() {
+    this.#authService.bootstrapAntiforgery().subscribe();
+  }
+}

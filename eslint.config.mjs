@@ -62,6 +62,7 @@ export default tseslint.config(
         { type: 'app', pattern: 'src/app/*', mode: 'full' },
         { type: 'main', pattern: 'src/main.ts', mode: 'full' },
         { type: 'src-root', pattern: 'src/*.ts', mode: 'full' },
+        { type: 'src-types', pattern: 'src/types/**/*.d.ts', mode: 'full' },
       ],
       'boundaries/ignore': ['**/*.spec.ts', '**/*.test.ts'],
     },
@@ -220,12 +221,13 @@ export default tseslint.config(
             },
 
             // Features root routing
-            { from: 'features-routing', allow: ['feature-route'] },
+            { from: 'features-routing', allow: ['feature-route', 'layout'] },
 
             // App root files
             { from: 'app', allow: ['core', 'shared', 'layout', 'feature', 'feature-route', 'features-routing', 'app', 'src-root'] },
             { from: 'main', allow: ['app'] },
             { from: 'src-root', allow: ['core', 'shared'] },
+            { from: 'src-types', allow: ['core'] },
           ],
         },
       ],

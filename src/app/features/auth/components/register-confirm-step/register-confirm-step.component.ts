@@ -42,7 +42,7 @@ import { type IAccountStepData, type IPlan } from '../../types/auth.types';
         <!-- Plan section -->
         <div class="bg-secondary-100/60 dark:bg-dark-primary-800 flex items-center gap-4 p-5">
           <div class="bg-accent-100 dark:bg-accent-900/30 flex h-11 w-11 items-center justify-center rounded-xl">
-            <i class="pi pi-credit-card text-accent-600 dark:text-accent-400 text-lg"></i>
+            <i class="pi pi-wallet text-accent-600 dark:text-accent-400 text-lg"></i>
           </div>
           <div class="flex-1">
             <span class="text-secondary-500 dark:text-dark-secondary-400 text-[11px] font-bold tracking-widest uppercase">Plan</span>

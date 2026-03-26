@@ -18,7 +18,7 @@ yarn start
 
 The app runs on `http://localhost:4200`.
 
-By default it calls the backend at `http://localhost:5100/api`.
+For local development, it should call the backend through `/api` so the Angular dev proxy can forward requests to the portal.
 
 ## Docker
 
@@ -97,6 +97,25 @@ This setup does not require:
 
 The frontend reads its backend base URL from `window.__env.API_BASE_URL`, served from `/env.js`.
 
-- Local default: `http://localhost:5100/api`
+- Local default: `/api`
 - Docker default: `/api`
 - Recommended public deployment: keep the backend disabled by default and only enable the internal `/api` reverse proxy when `BACKEND_UPSTREAM` is explicitly set
+
+## Antiforgery troubleshooting
+
+If mutating requests return `400 Antiforgery token validation failed`, verify:
+
+- `window.__env.API_BASE_URL` is `/api` or omitted so the runtime fallback resolves to `/api`
+- the Angular dev server proxy is active
+- `GET /api/auth/antiforgery-token` sets the `XSRF-TOKEN` cookie
+- the browser sends `X-XSRF-TOKEN` on `POST`, `PUT`, `DELETE`, and `PATCH`
+
+Angular does not send `X-XSRF-TOKEN` on `GET` requests, and it skips automatic XSRF header injection for absolute or cross-origin API URLs such as `http://localhost:5100/api`.
+
+## Session storage requirements
+
+The portal stores auth tickets server-side. For local development and deployment:
+
+- Redis-backed ticket storage is the intended runtime configuration
+- process-local in-memory ticket storage is acceptable only for tests or deliberate single-process local debugging
+- if the portal falls back to process-local ticket storage and you restart the process or hop between instances, refresh can look like a logout because the cookie only contains a ticket key

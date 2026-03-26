@@ -19,7 +19,7 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
   host: { class: 'block w-full' },
   imports: [ReactiveFormsModule, Button, IconField, InputIcon, InputText],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onNext()" class="flex flex-col gap-8">
+    <form [formGroup]="form" (ngSubmit)="onNext()" class="flex flex-col gap-8" autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
       <div class="text-center">
         <h2 class="text-secondary-900 dark:text-dark-secondary-50 text-2xl font-bold tracking-tight">Create your account</h2>
         <p class="text-secondary-600 dark:text-dark-secondary-300 mt-2 text-sm">Fill in your details to get started</p>
@@ -30,7 +30,7 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="register-name">Full name</label>
           <p-iconfield>
             <p-inputicon class="pi pi-user" />
-            <input id="register-name" formControlName="name" name="name" autocomplete="name" data-lpignore="true" class="w-full" pInputText type="text" placeholder="John Doe" />
+            <input id="register-name" formControlName="name" name="name" autocomplete="off" data-lpignore="true" data-1p-ignore class="w-full" pInputText type="text" placeholder="John Doe" />
           </p-iconfield>
           <span class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('name')">Full name is required.</span>
         </div>
@@ -39,7 +39,7 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="register-email">Email address</label>
           <p-iconfield>
             <p-inputicon class="pi pi-envelope" />
-            <input id="register-email" formControlName="email" name="email" autocomplete="username" class="w-full" pInputText type="email" placeholder="you@example.com" />
+            <input id="register-email" formControlName="email" name="email" autocomplete="off" data-lpignore="true" data-1p-ignore class="w-full" pInputText type="email" placeholder="you@example.com" />
           </p-iconfield>
           <span class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('email')">
             @if (form.controls.email.errors?.['required']) {
@@ -60,7 +60,9 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
                 class="w-full"
                 pInputText
                 name="new-password"
-                autocomplete="new-password"
+                autocomplete="off"
+                data-lpignore="true"
+                data-1p-ignore
                 formControlName="password"
                 (input)="onPasswordInput($event)"
                 placeholder="Min. 8 characters" />
@@ -91,7 +93,7 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
                 class="w-full"
                 pInputText
                 name="confirm-password"
-                autocomplete="new-password"
+                autocomplete="off"
                 data-lpignore="true"
                 data-1p-ignore
                 formControlName="confirmPassword"

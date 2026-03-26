@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { AuthService } from '@core/services/auth/auth.service';
 import { SidebarComponent } from '@layout/sidebar';
 
 @Component({
@@ -8,9 +9,9 @@ import { SidebarComponent } from '@layout/sidebar';
   imports: [SidebarComponent, RouterOutlet],
   template: `
     <app-sidebar />
-    <div class="min-w-0 flex-1">
+    <main class="min-w-0 flex-1">
       <router-outlet />
-    </div>
+    </main>
   `,
   styles: `
     :host {
@@ -20,4 +21,10 @@ import { SidebarComponent } from '@layout/sidebar';
     }
   `,
 })
-export class MainLayoutComponent {}
+export class MainLayoutComponent {
+  readonly #authService = inject(AuthService);
+
+  constructor() {
+    this.#authService.bootstrapAntiforgery().subscribe();
+  }
+}

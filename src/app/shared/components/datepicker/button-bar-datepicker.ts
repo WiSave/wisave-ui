@@ -8,7 +8,7 @@ import { DatePicker } from 'primeng/datepicker';
   selector: 'app-button-bar-datepicker',
   imports: [DatePicker, Button, FormsModule],
   template: ` <div class="card flex flex-wrap justify-center gap-4">
-    <p-datepicker [(ngModel)]="dates" [showButtonBar]="true" [readonlyInput]="true" [showIcon]="true" (onClose)="onClose()" selectionMode="range">
+    <p-datepicker [(ngModel)]="dates" [showButtonBar]="true" [readonlyInput]="true" [showIcon]="true" (onClose)="onClose()" selectionMode="range" inputId="date-filter" ariaLabel="Filter by date range">
       <ng-template #buttonbar let-todayCallback="todayCallback" let-clearCallback="clearCallback">
         <div class="flex w-full flex-1 flex-row justify-between">
           <div class="flex gap-2">
@@ -17,7 +17,7 @@ import { DatePicker } from 'primeng/datepicker';
           </div>
           <div class="flex gap-2">
             <p-button (click)="todayCallback($event)" size="small" label="Today" variant="outlined" />
-            <p-button (click)="clearCallback($event)" size="small" icon="pi pi-times" severity="danger" variant="text" />
+            <p-button (click)="clearCallback($event)" size="small" icon="pi pi-times" severity="danger" variant="text" ariaLabel="Clear dates" />
           </div>
         </div>
       </ng-template>

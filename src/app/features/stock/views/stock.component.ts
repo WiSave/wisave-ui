@@ -7,11 +7,11 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   template: `
     <div class="flex h-full min-w-0 flex-1 flex-col gap-6 p-4">
       <header class="space-y-1">
-        <p class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold uppercase tracking-[0.24em]">Stock</p>
+        <p class="text-secondary-600 dark:text-dark-secondary-400 text-xs font-semibold uppercase tracking-[0.24em]">Stock</p>
       </header>
 
       <div class="space-y-3">
-        <nav class="border-secondary-200 dark:border-dark-divider bg-secondary-50 dark:bg-dark-primary-850 inline-flex max-w-full flex-wrap gap-0.5 rounded-full border p-0.5">
+        <nav class="border-secondary-200 dark:border-dark-divider bg-white dark:bg-dark-primary-850 inline-flex max-w-full flex-wrap gap-0.5 rounded-full border p-0.5">
           @for (section of sections; track section.route) {
             <a
               [routerLink]="section.route"

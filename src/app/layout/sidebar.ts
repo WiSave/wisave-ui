@@ -1,12 +1,12 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Button } from 'primeng/button';
 
-import { AuthService } from '@core/services/auth.service';
+import { AuthService } from '@core/services/auth/auth.service';
+import { PermissionService } from '@core/services/auth/permission.service';
 import { SIDEBAR_NAV_ITEMS } from '@layout/constants/sidebar-navigation.constant';
-import { type ISidebarNavItem } from '@layout/types/sidebar-navigation.interface';
 import { ThemeIconButtonComponent } from '@shared/components/button';
 
 @Component({
@@ -20,7 +20,7 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
 
       <nav class="flex flex-1 flex-col justify-between">
         <ul class="flex flex-col gap-1">
-          @for (item of navItems; track item.route) {
+          @for (item of navItems(); track item.route) {
             <li class="flex flex-col gap-1">
               <a
                 [routerLink]="item.route"
@@ -50,8 +50,8 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
       </nav>
 
       <div class="sidebar-actions mt-auto flex flex-row justify-around gap-2">
-        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-sign-out" size="small" (onClick)="onLogout()" />
-        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-cog" size="small" />
+        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-sign-out" size="small" ariaLabel="Sign out" (onClick)="onLogout()" />
+        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-cog" size="small" ariaLabel="Settings" />
         <app-theme-icon-button class="sidebar-btn" />
       </div>
     </aside>
@@ -60,7 +60,13 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
 })
 export class SidebarComponent {
   readonly #authService = inject(AuthService);
-  readonly navItems: ISidebarNavItem[] = SIDEBAR_NAV_ITEMS;
+  readonly #permissionService = inject(PermissionService);
+
+  readonly navItems = computed(() =>
+    SIDEBAR_NAV_ITEMS.filter(
+      (item) => !item.requiredPermission || this.#permissionService.hasAnyPermission(item.requiredPermission),
+    ),
+  );
 
   onLogout(): void {
     this.#authService.logout();

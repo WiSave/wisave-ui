@@ -1,5 +1,5 @@
 import { Component, computed, effect, input, output } from '@angular/core';
-import { type AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, type ValidationErrors, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators, type AbstractControl, type ValidationErrors } from '@angular/forms';
 
 import { Button } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
@@ -9,8 +9,8 @@ import { MultiSelect } from 'primeng/multiselect';
 import { Select } from 'primeng/select';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 
-import { type IIncome } from '@features/incomes/types/incomes.interfaces';
 import { type IncomeFormModel, type MetadataEntryModel } from '@features/incomes/types/income-edit-form.types';
+import { type IIncome } from '@features/incomes/types/incomes.interfaces';
 
 import { createMoney, Currency, CurrencySymbol } from '@core/types';
 
@@ -39,7 +39,7 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
   selector: 'app-income-edit-form',
   imports: [ReactiveFormsModule, Button, DatePicker, InputNumber, InputText, MultiSelect, Select, ToggleSwitch],
   template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex min-h-0 flex-col gap-6">
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div class="flex flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="income-date">Date</label>
@@ -53,9 +53,11 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             inputId="income-date"
             formControlName="date"
             appendTo="body" />
-          @if (isInvalid('date')) {
-            <span id="income-date-error" class="text-danger-600 dark:text-danger-400 text-xs">Date is required.</span>
-          }
+          <div class="min-h-5 text-xs leading-5">
+            @if (isInvalid('date')) {
+              <span id="income-date-error" class="text-danger-600 dark:text-danger-400">Date is required.</span>
+            }
+          </div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -68,9 +70,11 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             type="text"
             formControlName="description"
             placeholder="Salary, bonus, rent" />
-          @if (isInvalid('description')) {
-            <span id="income-description-error" class="text-danger-600 dark:text-danger-400 text-xs">Description is required.</span>
-          }
+          <div class="min-h-5 text-xs leading-5">
+            @if (isInvalid('description')) {
+              <span id="income-description-error" class="text-danger-600 dark:text-danger-400">Description is required.</span>
+            }
+          </div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -86,6 +90,7 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             display="chip"
             appendTo="body"
             placeholder="Select categories" />
+          <div class="min-h-5" aria-hidden="true"></div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -100,9 +105,11 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             formControlName="amount"
             mode="decimal"
             placeholder="0.00" />
-          @if (isInvalid('amount')) {
-            <span id="income-amount-error" class="text-danger-600 dark:text-danger-400 text-xs">Amount is required and must be greater than 0.</span>
-          }
+          <div class="min-h-5 text-xs leading-5">
+            @if (isInvalid('amount')) {
+              <span id="income-amount-error" class="text-danger-600 dark:text-danger-400">Amount is required and must be greater than 0.</span>
+            }
+          </div>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -117,12 +124,14 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             optionValue="value"
             appendTo="body"
             placeholder="Select currency" />
-          @if (isInvalid('currency')) {
-            <span id="income-currency-error" class="text-danger-600 dark:text-danger-400 text-xs">Currency is required.</span>
-          }
+          <div class="min-h-5 text-xs leading-5">
+            @if (isInvalid('currency')) {
+              <span id="income-currency-error" class="text-danger-600 dark:text-danger-400">Currency is required.</span>
+            }
+          </div>
         </div>
 
-        <div class="border-secondary-200 dark:border-dark-divider flex items-center justify-between gap-4 rounded-xl border p-3">
+        <div class="border-secondary-200 dark:border-dark-divider flex items-center justify-between gap-4 self-start rounded-xl border p-3">
           <div class="flex flex-col">
             <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="income-recurring">Recurring</label>
             <span class="text-secondary-500 dark:text-dark-secondary-300 text-xs">Mark if this income repeats.</span>
@@ -137,54 +146,32 @@ const trimmedRequired = (control: AbstractControl): ValidationErrors | null => {
             <span class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium">Metadata</span>
             <span class="text-secondary-500 dark:text-dark-secondary-300 text-xs">Add custom key-value data (optional).</span>
           </div>
-          <p-button
-            [disabled]="isLoading()"
-            (click)="addMetadataEntry()"
-            type="button"
-            label="Add field"
-            icon="pi pi-plus"
-            severity="secondary"
-            size="small"
-            [text]="true" />
+          <p-button [disabled]="isLoading()" [text]="true" (click)="addMetadataEntry()" type="button" label="Add field" icon="pi pi-plus" severity="secondary" size="small" />
         </div>
         @for (entry of form.controls.metadata.controls; track entry; let i = $index) {
           <div class="flex items-start gap-2">
             <div class="flex flex-1 flex-col gap-1">
-              <input
-                [formControl]="entry.controls.key"
-                class="w-full"
-                pInputText
-                type="text"
-                placeholder="Key (e.g. tax)" />
-              @if (entry.controls.key.invalid && (entry.controls.key.dirty || entry.controls.key.touched)) {
-                <span class="text-danger-600 dark:text-danger-400 text-xs">Key is required.</span>
-              }
+              <input [formControl]="entry.controls.key" class="w-full" pInputText type="text" placeholder="Key (e.g. tax)" />
+              <div class="min-h-5 text-xs leading-5">
+                @if (entry.controls.key.invalid && (entry.controls.key.dirty || entry.controls.key.touched)) {
+                  <span class="text-danger-600 dark:text-danger-400">Key is required.</span>
+                }
+              </div>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-              <input
-                [formControl]="entry.controls.value"
-                class="w-full"
-                pInputText
-                type="text"
-                placeholder="Value (e.g. 19%)" />
-              @if (entry.controls.value.invalid && (entry.controls.value.dirty || entry.controls.value.touched)) {
-                <span class="text-danger-600 dark:text-danger-400 text-xs">Value is required.</span>
-              }
+              <input [formControl]="entry.controls.value" class="w-full" pInputText type="text" placeholder="Value (e.g. 19%)" />
+              <div class="min-h-5 text-xs leading-5">
+                @if (entry.controls.value.invalid && (entry.controls.value.dirty || entry.controls.value.touched)) {
+                  <span class="text-danger-600 dark:text-danger-400">Value is required.</span>
+                }
+              </div>
             </div>
-            <p-button
-              [disabled]="isLoading()"
-              (click)="removeMetadataEntry(i)"
-              type="button"
-              icon="pi pi-trash"
-              severity="danger"
-              size="small"
-              [text]="true"
-              [rounded]="true" />
+            <p-button [disabled]="isLoading()" [text]="true" [rounded]="true" (click)="removeMetadataEntry(i)" type="button" icon="pi pi-trash" severity="danger" size="small" />
           </div>
         }
       </div>
 
-      <div class="border-secondary-200 dark:border-dark-divider flex items-center justify-end gap-2 pt-4">
+      <div class="border-secondary-200 dark:border-dark-divider mt-2 flex items-center justify-end gap-2 border-t pt-5">
         <p-button [disabled]="isLoading()" (click)="onCancel()" type="button" label="Cancel" icon="pi pi-times" severity="secondary" size="small" />
         <p-button [loading]="isLoading()" [disabled]="form.invalid || isLoading()" type="submit" label="Save" icon="pi pi-check" severity="success" size="small" />
       </div>

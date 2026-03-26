@@ -15,8 +15,12 @@ html {
 body {
   margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
+  background: var(--color-surface);
 }
 
+html.dark body {
+  background: var(--color-dark-surface);
+}
 
 html, body {
   height: 100%;
@@ -27,10 +31,10 @@ app-root {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--color-secondary-200);
+  background: var(--color-surface);
 
   .dark & {
-    background: var(--color-dark-primary-800);
+    background: var(--color-dark-surface);
   }
 }
 

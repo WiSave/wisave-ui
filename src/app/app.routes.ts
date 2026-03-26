@@ -4,6 +4,10 @@ import { authGuard, guestGuard } from '@core/guards/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'session-unavailable',
+    loadComponent: () => import('./layout/session-unavailable.component').then((m) => m.SessionUnavailableComponent),
+  },
+  {
     path: 'auth',
     loadComponent: () => import('./layout/auth-layout.component').then((m) => m.AuthLayoutComponent),
     canActivate: [guestGuard],

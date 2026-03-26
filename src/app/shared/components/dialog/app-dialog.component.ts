@@ -24,6 +24,7 @@ const POSITION_ALIASES: Readonly<Record<DialogPositionInput, DialogPosition>> = 
 
 const DEFAULT_DIALOG_STYLE: Readonly<Record<string, string>> = {
   width: 'min(56rem, 92vw)',
+  maxHeight: 'calc(100vh - 2rem)',
 };
 
 const DEFAULT_DIALOG_BREAKPOINTS: Readonly<Record<string, string>> = {
@@ -31,9 +32,9 @@ const DEFAULT_DIALOG_BREAKPOINTS: Readonly<Record<string, string>> = {
   '640px': '95vw',
 };
 
-const DEFAULT_DIALOG_STYLE_CLASS = 'rounded-2xl border border-secondary-200 bg-secondary-50 shadow-xl dark:border-dark-divider dark:bg-dark-primary-850';
+const DEFAULT_DIALOG_STYLE_CLASS = 'max-h-[calc(100vh-2rem)] overflow-hidden rounded-2xl border border-secondary-200 bg-white shadow-lg dark:border-dark-divider dark:bg-dark-primary-850';
 
-const DEFAULT_DIALOG_CONTENT_CLASS = 'px-6 py-5 text-secondary-700 dark:text-dark-secondary-100';
+const DEFAULT_DIALOG_CONTENT_CLASS = 'overflow-y-auto px-6 py-5 text-secondary-700 dark:text-dark-secondary-100';
 
 const DEFAULT_DIALOG_MASK_CLASS = 'bg-secondary-900/40 backdrop-blur-[2px] dark:bg-black/60';
 

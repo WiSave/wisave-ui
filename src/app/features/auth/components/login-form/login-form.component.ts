@@ -5,11 +5,12 @@ import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
+import { Password } from 'primeng/password';
 
 @Component({
   selector: 'app-login-form',
   host: { class: 'block w-full' },
-  imports: [ReactiveFormsModule, Button, IconField, InputIcon, InputText],
+  imports: [ReactiveFormsModule, Button, IconField, InputIcon, InputText, Password],
   template: `
     <div class="flex flex-col gap-10">
       <div class="text-center">
@@ -18,13 +19,13 @@ import { InputText } from 'primeng/inputtext';
       </div>
 
       @if (error()) {
-        <div class="flex items-start gap-3 rounded-xl bg-red-50 p-4 text-sm text-red-700 dark:bg-red-900/20 dark:text-red-400" role="alert" aria-live="polite">
+        <div class="flex items-start gap-3 rounded-xl bg-danger-50 p-4 text-sm text-danger-700 dark:bg-dark-danger-900-20 dark:text-dark-danger-400" role="alert" aria-live="polite">
           <i class="pi pi-exclamation-circle mt-0.5 text-base"></i>
           <span>{{ error() }}</span>
         </div>
       }
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-6" autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other">
         <div class="flex flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="login-email">Email address</label>
           <p-iconfield>
@@ -36,11 +37,13 @@ import { InputText } from 'primeng/inputtext';
               pInputText
               type="email"
               name="email"
-              autocomplete="email"
+              autocomplete="off"
+              data-lpignore="true"
+              data-1p-ignore
               formControlName="email"
               placeholder="you@example.com" />
           </p-iconfield>
-          <span id="login-email-error" class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('email')">
+          <span id="login-email-error" class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isInvalid('email')">
             @if (form.controls.email.errors?.['required']) {
               Email is required.
             } @else {
@@ -53,28 +56,18 @@ import { InputText } from 'primeng/inputtext';
           <div class="flex items-center justify-between">
             <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="login-password">Password</label>
           </div>
-          <p-iconfield>
-            <input
-              id="login-password"
-              [attr.aria-describedby]="isInvalid('password') ? 'login-password-error' : null"
-              [type]="showPassword() ? 'text' : 'password'"
-              class="w-full"
-              pInputText
-              name="password"
-              autocomplete="current-password"
-              formControlName="password"
-              placeholder="Enter your password" />
-            <p-inputicon
-              [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
-              class="cursor-pointer"
-              role="button"
-              tabindex="0"
-              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-              (click)="showPassword.set(!showPassword())"
-              (keydown.enter)="showPassword.set(!showPassword())"
-              (keydown.space)="showPassword.set(!showPassword())" />
-          </p-iconfield>
-          <span id="login-password-error" class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('password')">Password is required.</span>
+          <p-password
+            inputId="login-password"
+            formControlName="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            [fluid]="true"
+            inputStyleClass="w-full"
+            autocomplete="off"
+            placeholder="Enter your password"
+            [pt]="{ pcInputText: { root: { 'aria-describedby': isInvalid('password') ? 'login-password-error' : null } } }" />
+
+          <span id="login-password-error" class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isInvalid('password')">Password is required.</span>
         </div>
 
         <p-button
@@ -83,7 +76,7 @@ import { InputText } from 'primeng/inputtext';
           type="submit"
           label="Sign in"
           severity="success"
-          styleClass="w-full mt-4 !py-3.5 !text-base !font-semibold !text-white disabled:!cursor-not-allowed disabled:!opacity-50" />
+          styleClass="w-full mt-4 !py-3.5 !text-base !font-semibold disabled:!cursor-not-allowed disabled:!opacity-50" />
       </form>
     </div>
   `,

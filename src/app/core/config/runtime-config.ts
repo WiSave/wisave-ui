@@ -1,8 +1,8 @@
-type RuntimeEnv = {
+interface RuntimeEnv {
   API_BASE_URL?: string;
-};
+}
 
-const DEFAULT_API_BASE_URL = 'http://localhost:5100/api';
+const DEFAULT_API_BASE_URL = '/api';
 
 export function getApiBaseUrl(): string {
   const runtimeEnv = window.__env;
