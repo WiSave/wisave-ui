@@ -17,6 +17,11 @@ export interface IRegisterRequest {
   planId: string;
 }
 
+export interface IChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface IAuthResponse {
   user: IUser;
 }

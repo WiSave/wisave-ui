@@ -80,4 +80,20 @@ describe('AuthService', () => {
     const refreshedXsrfRequest = httpMock.expectOne('/api/auth/antiforgery-token');
     refreshedXsrfRequest.flush('');
   });
+
+  it('waits for antiforgery bootstrap before changing password', () => {
+    service.changePassword({ currentPassword: 'Password123!', newPassword: 'NewPassword123!' }).subscribe();
+
+    const xsrfRequest = httpMock.expectOne('/api/auth/antiforgery-token');
+    httpMock.expectNone('/api/auth/change-password');
+
+    xsrfRequest.flush('');
+    const changePasswordRequest = httpMock.expectOne('/api/auth/change-password');
+    expect(changePasswordRequest.request.method).toBe('POST');
+    expect(changePasswordRequest.request.body).toEqual({
+      currentPassword: 'Password123!',
+      newPassword: 'NewPassword123!',
+    });
+    changePasswordRequest.flush({});
+  });
 });

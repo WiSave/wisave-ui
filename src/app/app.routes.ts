@@ -5,7 +5,7 @@ import { authGuard, guestGuard } from '@core/guards/auth.guard';
 export const routes: Routes = [
   {
     path: 'session-unavailable',
-    loadComponent: () => import('./layout/session-unavailable.component').then((m) => m.SessionUnavailableComponent),
+    loadComponent: () => import('./core/views/session-unavailable.component').then((m) => m.SessionUnavailableComponent),
   },
   {
     path: 'auth',

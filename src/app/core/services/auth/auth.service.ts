@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, map, type Observable, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
 
 import { getApiBaseUrl } from '@core/config/runtime-config';
-import { type IAuthResponse, type ILoginRequest, type IRegisterRequest, type IUser } from '@core/types/auth.types';
+import { type IAuthResponse, type IChangePasswordRequest, type ILoginRequest, type IRegisterRequest, type IUser } from '@core/types/auth.types';
 
 export type AuthBootstrapResult =
   | { kind: 'authenticated'; user: IUser }
@@ -80,6 +80,10 @@ export class AuthService {
         this.#initialized.set(true);
       }),
     );
+  }
+
+  changePassword(data: IChangePasswordRequest): Observable<void> {
+    return this.#withAntiforgery(this.#http.post<void>(`${this.#apiUrl}/change-password`, data));
   }
 
   logout(): void {
