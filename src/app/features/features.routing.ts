@@ -11,7 +11,7 @@ export const routes: Routes = [
   },
   {
     path: 'expenses',
-    loadComponent: () => import('../layout/expenses-shell.component').then((m) => m.ExpensesShellComponent),
+    loadComponent: () => import('./expenses/views/expenses-shell.component').then((m) => m.ExpensesShellComponent),
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
       { path: 'list', loadChildren: () => import('./expenses/expenses.routes').then((m) => m.routes) },
@@ -19,5 +19,9 @@ export const routes: Routes = [
       { path: 'accounts', loadChildren: () => import('./expense-accounts/expense-accounts.routes').then((m) => m.routes) },
       { path: 'insights', loadChildren: () => import('./expense-budget/insights.routes').then((m) => m.routes) },
     ],
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('./settings/settings.routes').then((m) => m.routes),
   },
 ];

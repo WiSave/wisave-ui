@@ -51,7 +51,14 @@ import { ThemeIconButtonComponent } from '@shared/components/button';
 
       <div class="sidebar-actions mt-auto flex flex-row justify-around gap-2">
         <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-sign-out" size="small" ariaLabel="Sign out" (onClick)="onLogout()" />
-        <p-button class="p-button-xs sidebar-btn" variant="text" icon="pi pi-cog" size="small" ariaLabel="Settings" />
+        <p-button
+          class="p-button-xs sidebar-btn"
+          variant="text"
+          icon="pi pi-cog"
+          size="small"
+          severity="secondary"
+          ariaLabel="Settings"
+          routerLink="/settings" />
         <app-theme-icon-button class="sidebar-btn" />
       </div>
     </aside>

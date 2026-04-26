@@ -221,7 +221,7 @@ export default tseslint.config(
             },
 
             // Features root routing
-            { from: 'features-routing', allow: ['feature-route', 'layout'] },
+            { from: 'features-routing', allow: ['feature-route', 'feature-view', 'layout'] },
 
             // App root files
             { from: 'app', allow: ['core', 'shared', 'layout', 'feature', 'feature-route', 'features-routing', 'app', 'src-root'] },
