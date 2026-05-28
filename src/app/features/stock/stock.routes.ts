@@ -17,6 +17,24 @@ export const routes: Routes = [
       {
         path: 'portfolio',
         loadComponent: () => import('./views/stock-portfolio.component').then((m) => m.StockPortfolioComponent),
+        children: [
+          {
+            path: 'portfolios/add',
+            loadComponent: () => import('./views/add-stock-portfolio.component').then((m) => m.AddStockPortfolioComponent),
+          },
+          {
+            path: 'portfolios/:id/edit',
+            loadComponent: () => import('./views/edit-stock-portfolio.component').then((m) => m.EditStockPortfolioComponent),
+          },
+          {
+            path: 'positions/add',
+            loadComponent: () => import('./views/add-stock-position.component').then((m) => m.AddStockPositionComponent),
+          },
+          {
+            path: 'positions/:id/edit',
+            loadComponent: () => import('./views/edit-stock-position.component').then((m) => m.EditStockPositionComponent),
+          },
+        ],
       },
       {
         path: 'watchlists',

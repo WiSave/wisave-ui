@@ -65,4 +65,26 @@ describe('RolePermissionsPanelComponent', () => {
     expect(emitted).toHaveBeenCalledWith('auditor');
     expect(componentRef.instance.newRoleName()).toBe('');
   });
+
+  it('keeps expanded role permissions inside a scrollable panel body', () => {
+    const fixture = TestBed.createComponent(RolePermissionsPanelComponent);
+    fixture.componentRef.setInput('availablePermissions', ['expenses:read', 'incomes:write', 'stocks:read']);
+    fixture.componentRef.setInput('roles', [
+      {
+        id: 'role-plan-premium',
+        name: 'plan:premium',
+        normalizedName: 'PLAN:PREMIUM',
+        permissions: ['expenses:read', 'incomes:write'],
+      },
+    ]);
+    fixture.detectChanges();
+
+    const panel = fixture.nativeElement.querySelector('[data-testid="role-permissions-panel"]') as HTMLElement;
+    const scrollArea = fixture.nativeElement.querySelector('[data-testid="role-permissions-scroll"]') as HTMLElement;
+
+    expect(panel.className).toContain('h-full');
+    expect(panel.className).toContain('overflow-hidden');
+    expect(scrollArea.className).toContain('flex-1');
+    expect(scrollArea.className).toContain('overflow-y-auto');
+  });
 });

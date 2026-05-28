@@ -16,10 +16,11 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { isFundingAccount } from '@core/types/expense-account.interface';
 import { type ExpenseAccountId } from '@core/types/expense-id.types';
 import { AppDialogComponent } from '@shared/components/dialog';
+import { StatusCardComponent } from '@shared/components/status-card';
 
 @Component({
   selector: 'app-accounts',
-  imports: [AccountCardComponent, AppDialogComponent, RouterOutlet, Button, ConfirmPopupModule],
+  imports: [AccountCardComponent, AppDialogComponent, RouterOutlet, Button, ConfirmPopupModule, StatusCardComponent],
   providers: [ConfirmationService],
   template: `
     <p-confirmpopup
@@ -39,39 +40,33 @@ import { AppDialogComponent } from '@shared/components/dialog';
           <span>Loading accounts...</span>
         </div>
       } @else if (showLoadError()) {
-        <div class="border-secondary-200 dark:border-dark-divider flex flex-col items-center justify-center gap-4 rounded-xl border p-8 text-center">
-          <i class="pi pi-exclamation-triangle text-warning-500 text-3xl"></i>
-          <div class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium">Unable to load accounts</div>
-          <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm">Try refreshing the projections and load the accounts again.</p>
-          <p-button (click)="onRetry()" label="Retry" icon="pi pi-refresh" size="small" severity="secondary" />
-        </div>
+        <app-status-card
+          (actionClicked)="onRetry()"
+          title="Unable to load accounts"
+          description="Try refreshing the projections and load the accounts again."
+          icon="pi pi-exclamation-triangle"
+          iconTone="warning"
+          actionLabel="Retry" />
       } @else if (hasLoaded()) {
-        <div class="border-secondary-200 dark:border-dark-divider bg-white/80 dark:bg-dark-primary-850/80 grid grid-cols-2 gap-3 rounded-xl border p-4">
+        <div class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850/80 grid grid-cols-2 gap-3 rounded-xl border bg-white/80 p-4">
           <div class="flex flex-col gap-1">
-            <span class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-wider">Liquid Funds</span>
+            <span class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-wider uppercase">Liquid Funds</span>
             <span class="text-secondary-900 dark:text-dark-secondary-50 text-base font-semibold">{{ formattedLiquidFunds() }}</span>
           </div>
           <div class="flex flex-col gap-1">
-            <span class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-wider">Funding Accounts</span>
+            <span class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-wider uppercase">Funding Accounts</span>
             <span class="text-secondary-900 dark:text-dark-secondary-50 text-base font-semibold">{{ accountsCount() }}</span>
           </div>
         </div>
 
         @if (entities().length === 0) {
-          <div class="border-secondary-200 dark:border-dark-divider flex flex-col items-center justify-center gap-3 rounded-xl border p-8 text-center">
-            <i class="pi pi-wallet text-secondary-400 dark:text-dark-secondary-500 text-3xl"></i>
-            <div class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium">No accounts yet</div>
-            <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm">Add your first account to start tracking expenses.</p>
-          </div>
+          <app-status-card title="No accounts yet" description="Add your first account to start tracking expenses." icon="pi pi-wallet" />
         } @else {
           <section class="flex flex-col gap-3">
-            <h3 class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-wider">Funding Accounts</h3>
+            <h3 class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-wider uppercase">Funding Accounts</h3>
             <div class="grid grid-cols-2 gap-3">
               @for (account of fundingAccounts(); track account.id) {
-                <app-account-card
-                  [account]="account"
-                  (editClicked)="onEdit($event)"
-                  (deleteClicked)="onDelete($event)" />
+                <app-account-card [account]="account" (editClicked)="onEdit($event)" (deleteClicked)="onDelete($event)" />
               }
             </div>
           </section>

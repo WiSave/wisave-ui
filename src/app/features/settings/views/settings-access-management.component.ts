@@ -3,11 +3,12 @@ import { finalize } from 'rxjs';
 
 import { Button } from 'primeng/button';
 
-import { PermissionService } from '@core/services/auth/permission.service';
 import { RolePermissionsPanelComponent } from '@features/settings/components/role-permissions-panel.component';
 import { UserRoleAssignmentPanelComponent } from '@features/settings/components/user-role-assignment-panel.component';
 import { SettingsAdminApiService } from '@features/settings/services/settings-admin-api.service';
 import { type ISettingsRole, type ISettingsUser } from '@features/settings/types/settings-admin.types';
+
+import { PermissionService } from '@core/services/auth/permission.service';
 
 @Component({
   selector: 'app-settings-access-management',
@@ -19,7 +20,7 @@ import { type ISettingsRole, type ISettingsUser } from '@features/settings/types
         <p class="text-secondary-500 dark:text-dark-secondary-300 mt-2 text-sm">You do not have permission to manage access.</p>
       </section>
     } @else {
-      <div class="flex min-w-0 flex-col gap-4">
+      <div class="flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-hidden" data-testid="access-management-workspace">
         @if (isLoading()) {
           <div class="text-secondary-500 dark:text-dark-secondary-300 flex min-h-56 items-center justify-center gap-3">
             <i class="pi pi-spinner pi-spin text-lg"></i>
@@ -32,29 +33,20 @@ import { type ISettingsRole, type ISettingsUser } from '@features/settings/types
               <h3 class="text-secondary-900 dark:text-dark-secondary-50 text-sm font-semibold">Unable to load access management</h3>
               <p class="text-secondary-500 dark:text-dark-secondary-300 mt-1 text-sm">{{ error() }}</p>
             </div>
-            <p-button label="Retry" icon="pi pi-refresh" size="small" severity="secondary" (onClick)="loadAccessManagement()" />
+            <p-button (onClick)="loadAccessManagement()" label="Retry" icon="pi pi-refresh" size="small" severity="secondary" />
           </div>
         } @else {
-          <section class="border-secondary-200 dark:border-dark-divider bg-white/80 dark:bg-dark-primary-850/80 rounded-lg border p-5">
-            <div class="grid gap-6 xl:grid-cols-[minmax(240px,0.35fr)_minmax(520px,0.65fr)]">
+          <section
+            class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850/80 flex min-h-0 grow-[1.25] basis-0 flex-col overflow-hidden rounded-lg border bg-white/80 p-5"
+            data-testid="access-management-roles-card">
+            <div class="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(220px,22rem)_minmax(0,1fr)] xl:grid-rows-1">
               <div class="flex max-w-md flex-col gap-3">
                 <div>
-                  <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                    Access Management
-                  </p>
+                  <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">Access Management</p>
                   <h2 class="text-secondary-950 dark:text-dark-secondary-50 mt-2 text-base font-semibold">Roles and permissions</h2>
-                  <p class="text-secondary-500 dark:text-dark-secondary-300 mt-2 text-sm leading-6">
-                    Review each role and the permissions forwarded to downstream services.
-                  </p>
+                  <p class="text-secondary-500 dark:text-dark-secondary-300 mt-2 text-sm leading-6">Review each role and the permissions forwarded to downstream services.</p>
                 </div>
-                <p-button
-                  label="Refresh"
-                  icon="pi pi-refresh"
-                  size="small"
-                  severity="secondary"
-                  styleClass="w-fit"
-                  [loading]="isLoading()"
-                  (onClick)="loadAccessManagement()" />
+                <p-button [loading]="isLoading()" (onClick)="loadAccessManagement()" label="Refresh" icon="pi pi-refresh" size="small" severity="secondary" styleClass="w-fit" />
               </div>
 
               <app-role-permissions-panel
@@ -63,20 +55,19 @@ import { type ISettingsRole, type ISettingsUser } from '@features/settings/types
                 [isCreatingRole]="isCreatingRole()"
                 [savingRoleId]="savingRoleId()"
                 (roleCreated)="onRoleCreated($event)"
-                (permissionsChanged)="onRolePermissionsChanged($event.role, $event.permissions)" />
+                (permissionsChanged)="onRolePermissionsChanged($event.role, $event.permissions)"
+                class="min-h-0 min-w-0" />
             </div>
           </section>
 
-          <section class="border-secondary-200 dark:border-dark-divider bg-white/80 dark:bg-dark-primary-850/80 rounded-lg border p-5">
-            <div class="grid gap-6 xl:grid-cols-[minmax(240px,0.35fr)_minmax(620px,0.65fr)]">
+          <section
+            class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850/80 flex min-h-0 grow-[0.75] basis-0 flex-col overflow-hidden rounded-lg border bg-white/80 p-5"
+            data-testid="access-management-users-card">
+            <div class="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(220px,22rem)_minmax(0,1fr)] xl:grid-rows-1">
               <div class="flex max-w-md flex-col gap-2">
-                <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                  User access
-                </p>
+                <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">User access</p>
                 <h2 class="text-secondary-950 dark:text-dark-secondary-50 text-base font-semibold">Assign roles</h2>
-                <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">
-                  Search users, change plan roles, and manage elevated access based on your role.
-                </p>
+                <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">Search users, change plan roles, and manage elevated access based on your role.</p>
               </div>
 
               <app-user-role-assignment-panel
@@ -84,11 +75,20 @@ import { type ISettingsRole, type ISettingsUser } from '@features/settings/types
                 [roles]="roles()"
                 [users]="users()"
                 [savingUserId]="savingUserId()"
-                (rolesChanged)="onRolesChanged($event.user, $event.roleIds)" />
+                (rolesChanged)="onRolesChanged($event.user, $event.roleIds)"
+                class="min-h-0 min-w-0" />
             </div>
           </section>
         }
       </div>
+    }
+  `,
+  styles: `
+    :host {
+      display: flex;
+      flex: 1 1 auto;
+      min-height: 0;
+      min-width: 0;
     }
   `,
 })

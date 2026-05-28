@@ -9,8 +9,10 @@ import { type ISettingsRole, type ISettingsRoleViewModel, type PermissionDomain 
   selector: 'app-role-permissions-panel',
   imports: [Button, InputText],
   template: `
-    <section class="border-secondary-200 dark:border-dark-divider rounded-lg border bg-secondary-50/60 dark:bg-dark-primary-900/40">
-      <div class="border-secondary-200 dark:border-dark-divider flex flex-col gap-3 border-b p-4">
+    <section
+      class="border-secondary-200 dark:border-dark-divider bg-secondary-50/60 dark:bg-dark-primary-900/40 flex h-full min-h-0 flex-col overflow-hidden rounded-lg border"
+      data-testid="role-permissions-panel">
+      <div class="border-secondary-200 dark:border-dark-divider flex shrink-0 flex-col gap-3 border-b p-4">
         <div>
           <h3 class="text-secondary-950 dark:text-dark-secondary-50 text-sm font-semibold">Roles</h3>
           <p class="text-secondary-500 dark:text-dark-secondary-300 mt-1 text-sm">Assigned permissions grouped by role.</p>
@@ -18,74 +20,60 @@ import { type ISettingsRole, type ISettingsRoleViewModel, type PermissionDomain 
 
         <div class="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div class="relative w-full lg:max-w-64">
-            <i class="pi pi-search text-secondary-400 absolute left-3 top-1/2 -translate-y-1/2 text-xs"></i>
+            <i class="pi pi-search text-secondary-400 absolute top-1/2 left-3 -translate-y-1/2 text-xs"></i>
             <input
-              class="border-secondary-200 text-secondary-900 placeholder:text-secondary-400 dark:border-dark-divider dark:bg-dark-primary-850 dark:text-dark-secondary-50 h-9 w-full rounded-md border bg-white pl-8 pr-3 text-sm outline-none transition focus:border-secondary-500"
-              type="search"
-              placeholder="Filter roles"
               [value]="query()"
-              (input)="query.set($any($event.target).value)" />
+              (input)="query.set($any($event.target).value)"
+              class="border-secondary-200 text-secondary-900 placeholder:text-secondary-400 dark:border-dark-divider dark:bg-dark-primary-850 dark:text-dark-secondary-50 focus:border-secondary-500 h-9 w-full rounded-md border bg-white pr-3 pl-8 text-sm transition outline-none"
+              type="search"
+              placeholder="Filter roles" />
           </div>
 
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <input
-              class="h-9 w-full sm:w-56"
-              pInputText
-              type="text"
-              placeholder="New custom role"
-              [value]="newRoleName()"
-              (input)="newRoleName.set($any($event.target).value)" />
+            <input [value]="newRoleName()" (input)="newRoleName.set($any($event.target).value)" class="h-9 w-full sm:w-56" pInputText type="text" placeholder="New custom role" />
             <p-button
+              [disabled]="!newRoleName().trim() || isCreatingRole()"
+              [loading]="isCreatingRole()"
+              (onClick)="onCreateRole()"
               label="Create"
               icon="pi pi-plus"
               size="small"
-              severity="secondary"
-              [disabled]="!newRoleName().trim() || isCreatingRole()"
-              [loading]="isCreatingRole()"
-              (onClick)="onCreateRole()" />
+              severity="secondary" />
           </div>
         </div>
       </div>
 
-      <div class="divide-secondary-200 dark:divide-dark-divider divide-y">
+      <div class="divide-secondary-200 dark:divide-dark-divider min-h-0 flex-1 divide-y overflow-y-auto [scrollbar-gutter:stable]" data-testid="role-permissions-scroll">
         @for (role of filteredRoles(); track role.id) {
-          <article class="bg-white/50 p-4 dark:bg-dark-primary-850/30">
-            <button
-              class="flex w-full items-center justify-between gap-3 text-left"
-              type="button"
-              [attr.aria-expanded]="isExpanded(role.id)"
-              (click)="toggleRole(role.id)">
+          <article class="dark:bg-dark-primary-850/30 bg-white/50 p-4">
+            <button [attr.aria-expanded]="isExpanded(role.id)" (click)="toggleRole(role.id)" class="flex w-full items-center justify-between gap-3 text-left" type="button">
               <span class="min-w-0">
                 <span class="text-secondary-950 dark:text-dark-secondary-50 block truncate text-sm font-semibold">
                   {{ role.displayName }}
                 </span>
-                <span class="text-secondary-500 dark:text-dark-secondary-300 mt-0.5 block truncate text-xs">
-                  {{ role.name }} / {{ role.normalizedName }}
-                </span>
+                <span class="text-secondary-500 dark:text-dark-secondary-300 mt-0.5 block truncate text-xs"> {{ role.name }} / {{ role.normalizedName }} </span>
               </span>
               <span class="flex shrink-0 items-center gap-3">
                 <span class="bg-secondary-100 text-secondary-700 dark:bg-dark-primary-800 dark:text-dark-secondary-100 rounded-full px-2.5 py-1 text-xs font-semibold">
                   {{ role.permissions.length }} {{ role.permissions.length === 1 ? 'permission' : 'permissions' }}
                 </span>
-                <i class="pi text-secondary-500 text-xs" [class.pi-chevron-down]="!isExpanded(role.id)" [class.pi-chevron-up]="isExpanded(role.id)"></i>
+                <i [class.pi-chevron-down]="!isExpanded(role.id)" [class.pi-chevron-up]="isExpanded(role.id)" class="pi text-secondary-500 text-xs"></i>
               </span>
             </button>
 
             @if (isExpanded(role.id)) {
               <div class="mt-4">
-                <h3 class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                  Assigned permissions
-                </h3>
+                <h3 class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">Assigned permissions</h3>
                 <div class="mt-3 grid gap-2 sm:grid-cols-2">
                   @for (permission of availablePermissions(); track permission) {
                     <label class="text-secondary-700 dark:text-dark-secondary-100 flex items-center gap-2 text-xs font-semibold">
                       <input
-                        class="accent-secondary-700 h-4 w-4"
-                        type="checkbox"
                         [checked]="hasPermission(role, permission)"
                         [disabled]="savingRoleId() === role.id"
-                        (change)="onPermissionToggle(role, permission, $any($event.target).checked)" />
-                      <span class="rounded-full px-2.5 py-1" [class]="permissionClass(permission)">
+                        (change)="onPermissionToggle(role, permission, $any($event.target).checked)"
+                        class="accent-secondary-700 h-4 w-4"
+                        type="checkbox" />
+                      <span [class]="permissionClass(permission)" class="rounded-full px-2.5 py-1">
                         {{ permission }}
                       </span>
                     </label>
@@ -100,20 +88,8 @@ import { type ISettingsRole, type ISettingsRoleViewModel, type PermissionDomain 
                       {{ unsavedChangeCount(role) }} {{ unsavedChangeCount(role) === 1 ? 'change' : 'changes' }} pending
                     </span>
                     <div class="flex gap-2">
-                      <p-button
-                        label="Cancel"
-                        size="small"
-                        severity="secondary"
-                        [text]="true"
-                        [disabled]="savingRoleId() === role.id"
-                        (onClick)="discardPermissionDraft(role)" />
-                      <p-button
-                        label="Save changes"
-                        icon="pi pi-save"
-                        size="small"
-                        severity="secondary"
-                        [loading]="savingRoleId() === role.id"
-                        (onClick)="savePermissionDraft(role)" />
+                      <p-button [text]="true" [disabled]="savingRoleId() === role.id" (onClick)="discardPermissionDraft(role)" label="Cancel" size="small" severity="secondary" />
+                      <p-button [loading]="savingRoleId() === role.id" (onClick)="savePermissionDraft(role)" label="Save changes" icon="pi pi-save" size="small" severity="secondary" />
                     </div>
                   </div>
                 }
@@ -125,6 +101,14 @@ import { type ISettingsRole, type ISettingsRoleViewModel, type PermissionDomain 
         }
       </div>
     </section>
+  `,
+  styles: `
+    :host {
+      display: block;
+      height: 100%;
+      min-height: 0;
+      min-width: 0;
+    }
   `,
 })
 export class RolePermissionsPanelComponent {
@@ -151,10 +135,7 @@ export class RolePermissionsPanelComponent {
     if (!query) return this.roleViewModels();
 
     return this.roleViewModels().filter(
-      (role) =>
-        role.name.toLowerCase().includes(query) ||
-        role.displayName.toLowerCase().includes(query) ||
-        role.permissions.some((permission) => permission.toLowerCase().includes(query)),
+      (role) => role.name.toLowerCase().includes(query) || role.displayName.toLowerCase().includes(query) || role.permissions.some((permission) => permission.toLowerCase().includes(query)),
     );
   });
 
