@@ -3,6 +3,15 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "tags": ["scope:app", "type:app"],
+  "implicitDependencies": [
+    "auth-feature",
+    "incomes-feature",
+    "stock-feature",
+    "expenses-feature-list",
+    "expenses-feature-budget",
+    "expenses-feature-accounts",
+    "settings-feature"
+  ],
   "generators": {},
   "sourceRoot": "apps/wisave-ui/src",
   "prefix": "app",
