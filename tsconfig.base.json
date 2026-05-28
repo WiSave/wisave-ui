@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "paths": {
+      "@core/*": ["./apps/wisave-ui/src/app/core/*"],
+      "@features/*": ["./apps/wisave-ui/src/app/features/*"],
+      "@layout/*": ["./apps/wisave-ui/src/app/layout/*"],
+      "@shared/*": ["./apps/wisave-ui/src/app/shared/*"],
+      "@services/*": ["./apps/wisave-ui/src/app/core/services/*"],
+      "@types/*": ["./apps/wisave-ui/src/app/core/types/*"],
+      "@testing/*": ["./apps/wisave-ui/src/app/testing/*"],
+      "@views/*": ["./apps/wisave-ui/src/app/views/*"]
+    },
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2024",
+    "module": "preserve",
+    "rootDir": "."
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "exclude": ["node_modules", "tmp"]
+}

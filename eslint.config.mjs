@@ -16,7 +16,7 @@ export default tseslint.config(
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.stylistic, eslintConfigPrettier],
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.spec.json'],
+        project: ['./apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
       },
     },
     plugins: {
@@ -30,7 +30,7 @@ export default tseslint.config(
     settings: {
       'import/resolver': {
         './eslint-import-resolver-local-ts.cjs': {
-          project: ['./tsconfig.json', './tsconfig.app.json', './tsconfig.spec.json'],
+          project: ['./tsconfig.json', './apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
         },
         node: {
           extensions: ['.js', '.mjs', '.cjs', '.ts', '.tsx', '.d.ts', '.json'],
@@ -39,30 +39,30 @@ export default tseslint.config(
       'boundaries/dependency-nodes': ['import', 'dynamic-import', 'export'],
       'boundaries/elements': [
         // App layers
-        { type: 'core', pattern: 'src/app/core/**', mode: 'full' },
-        { type: 'shared', pattern: 'src/app/shared/**', mode: 'full' },
-        { type: 'layout', pattern: 'src/app/layout/**', mode: 'full' },
+        { type: 'core', pattern: 'apps/wisave-ui/src/app/core/**', mode: 'full' },
+        { type: 'shared', pattern: 'apps/wisave-ui/src/app/shared/**', mode: 'full' },
+        { type: 'layout', pattern: 'apps/wisave-ui/src/app/layout/**', mode: 'full' },
 
         // Feature internal layers (order matters - more specific first)
-        { type: 'feature-component', pattern: 'src/app/features/*/components/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-container', pattern: 'src/app/features/*/containers/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-view', pattern: 'src/app/features/*/views/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-store', pattern: 'src/app/features/*/+store/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-type', pattern: 'src/app/features/*/types/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-service', pattern: 'src/app/features/*/services/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-helper', pattern: 'src/app/features/*/helpers/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-constant', pattern: 'src/app/features/*/constants/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-route', pattern: 'src/app/features/*/*.routes.ts', mode: 'full', capture: ['feature'] },
-        { type: 'feature', pattern: 'src/app/features/*/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-component', pattern: 'apps/wisave-ui/src/app/features/*/components/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-container', pattern: 'apps/wisave-ui/src/app/features/*/containers/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-view', pattern: 'apps/wisave-ui/src/app/features/*/views/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-store', pattern: 'apps/wisave-ui/src/app/features/*/+store/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-type', pattern: 'apps/wisave-ui/src/app/features/*/types/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-service', pattern: 'apps/wisave-ui/src/app/features/*/services/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-helper', pattern: 'apps/wisave-ui/src/app/features/*/helpers/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-constant', pattern: 'apps/wisave-ui/src/app/features/*/constants/**', mode: 'full', capture: ['feature'] },
+        { type: 'feature-route', pattern: 'apps/wisave-ui/src/app/features/*/*.routes.ts', mode: 'full', capture: ['feature'] },
+        { type: 'feature', pattern: 'apps/wisave-ui/src/app/features/*/**', mode: 'full', capture: ['feature'] },
 
         // Features root routing
-        { type: 'features-routing', pattern: 'src/app/features/*.ts', mode: 'full' },
+        { type: 'features-routing', pattern: 'apps/wisave-ui/src/app/features/*.ts', mode: 'full' },
 
         // App root
-        { type: 'app', pattern: 'src/app/*', mode: 'full' },
-        { type: 'main', pattern: 'src/main.ts', mode: 'full' },
-        { type: 'src-root', pattern: 'src/*.ts', mode: 'full' },
-        { type: 'src-types', pattern: 'src/types/**/*.d.ts', mode: 'full' },
+        { type: 'app', pattern: 'apps/wisave-ui/src/app/*', mode: 'full' },
+        { type: 'main', pattern: 'apps/wisave-ui/src/main.ts', mode: 'full' },
+        { type: 'src-root', pattern: 'apps/wisave-ui/src/*.ts', mode: 'full' },
+        { type: 'src-types', pattern: 'apps/wisave-ui/src/types/**/*.d.ts', mode: 'full' },
       ],
       'boundaries/ignore': ['**/*.spec.ts', '**/*.test.ts'],
     },

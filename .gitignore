@@ -65,3 +65,7 @@ storybook-static
 # Graphify
 graphify-out/
 .graphify_*
+
+# Nx
+.nx/cache
+.nx/workspace-data

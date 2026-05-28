@@ -19,7 +19,7 @@ RUN apk upgrade --no-cache
 
 COPY docker/nginx/default.conf.template /etc/nginx/templates/default.conf.template
 COPY docker/entrypoint/40-env-config.sh /docker-entrypoint.d/40-env-config.sh
-COPY --from=build /app/dist/WiSaveUI/browser ./
+COPY --from=build /app/dist/apps/wisave-ui/browser ./
 
 RUN chmod +x /docker-entrypoint.d/40-env-config.sh
 
