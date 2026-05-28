@@ -65,4 +65,31 @@ describe('UserRoleAssignmentPanelComponent', () => {
 
     expect(componentRef.instance.roleValues(componentRef.instance.users()[0])).toEqual(['role-plan-standard']);
   });
+
+  it('keeps users inside a scrollable panel body', () => {
+    const fixture = TestBed.createComponent(UserRoleAssignmentPanelComponent);
+    fixture.componentRef.setInput('roles', [
+      { id: 'role-plan-free', name: 'plan:free', normalizedName: 'PLAN:FREE', permissions: ['incomes:read'] },
+      { id: 'role-plan-standard', name: 'plan:standard', normalizedName: 'PLAN:STANDARD', permissions: ['expenses:read'] },
+    ]);
+    fixture.componentRef.setInput('users', [
+      {
+        id: 'user-1',
+        name: 'Test User',
+        email: 'test@example.com',
+        roles: ['role-plan-free'],
+        permissions: ['incomes:read'],
+        canEditRoles: true,
+      },
+    ]);
+    fixture.detectChanges();
+
+    const panel = fixture.nativeElement.querySelector('[data-testid="user-role-assignment-panel"]') as HTMLElement;
+    const scrollArea = fixture.nativeElement.querySelector('[data-testid="user-role-assignment-scroll"]') as HTMLElement;
+
+    expect(panel.className).toContain('h-full');
+    expect(panel.className).toContain('overflow-hidden');
+    expect(scrollArea.className).toContain('flex-1');
+    expect(scrollArea.className).toContain('overflow-y-auto');
+  });
 });

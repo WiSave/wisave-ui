@@ -10,8 +10,10 @@ import { type ISettingsPageSizeOption, type ISettingsRole, type ISettingsUser } 
   selector: 'app-user-role-assignment-panel',
   imports: [FormsModule, Button, Select],
   template: `
-    <section class="border-secondary-200 dark:border-dark-divider rounded-lg border bg-secondary-50/60 dark:bg-dark-primary-900/40">
-      <div class="border-secondary-200 dark:border-dark-divider flex flex-col gap-3 border-b p-4">
+    <section
+      class="border-secondary-200 dark:border-dark-divider bg-secondary-50/60 dark:bg-dark-primary-900/40 flex h-full min-h-0 flex-col overflow-hidden rounded-lg border"
+      data-testid="user-role-assignment-panel">
+      <div class="border-secondary-200 dark:border-dark-divider flex shrink-0 flex-col gap-3 border-b p-4">
         <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h3 class="text-secondary-950 dark:text-dark-secondary-50 text-sm font-semibold">Users</h3>
@@ -20,34 +22,27 @@ import { type ISettingsPageSizeOption, type ISettingsRole, type ISettingsUser } 
 
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
             <div class="relative w-full sm:w-72">
-              <i class="pi pi-search text-secondary-400 absolute left-3 top-1/2 -translate-y-1/2 text-xs"></i>
+              <i class="pi pi-search text-secondary-400 absolute top-1/2 left-3 -translate-y-1/2 text-xs"></i>
               <input
-                class="border-secondary-200 text-secondary-900 placeholder:text-secondary-400 dark:border-dark-divider dark:bg-dark-primary-850 dark:text-dark-secondary-50 h-9 w-full rounded-md border bg-white pl-8 pr-3 text-sm outline-none transition focus:border-secondary-500"
-                type="search"
-                placeholder="Search users"
                 [value]="query()"
-                (input)="onQueryChange($any($event.target).value)" />
+                (input)="onQueryChange($any($event.target).value)"
+                class="border-secondary-200 text-secondary-900 placeholder:text-secondary-400 dark:border-dark-divider dark:bg-dark-primary-850 dark:text-dark-secondary-50 focus:border-secondary-500 h-9 w-full rounded-md border bg-white pr-3 pl-8 text-sm transition outline-none"
+                type="search"
+                placeholder="Search users" />
             </div>
 
-            <p-select
-              styleClass="w-full sm:w-40"
-              optionLabel="label"
-              optionValue="value"
-              size="small"
-              [options]="pageSizeOptions"
-              [ngModel]="pageSize()"
-              (ngModelChange)="onPageSizeChange($event)" />
+            <p-select [options]="pageSizeOptions" [ngModel]="pageSize()" (ngModelChange)="onPageSizeChange($event)" styleClass="w-full sm:w-40" optionLabel="label" optionValue="value" size="small" />
           </div>
         </div>
       </div>
 
-      <div class="overflow-x-auto">
+      <div class="min-h-0 flex-1 overflow-x-auto overflow-y-auto [scrollbar-gutter:stable]" data-testid="user-role-assignment-scroll">
         <table class="min-w-full table-fixed text-left text-sm">
-          <thead class="bg-secondary-50 dark:bg-dark-primary-900/70 text-secondary-500 dark:text-dark-secondary-300">
+          <thead class="bg-secondary-50 dark:bg-dark-primary-900/70 text-secondary-500 dark:text-dark-secondary-300 sticky top-0 z-10">
             <tr>
-              <th class="w-[34%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em]">User</th>
-              <th class="w-[42%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em]">Roles</th>
-              <th class="w-[24%] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em]">Permissions</th>
+              <th class="w-[34%] px-4 py-3 text-[10px] font-semibold tracking-[0.16em] uppercase">User</th>
+              <th class="w-[42%] px-4 py-3 text-[10px] font-semibold tracking-[0.16em] uppercase">Roles</th>
+              <th class="w-[24%] px-4 py-3 text-[10px] font-semibold tracking-[0.16em] uppercase">Permissions</th>
             </tr>
           </thead>
           <tbody class="divide-secondary-200 dark:divide-dark-divider divide-y">
@@ -64,12 +59,12 @@ import { type ISettingsPageSizeOption, type ISettingsRole, type ISettingsUser } 
                     @for (role of roles(); track role.id) {
                       <label class="text-secondary-700 dark:text-dark-secondary-100 flex items-center gap-2 text-xs font-semibold">
                         <input
-                          class="accent-secondary-700 h-4 w-4"
-                          type="radio"
                           [name]="'user-role-' + user.id"
                           [checked]="hasRole(user, role.id)"
                           [disabled]="isRoleCheckboxDisabled(user, role)"
-                          (change)="onRoleSelected(user, role.id)" />
+                          (change)="onRoleSelected(user, role.id)"
+                          class="accent-secondary-700 h-4 w-4"
+                          type="radio" />
                         <span class="truncate">{{ roleLabel(role.name) }}</span>
                       </label>
                     }
@@ -80,20 +75,8 @@ import { type ISettingsPageSizeOption, type ISettingsRole, type ISettingsUser } 
                         {{ unsavedChangeCount(user) }} {{ unsavedChangeCount(user) === 1 ? 'change' : 'changes' }} pending
                       </span>
                       <div class="flex gap-2">
-                        <p-button
-                          label="Cancel"
-                          size="small"
-                          severity="secondary"
-                          [text]="true"
-                          [disabled]="savingUserId() === user.id"
-                          (onClick)="discardRoleDraft(user)" />
-                        <p-button
-                          label="Save changes"
-                          icon="pi pi-save"
-                          size="small"
-                          severity="secondary"
-                          [loading]="savingUserId() === user.id"
-                          (onClick)="saveRoleDraft(user)" />
+                        <p-button [text]="true" [disabled]="savingUserId() === user.id" (onClick)="discardRoleDraft(user)" label="Cancel" size="small" severity="secondary" />
+                        <p-button [loading]="savingUserId() === user.id" (onClick)="saveRoleDraft(user)" label="Save changes" icon="pi pi-save" size="small" severity="secondary" />
                       </div>
                     </div>
                   }
@@ -106,38 +89,42 @@ import { type ISettingsPageSizeOption, type ISettingsRole, type ISettingsUser } 
               </tr>
             } @empty {
               <tr>
-                <td class="text-secondary-500 dark:text-dark-secondary-300 px-4 py-8 text-center" colspan="3">
-                  No users match the current filters.
-                </td>
+                <td class="text-secondary-500 dark:text-dark-secondary-300 px-4 py-8 text-center" colspan="3">No users match the current filters.</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
 
-      <footer class="border-secondary-200 dark:border-dark-divider flex items-center justify-between border-t px-4 py-3">
-        <p class="text-secondary-500 dark:text-dark-secondary-300 text-xs">
-          Showing {{ firstVisibleIndex() }}-{{ lastVisibleIndex() }} of {{ filteredUsers().length }}
-        </p>
+      <footer class="border-secondary-200 dark:border-dark-divider flex shrink-0 items-center justify-between border-t px-4 py-3">
+        <p class="text-secondary-500 dark:text-dark-secondary-300 text-xs">Showing {{ firstVisibleIndex() }}-{{ lastVisibleIndex() }} of {{ filteredUsers().length }}</p>
         <div class="flex items-center gap-2">
           <button
-            class="border-secondary-200 text-secondary-700 dark:border-dark-divider dark:text-dark-secondary-100 rounded-md border px-3 py-1.5 text-xs font-semibold disabled:opacity-40"
-            type="button"
             [disabled]="page() === 1"
-            (click)="page.set(page() - 1)">
+            (click)="page.set(page() - 1)"
+            class="border-secondary-200 text-secondary-700 dark:border-dark-divider dark:text-dark-secondary-100 rounded-md border px-3 py-1.5 text-xs font-semibold disabled:opacity-40"
+            type="button">
             Previous
           </button>
           <span class="text-secondary-500 dark:text-dark-secondary-300 text-xs">Page {{ page() }} of {{ totalPages() }}</span>
           <button
-            class="border-secondary-200 text-secondary-700 dark:border-dark-divider dark:text-dark-secondary-100 rounded-md border px-3 py-1.5 text-xs font-semibold disabled:opacity-40"
-            type="button"
             [disabled]="page() === totalPages()"
-            (click)="page.set(page() + 1)">
+            (click)="page.set(page() + 1)"
+            class="border-secondary-200 text-secondary-700 dark:border-dark-divider dark:text-dark-secondary-100 rounded-md border px-3 py-1.5 text-xs font-semibold disabled:opacity-40"
+            type="button">
             Next
           </button>
         </div>
       </footer>
     </section>
+  `,
+  styles: `
+    :host {
+      display: block;
+      height: 100%;
+      min-height: 0;
+      min-width: 0;
+    }
   `,
 })
 export class UserRoleAssignmentPanelComponent {
@@ -162,10 +149,7 @@ export class UserRoleAssignmentPanelComponent {
     if (!query) return this.users();
 
     return this.users().filter(
-      (user) =>
-        user.name.toLowerCase().includes(query) ||
-        user.email.toLowerCase().includes(query) ||
-        user.roles.some((roleId) => this.#roleLabelById(roleId).toLowerCase().includes(query)),
+      (user) => user.name.toLowerCase().includes(query) || user.email.toLowerCase().includes(query) || user.roles.some((roleId) => this.#roleLabelById(roleId).toLowerCase().includes(query)),
     );
   });
 
@@ -179,9 +163,7 @@ export class UserRoleAssignmentPanelComponent {
     if (this.filteredUsers().length === 0) return 0;
     return (Math.min(this.page(), this.totalPages()) - 1) * this.pageSize() + 1;
   });
-  readonly lastVisibleIndex = computed(() =>
-    Math.min(this.filteredUsers().length, this.firstVisibleIndex() + this.pagedUsers().length - 1),
-  );
+  readonly lastVisibleIndex = computed(() => Math.min(this.filteredUsers().length, this.firstVisibleIndex() + this.pagedUsers().length - 1));
 
   onQueryChange(query: string): void {
     this.query.set(query);
