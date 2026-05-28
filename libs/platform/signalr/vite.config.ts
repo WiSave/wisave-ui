@@ -9,7 +9,7 @@ const config: UserConfig & { test: InlineConfig } = {
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['../../../apps/wisave-ui/src/test-setup.ts'],
+    setupFiles: ['src/test-setup.ts'],
     include: ['src/**/*.spec.ts'],
     reporters: ['default'],
     coverage: {
