@@ -59,10 +59,10 @@
       "defaultConfiguration": "development"
     },
     "test": {
-      "executor": "@angular/build:unit-test",
+      "executor": "@nx/vitest:test",
       "options": {
-        "buildTarget": "wisave-ui:build:development",
-        "tsConfig": "apps/wisave-ui/tsconfig.spec.json"
+        "configFile": "apps/wisave-ui/vite.config.ts",
+        "reportsDirectory": "coverage/apps/wisave-ui"
       }
     },
     "lint": {

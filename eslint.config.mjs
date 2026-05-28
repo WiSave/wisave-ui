@@ -16,7 +16,7 @@ export default tseslint.config(
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.stylistic, eslintConfigPrettier],
     languageOptions: {
       parserOptions: {
-        project: ['./apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
+        project: ['./apps/wisave-ui/tsconfig.json', './apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
       },
     },
     plugins: {
@@ -30,7 +30,12 @@ export default tseslint.config(
     settings: {
       'import/resolver': {
         './eslint-import-resolver-local-ts.cjs': {
-          project: ['./tsconfig.json', './apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
+          project: [
+            './tsconfig.json',
+            './apps/wisave-ui/tsconfig.json',
+            './apps/wisave-ui/tsconfig.app.json',
+            './apps/wisave-ui/tsconfig.spec.json',
+          ],
         },
         node: {
           extensions: ['.js', '.mjs', '.cjs', '.ts', '.tsx', '.d.ts', '.json'],
@@ -63,6 +68,7 @@ export default tseslint.config(
         { type: 'main', pattern: 'apps/wisave-ui/src/main.ts', mode: 'full' },
         { type: 'src-root', pattern: 'apps/wisave-ui/src/*.ts', mode: 'full' },
         { type: 'src-types', pattern: 'apps/wisave-ui/src/types/**/*.d.ts', mode: 'full' },
+        { type: 'project-config', pattern: 'apps/wisave-ui/*.config.ts', mode: 'full' },
       ],
       'boundaries/ignore': ['**/*.spec.ts', '**/*.test.ts'],
     },
