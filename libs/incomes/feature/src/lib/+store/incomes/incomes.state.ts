@@ -1,0 +1,53 @@
+import { initialPagination, type IPagination, type IStoreError } from '@wisave/shared/model';
+
+import { type IIncomesFilter, type IIncomesSortOrder } from '@wisave/incomes/data-access';
+import { type IIncome } from '@wisave/incomes/data-access';
+
+export interface IncomesState {
+  isLoading: boolean;
+  error: IStoreError | null;
+  filter: IIncomesFilter;
+  sort: IIncomesSortOrder;
+  pagination: IPagination;
+  availableCategories: string[];
+  categoriesLoading: boolean;
+  selectedIncome: IIncome | null;
+}
+
+export function createInitialFilter(): IIncomesFilter {
+  const now = new Date();
+  return {
+    dateRange: {
+      from: new Date(now.getFullYear(), now.getMonth(), 1),
+      to: now,
+    },
+    searchQuery: '',
+    categories: [],
+    recurring: null,
+  };
+}
+
+export const initialFilter: IIncomesFilter = createInitialFilter();
+
+export const emptyFilter: IIncomesFilter = {
+  dateRange: { from: null, to: null },
+  searchQuery: '',
+  categories: [],
+  recurring: null,
+};
+
+export const initialSort: IIncomesSortOrder = {
+  field: 'date',
+  direction: 'desc',
+};
+
+export const initialState: IncomesState = {
+  isLoading: false,
+  error: null,
+  filter: initialFilter,
+  sort: initialSort,
+  pagination: initialPagination,
+  availableCategories: [],
+  categoriesLoading: false,
+  selectedIncome: null,
+};

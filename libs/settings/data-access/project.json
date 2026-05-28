@@ -1,0 +1,23 @@
+{
+  "name": "settings-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:settings", "type:data-access"],
+  "sourceRoot": "libs/settings/data-access/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/settings/data-access/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/settings/data-access/vite.config.ts",
+        "reportsDirectory": "coverage/libs/settings/data-access",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

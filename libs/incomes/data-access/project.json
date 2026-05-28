@@ -1,0 +1,15 @@
+{
+  "name": "incomes-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:incomes", "type:data-access"],
+  "sourceRoot": "libs/incomes/data-access/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/incomes/data-access/**/*.ts"]
+      }
+    }
+  }
+}

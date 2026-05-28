@@ -1,0 +1,23 @@
+{
+  "name": "expenses-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:expenses", "type:data-access"],
+  "sourceRoot": "libs/expenses/data-access/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/expenses/data-access/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/expenses/data-access/vite.config.ts",
+        "reportsDirectory": "coverage/libs/expenses/data-access",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

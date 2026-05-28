@@ -31,9 +31,26 @@ export default tseslint.config(
       '@nx/enforce-module-boundaries': [
         'error',
         {
-          // Current feature/data-access aliases remain valid until Task E extracts domains.
-          allow: ['@features/**', '@services/**'],
           depConstraints: [
+            {
+              sourceTag: 'scope:app',
+              onlyDependOnLibsWithTags: [
+                'scope:auth',
+                'scope:expenses',
+                'scope:incomes',
+                'scope:platform',
+                'scope:settings',
+                'scope:shared',
+                'scope:stock',
+              ],
+            },
+            { sourceTag: 'scope:auth', onlyDependOnLibsWithTags: ['scope:auth', 'scope:platform', 'scope:shared'] },
+            { sourceTag: 'scope:expenses', onlyDependOnLibsWithTags: ['scope:expenses', 'scope:platform', 'scope:shared'] },
+            { sourceTag: 'scope:incomes', onlyDependOnLibsWithTags: ['scope:incomes', 'scope:platform', 'scope:shared'] },
+            { sourceTag: 'scope:platform', onlyDependOnLibsWithTags: ['scope:platform', 'scope:shared'] },
+            { sourceTag: 'scope:settings', onlyDependOnLibsWithTags: ['scope:settings', 'scope:platform', 'scope:shared'] },
+            { sourceTag: 'scope:shared', onlyDependOnLibsWithTags: ['scope:shared'] },
+            { sourceTag: 'scope:stock', onlyDependOnLibsWithTags: ['scope:stock', 'scope:platform', 'scope:shared'] },
             {
               sourceTag: 'type:app',
               onlyDependOnLibsWithTags: [

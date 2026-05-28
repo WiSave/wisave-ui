@@ -1,0 +1,16 @@
+{
+  "name": "auth-feature",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:auth", "type:feature"],
+  "sourceRoot": "libs/auth/feature/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/auth/feature/**/*.ts", "libs/auth/feature/**/*.html"]
+      }
+    }
+  }
+}

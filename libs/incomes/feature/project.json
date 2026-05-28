@@ -1,0 +1,16 @@
+{
+  "name": "incomes-feature",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:incomes", "type:feature"],
+  "sourceRoot": "libs/incomes/feature/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/incomes/feature/**/*.ts", "libs/incomes/feature/**/*.html"]
+      }
+    }
+  }
+}

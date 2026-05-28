@@ -1,0 +1,23 @@
+{
+  "name": "stock-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:stock", "type:data-access"],
+  "sourceRoot": "libs/stock/data-access/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/stock/data-access/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/stock/data-access/vite.config.ts",
+        "reportsDirectory": "coverage/libs/stock/data-access",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

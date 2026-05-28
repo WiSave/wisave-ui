@@ -1,0 +1,11 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc/libs/incomes/feature"
+  },
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
+}

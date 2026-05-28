@@ -1,0 +1,24 @@
+{
+  "name": "stock-feature",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:stock", "type:feature"],
+  "sourceRoot": "libs/stock/feature/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/stock/feature/**/*.ts", "libs/stock/feature/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/stock/feature/vite.config.ts",
+        "reportsDirectory": "coverage/libs/stock/feature",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
