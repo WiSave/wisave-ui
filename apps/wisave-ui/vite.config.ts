@@ -1,10 +1,9 @@
-/// <reference types="vitest" />
-
 import angular from '@analogjs/vite-plugin-angular';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { defineConfig } from 'vite';
+import type { UserConfig } from 'vite';
+import type { InlineConfig } from 'vitest/node';
 
-export default defineConfig({
+const config: UserConfig & { test: InlineConfig } = {
   plugins: [angular(), nxViteTsPaths()],
   test: {
     globals: true,
@@ -16,4 +15,6 @@ export default defineConfig({
       reportsDirectory: '../../coverage/apps/wisave-ui',
     },
   },
-});
+};
+
+export default config;
