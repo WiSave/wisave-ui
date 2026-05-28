@@ -2,6 +2,7 @@
   "name": "wisave-ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "tags": ["scope:app", "type:app"],
   "generators": {},
   "sourceRoot": "apps/wisave-ui/src",
   "prefix": "app",

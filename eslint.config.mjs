@@ -2,9 +2,9 @@ import angularPlugin from '@angular-eslint/eslint-plugin';
 import angularTemplatePlugin from '@angular-eslint/eslint-plugin-template';
 import angularTemplateParser from '@angular-eslint/template-parser';
 import eslint from '@eslint/js';
+import nxPlugin from '@nx/eslint-plugin';
 import rxjsPlugin from '@rxlint/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import boundariesPlugin from 'eslint-plugin-boundaries';
 import noSecretsPlugin from 'eslint-plugin-no-secrets';
 import securityPlugin from 'eslint-plugin-security';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
@@ -21,228 +21,53 @@ export default tseslint.config(
     },
     plugins: {
       '@angular-eslint': angularPlugin,
+      '@nx': nxPlugin,
       '@rxlint': rxjsPlugin,
-      boundaries: boundariesPlugin,
       'unused-imports': unusedImportsPlugin,
       security: securityPlugin,
       'no-secrets': noSecretsPlugin,
     },
-    settings: {
-      'import/resolver': {
-        './eslint-import-resolver-local-ts.cjs': {
-          project: [
-            './tsconfig.json',
-            './apps/wisave-ui/tsconfig.json',
-            './apps/wisave-ui/tsconfig.app.json',
-            './apps/wisave-ui/tsconfig.spec.json',
-          ],
-        },
-        node: {
-          extensions: ['.js', '.mjs', '.cjs', '.ts', '.tsx', '.d.ts', '.json'],
-        },
-      },
-      'boundaries/dependency-nodes': ['import', 'dynamic-import', 'export'],
-      'boundaries/elements': [
-        // App layers
-        { type: 'core', pattern: 'apps/wisave-ui/src/app/core/**', mode: 'full' },
-        { type: 'shared', pattern: 'apps/wisave-ui/src/app/shared/**', mode: 'full' },
-        { type: 'layout', pattern: 'apps/wisave-ui/src/app/layout/**', mode: 'full' },
-
-        // Feature internal layers (order matters - more specific first)
-        { type: 'feature-component', pattern: 'apps/wisave-ui/src/app/features/*/components/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-container', pattern: 'apps/wisave-ui/src/app/features/*/containers/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-view', pattern: 'apps/wisave-ui/src/app/features/*/views/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-store', pattern: 'apps/wisave-ui/src/app/features/*/+store/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-type', pattern: 'apps/wisave-ui/src/app/features/*/types/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-service', pattern: 'apps/wisave-ui/src/app/features/*/services/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-helper', pattern: 'apps/wisave-ui/src/app/features/*/helpers/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-constant', pattern: 'apps/wisave-ui/src/app/features/*/constants/**', mode: 'full', capture: ['feature'] },
-        { type: 'feature-route', pattern: 'apps/wisave-ui/src/app/features/*/*.routes.ts', mode: 'full', capture: ['feature'] },
-        { type: 'feature', pattern: 'apps/wisave-ui/src/app/features/*/**', mode: 'full', capture: ['feature'] },
-
-        // Features root routing
-        { type: 'features-routing', pattern: 'apps/wisave-ui/src/app/features/*.ts', mode: 'full' },
-
-        // App root
-        { type: 'app', pattern: 'apps/wisave-ui/src/app/*', mode: 'full' },
-        { type: 'main', pattern: 'apps/wisave-ui/src/main.ts', mode: 'full' },
-        { type: 'src-root', pattern: 'apps/wisave-ui/src/*.ts', mode: 'full' },
-        { type: 'src-types', pattern: 'apps/wisave-ui/src/types/**/*.d.ts', mode: 'full' },
-        { type: 'project-config', pattern: 'apps/wisave-ui/*.config.ts', mode: 'full' },
-      ],
-      'boundaries/ignore': ['**/*.spec.ts', '**/*.test.ts'],
-    },
     rules: {
-      // Boundaries rules
-      'boundaries/element-types': [
+      '@nx/enforce-module-boundaries': [
         'error',
         {
-          default: 'disallow',
-          rules: [
-            // Core can only import from core
-            { from: 'core', allow: ['core'] },
-
-            // Shared can import from core and shared
-            { from: 'shared', allow: ['core', 'shared'] },
-
-            // Layout can import from core, shared, and layout
-            { from: 'layout', allow: ['core', 'shared', 'layout'] },
-
-            // Feature routes can import same-feature internals and app shared/core
+          // Current app-local path aliases remain valid until these areas become Nx libs.
+          allow: ['@core/**', '@features/**', '@layout/**', '@services/**', '@shared/**', '@types/**'],
+          depConstraints: [
             {
-              from: 'feature-route',
-              allow: [
-                'core',
-                'shared',
-                ['feature-view', { feature: '${from.feature}' }],
-                ['feature-store', { feature: '${from.feature}' }],
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-component', { feature: '${from.feature}' }],
-                ['feature-container', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
+              sourceTag: 'type:app',
+              onlyDependOnLibsWithTags: [
+                'type:shell',
+                'type:feature',
+                'type:ui',
+                'type:data-access',
+                'type:auth',
+                'type:signalr',
+                'type:util',
+                'type:model',
               ],
             },
-
-            // Feature types can import core and same-feature types/constants
+            { sourceTag: 'type:shell', onlyDependOnLibsWithTags: ['type:ui', 'type:auth', 'type:util', 'type:model'] },
             {
-              from: 'feature-type',
-              allow: [
-                'core',
-                'shared',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
+              sourceTag: 'type:feature',
+              onlyDependOnLibsWithTags: [
+                'type:ui',
+                'type:data-access',
+                'type:auth',
+                'type:signalr',
+                'type:util',
+                'type:model',
               ],
             },
-
-            // Feature services can import same-feature internals and core
-            {
-              from: 'feature-service',
-              allow: [
-                'core',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature helpers can import same-feature types/helpers/constants and core
-            {
-              from: 'feature-helper',
-              allow: [
-                'core',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature store can import same-feature types/services/helpers/store/constants and core
-            {
-              from: 'feature-store',
-              allow: [
-                'core',
-                'shared',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-store', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature components (presentational) - NO store access
-            {
-              from: 'feature-component',
-              allow: [
-                'core',
-                'shared',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-component', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature containers can import same-feature UI/store/services/types and core/shared
-            {
-              from: 'feature-container',
-              allow: [
-                'core',
-                'shared',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-component', { feature: '${from.feature}' }],
-                ['feature-container', { feature: '${from.feature}' }],
-                ['feature-store', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature views can import same-feature internals + shared/core
-            {
-              from: 'feature-view',
-              allow: [
-                'core',
-                'shared',
-                ['feature-view', { feature: '${from.feature}' }],
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-component', { feature: '${from.feature}' }],
-                ['feature-container', { feature: '${from.feature}' }],
-                ['feature-store', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Feature constants can import core/shared and same-feature constants/types
-            {
-              from: 'feature-constant',
-              allow: [
-                'core',
-                'shared',
-                ['feature-constant', { feature: '${from.feature}' }],
-                ['feature-type', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Generic feature (catch-all)
-            {
-              from: 'feature',
-              allow: [
-                'core',
-                'shared',
-                ['feature-type', { feature: '${from.feature}' }],
-                ['feature-component', { feature: '${from.feature}' }],
-                ['feature-container', { feature: '${from.feature}' }],
-                ['feature-store', { feature: '${from.feature}' }],
-                ['feature-service', { feature: '${from.feature}' }],
-                ['feature-helper', { feature: '${from.feature}' }],
-                ['feature-constant', { feature: '${from.feature}' }],
-              ],
-            },
-
-            // Features root routing
-            { from: 'features-routing', allow: ['feature-route', 'feature-view', 'layout'] },
-
-            // App root files
-            { from: 'app', allow: ['core', 'shared', 'layout', 'feature', 'feature-route', 'features-routing', 'app', 'src-root'] },
-            { from: 'main', allow: ['app'] },
-            { from: 'src-root', allow: ['core', 'shared'] },
-            { from: 'src-types', allow: ['core'] },
+            { sourceTag: 'type:data-access', onlyDependOnLibsWithTags: ['type:auth', 'type:signalr', 'type:util', 'type:model'] },
+            { sourceTag: 'type:auth', onlyDependOnLibsWithTags: ['type:util', 'type:model'] },
+            { sourceTag: 'type:signalr', onlyDependOnLibsWithTags: ['type:auth', 'type:util', 'type:model'] },
+            { sourceTag: 'type:ui', onlyDependOnLibsWithTags: ['type:util', 'type:model'] },
+            { sourceTag: 'type:util', onlyDependOnLibsWithTags: ['type:model'] },
+            { sourceTag: 'type:model', onlyDependOnLibsWithTags: ['type:model'] },
           ],
         },
       ],
-
-      // Prevent unknown imports between local files
-      'boundaries/no-unknown': 'error',
-
-      // Prevent unknown files outside defined elements
-      'boundaries/no-unknown-files': ['error'],
 
       // RxJS rules
       '@rxlint/no-async-subscribe': 'error',
