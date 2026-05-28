@@ -4,6 +4,7 @@ import type { UserConfig } from 'vite';
 import type { InlineConfig } from 'vitest/node';
 
 const config: UserConfig & { test: InlineConfig } = {
+  cacheDir: '../../node_modules/.vite/apps/wisave-ui',
   plugins: [angular(), nxViteTsPaths()],
   test: {
     globals: true,
