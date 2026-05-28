@@ -8,15 +8,15 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { Ripple } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { ExpenseId } from '@core/types/expense-id.types';
-import type { IExpense } from '@core/types/expense.interface';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { ExpenseId } from '@wisave/shared/model';
+import type { IExpense } from '@wisave/shared/model';
 
-import { Currency } from '@core/types';
-import { ButtonBarDatepickerComponent } from '@shared/components/datepicker/button-bar-datepicker';
-import { CursorPaginationComponent } from '@shared/components/pagination';
-import { type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@shared/types';
+import { Currency } from '@wisave/shared/model';
+import { ButtonBarDatepickerComponent } from '@wisave/shared/ui';
+import { CursorPaginationComponent } from '@wisave/shared/ui';
+import { type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
 
 import type { IExpensesFilter } from '../../types/expenses-state.types';
 

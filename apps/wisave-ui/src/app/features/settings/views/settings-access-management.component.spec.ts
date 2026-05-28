@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { SettingsAdminApiService } from '@features/settings/services/settings-admin-api.service';
 
-import { PermissionService } from '@core/services/auth/permission.service';
+import { PermissionService } from '@wisave/platform/auth';
 
 import { SettingsAccessManagementComponent } from './settings-access-management.component';
 

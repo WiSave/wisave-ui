@@ -1,4 +1,4 @@
-import type { IPageInfo } from '@shared/types';
+import type { IPageInfo } from '@wisave/shared/model';
 
 export interface IIncomeApiDto {
   id: string;

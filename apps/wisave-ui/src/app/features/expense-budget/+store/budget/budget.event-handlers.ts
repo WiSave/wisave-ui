@@ -3,10 +3,10 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, exhaustMap, map, merge, of, switchMap, tap } from 'rxjs';
 
-import type { IBudget } from '@core/types/expense-budget.interface';
+import type { IBudget } from '@wisave/shared/model';
 import { ExpenseBudgetApiService } from '@services/expense-budget/expense-budget-api.service';
 import { ExpensesApiService } from '@services/expenses/expenses-api.service';
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import { toStoreError } from '@wisave/shared/ui';
 
 import { budgetApiEvents, budgetPageEvents } from './budget.events';
 

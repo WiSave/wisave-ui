@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Dispatcher, provideDispatcher } from '@ngrx/signals/events';
 
-import { Currency } from '@core/types';
+import { Currency } from '@wisave/shared/model';
 
 import { type IStockPortfolio, type IStockPosition } from '../../types/stock-portfolio.types';
 import { stockPortfolioApiEvents, stockPortfolioPageEvents } from './stock-portfolio.events';

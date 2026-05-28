@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExpenseEditFormComponent } from '@features/expenses/components/expense-edit-form/expense-edit-form.component';
 import { expensesPageEvents } from '@features/expenses/+store/expenses/expenses.events';
 import { ExpensesStore } from '@features/expenses/+store/expenses/expenses.store';
-import { type IExpense } from '@core/types/expense.interface';
+import { type IExpense } from '@wisave/shared/model';
 import { injectDispatch } from '@ngrx/signals/events';
 
 @Component({

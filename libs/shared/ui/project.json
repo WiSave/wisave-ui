@@ -1,0 +1,24 @@
+{
+  "name": "shared-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:ui"],
+  "sourceRoot": "libs/shared/ui/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/ui/**/*.ts", "libs/shared/ui/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/shared/ui/vite.config.ts",
+        "reportsDirectory": "coverage/libs/shared/ui",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

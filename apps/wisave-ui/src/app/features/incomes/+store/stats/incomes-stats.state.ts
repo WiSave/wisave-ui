@@ -1,4 +1,4 @@
-import { type IStoreError } from '@shared/types';
+import { type IStoreError } from '@wisave/shared/model';
 
 import { type IIncomeMonthlyStats, type IIncomeStats, type IncomeStatsScope } from '../../types/incomes-state.types';
 

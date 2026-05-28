@@ -7,9 +7,9 @@ import {
   type IBankAccount,
   type ICashAccount,
   type IExpenseAccount,
-} from '@core/types/expense-account.interface';
-import type { ExpenseAccountId } from '@core/types/expense-id.types';
-import { createMoney, formatMoney } from '@core/types/money.interface';
+} from '@wisave/shared/model';
+import type { ExpenseAccountId } from '@wisave/shared/model';
+import { createMoney, formatMoney } from '@wisave/shared/model';
 
 const ACCOUNT_TYPE_LABELS: Record<ExpenseAccountType, string> = {
   bank_account: 'Funding Account',

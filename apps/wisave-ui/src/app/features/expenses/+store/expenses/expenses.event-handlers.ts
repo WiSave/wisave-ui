@@ -5,11 +5,11 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { type EntityMap } from '@ngrx/signals/entities';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
 
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { IExpense } from '@core/types/expense.interface';
-import { type IPagination, type CursorDirection } from '@shared/types';
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { IExpense } from '@wisave/shared/model';
+import { type IPagination, type CursorDirection } from '@wisave/shared/model';
+import { toStoreError } from '@wisave/shared/ui';
 import { ExpensesApiService, type IExpensesQueryParams } from '@services/expenses/expenses-api.service';
 import { ExpenseAccountsApiService } from '@services/expense-accounts/expense-accounts-api.service';
 

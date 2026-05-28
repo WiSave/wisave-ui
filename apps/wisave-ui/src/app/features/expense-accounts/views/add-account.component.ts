@@ -6,7 +6,7 @@ import { ExpenseAccountsStore } from '@features/expense-accounts/+store/accounts
 import { AccountFormComponent } from '@features/expense-accounts/components/account-form/account-form.component';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { type IExpenseAccountWritePayload } from '@core/types/expense-account.interface';
+import { type IExpenseAccountWritePayload } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-add-account',

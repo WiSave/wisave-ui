@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { provideDispatcher } from '@ngrx/signals/events';
 
-import { Currency } from '@core/types';
+import { Currency } from '@wisave/shared/model';
 
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';
 import { AddStockPortfolioComponent } from './add-stock-portfolio.component';

@@ -3,7 +3,7 @@ import { computed } from '@angular/core';
 import { signalStore, withComputed, withState } from '@ngrx/signals';
 import { on } from '@ngrx/signals/events';
 
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
 
 import { withAnalysisEventHandlers } from './analysis.event-handlers';
 import { analysisApiEvents, analysisPageEvents } from './analysis.events';

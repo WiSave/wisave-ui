@@ -3,7 +3,7 @@ import { signalStore, withFeature, withState } from '@ngrx/signals';
 import { removeEntity, setAllEntities, setEntity, withEntities } from '@ngrx/signals/entities';
 import { on } from '@ngrx/signals/events';
 
-import type { IExpense } from '@core/types/expense.interface';
+import type { IExpense } from '@wisave/shared/model';
 
 import { withExpensesEventHandlers as withEventHandlers } from './expenses.event-handlers';
 import { withExpensesSignalR } from './expenses.signalr.event-handlers';

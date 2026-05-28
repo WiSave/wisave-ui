@@ -9,9 +9,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { formatMoney, type IMoney } from '@core/types';
-import { AppDialogComponent } from '@shared/components/dialog';
-import { StatusCardComponent } from '@shared/components/status-card';
+import { formatMoney, type IMoney } from '@wisave/shared/model';
+import { AppDialogComponent } from '@wisave/shared/ui';
+import { StatusCardComponent } from '@wisave/shared/ui';
 
 import { stockPortfolioPageEvents } from '../+store/portfolio/stock-portfolio.events';
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';

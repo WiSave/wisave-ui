@@ -2,9 +2,9 @@ import { Component, computed, input, output } from '@angular/core';
 
 import { Button } from 'primeng/button';
 
-import { Currency } from '@core/types/currency.enum';
-import type { IDelta } from '@core/types/expense-budget.interface';
-import { createMoney, formatMoney } from '@core/types/money.interface';
+import { Currency } from '@wisave/shared/model';
+import type { IDelta } from '@wisave/shared/model';
+import { createMoney, formatMoney } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-category-budget-card',

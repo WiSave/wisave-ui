@@ -9,10 +9,10 @@ import { InsightCardComponent } from '@features/expense-budget/components/insigh
 import { computeAllInsights } from '@features/expense-budget/helpers/insights.helper';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { getChartThemeColors } from '@core/config/chart-colors.config';
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
-import { ThemeService } from '@core/services/theme/theme.service';
-import { ChartCardComponent } from '@shared/components/chart-card';
+import { getChartThemeColors } from '@wisave/platform/config';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
+import { ThemeService } from '@wisave/shared/ui';
+import { ChartCardComponent } from '@wisave/shared/ui';
 
 import { analysisPageEvents } from '../+store/analysis/analysis.events';
 

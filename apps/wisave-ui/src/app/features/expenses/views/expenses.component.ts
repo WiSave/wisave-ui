@@ -9,8 +9,8 @@ import { expensesPageEvents } from '@features/expenses/+store/expenses/expenses.
 import { ExpensesStore } from '@features/expenses/+store/expenses/expenses.store';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { AppDialogComponent } from '@shared/components/dialog';
-import { type IPageNavigationEvent, type IPageSizeChangeEvent } from '@shared/types';
+import { AppDialogComponent } from '@wisave/shared/ui';
+import { type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-expenses',

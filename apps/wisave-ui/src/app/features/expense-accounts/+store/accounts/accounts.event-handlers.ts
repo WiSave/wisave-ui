@@ -4,7 +4,7 @@ import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 
 import { ExpenseAccountsApiService } from '@services/expense-accounts/expense-accounts-api.service';
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import { toStoreError } from '@wisave/shared/ui';
 
 import { accountsApiEvents, accountsPageEvents } from './accounts.events';
 

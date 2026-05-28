@@ -3,9 +3,9 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { Button } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 
-import { getChartThemeColors } from '@core/config/chart-colors.config';
-import { ThemeService } from '@core/services/theme/theme.service';
-import { formatMoney } from '@core/types';
+import { getChartThemeColors } from '@wisave/platform/config';
+import { ThemeService } from '@wisave/shared/ui';
+import { formatMoney } from '@wisave/shared/model';
 
 import { type IStockPosition, type StockChartScope } from '../../types/stock-portfolio.types';
 

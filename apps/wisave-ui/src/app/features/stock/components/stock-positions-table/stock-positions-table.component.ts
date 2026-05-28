@@ -2,7 +2,7 @@ import { Component, input, output } from '@angular/core';
 
 import { Button } from 'primeng/button';
 
-import { CurrencyLocale, formatMoney } from '@core/types';
+import { CurrencyLocale, formatMoney } from '@wisave/shared/model';
 
 import { type IStockPosition } from '../../types/stock-portfolio.types';
 

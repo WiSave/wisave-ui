@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@core/types/currency.enum';
-import { type IBudget, type IBudgetApiResponse, type ICategorySpendingSummary, type ICategorySpendingSummaryApiDto } from '@core/types/expense-budget.interface';
-import { asBudgetId, asExpenseCategoryId } from '@core/types/expense-id.types';
+import { Currency } from '@wisave/shared/model';
+import { type IBudget, type IBudgetApiResponse, type ICategorySpendingSummary, type ICategorySpendingSummaryApiDto } from '@wisave/shared/model';
+import { asBudgetId, asExpenseCategoryId } from '@wisave/shared/model';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseBudgetMapperService {

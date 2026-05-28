@@ -1,6 +1,6 @@
 import { Component, computed, input } from '@angular/core';
 
-import type { IInsight, InsightSeverity } from '@core/types/expense-budget.interface';
+import type { IInsight, InsightSeverity } from '@wisave/shared/model';
 
 const SEVERITY_STYLES: Record<InsightSeverity, { icon: string; borderClass: string; iconClass: string }> = {
   warning: {

@@ -8,7 +8,7 @@ import { UserRoleAssignmentPanelComponent } from '@features/settings/components/
 import { SettingsAdminApiService } from '@features/settings/services/settings-admin-api.service';
 import { type ISettingsRole, type ISettingsUser } from '@features/settings/types/settings-admin.types';
 
-import { PermissionService } from '@core/services/auth/permission.service';
+import { PermissionService } from '@wisave/platform/auth';
 
 @Component({
   selector: 'app-settings-access-management',

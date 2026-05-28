@@ -1,4 +1,4 @@
-import { type ICursorPaginationParams, type IPageInfo } from '@shared/types';
+import { type ICursorPaginationParams, type IPageInfo } from '@wisave/shared/model';
 
 import type { IIncomesFilter, IIncomesSortOrder } from './incomes-state.types';
 import type { IIncome } from './incomes.interfaces';

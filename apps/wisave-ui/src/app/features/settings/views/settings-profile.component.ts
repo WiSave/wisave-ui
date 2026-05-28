@@ -5,7 +5,7 @@ import { finalize } from 'rxjs';
 import { Button } from 'primeng/button';
 import { Password } from 'primeng/password';
 
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@wisave/platform/auth';
 
 const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null => {
   const newPassword = group.get('newPassword')?.value as string;

@@ -9,13 +9,13 @@ import { Select } from 'primeng/select';
 
 import { type AccountFormModel } from '@features/expense-accounts/types/account-form.types';
 
-import { Currency, CurrencySymbol } from '@core/types/currency.enum';
+import { Currency, CurrencySymbol } from '@wisave/shared/model';
 import {
   type ExpenseAccountType,
   type IExpenseAccount,
   type IExpenseAccountWritePayload,
-} from '@core/types/expense-account.interface';
-import { type ExpenseAccountId } from '@core/types/expense-id.types';
+} from '@wisave/shared/model';
+import { type ExpenseAccountId } from '@wisave/shared/model';
 
 const DEFAULT_COLOR = '#6366f1';
 

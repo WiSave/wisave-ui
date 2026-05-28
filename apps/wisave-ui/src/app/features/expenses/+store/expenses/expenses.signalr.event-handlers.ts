@@ -4,18 +4,18 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@core/signalr/expenses-signalr.service';
-import { PortalSignalRService } from '@core/signalr/portal-signalr.service';
-import type { IExpenseRecordedPayload, IExpenseUpdatedPayload } from '@core/signalr/expenses-signalr.types';
-import { Currency } from '@core/types/currency.enum';
-import type { IExpense } from '@core/types/expense.interface';
+import { ExpensesSignalRService } from '@wisave/platform/signalr';
+import { PortalSignalRService } from '@wisave/platform/signalr';
+import type { IExpenseRecordedPayload, IExpenseUpdatedPayload } from '@wisave/platform/signalr';
+import { Currency } from '@wisave/shared/model';
+import type { IExpense } from '@wisave/shared/model';
 import {
   asExpenseAccountId,
   asExpenseCategoryId,
   asExpenseId,
   asExpenseSubcategoryId,
-} from '@core/types/expense-id.types';
-import { createMoney } from '@core/types/money.interface';
+} from '@wisave/shared/model';
+import { createMoney } from '@wisave/shared/model';
 
 import { expensesPageEvents, expensesSignalREvents } from './expenses.events';
 

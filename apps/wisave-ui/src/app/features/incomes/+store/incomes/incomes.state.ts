@@ -1,4 +1,4 @@
-import { initialPagination, type IPagination, type IStoreError } from '@shared/types';
+import { initialPagination, type IPagination, type IStoreError } from '@wisave/shared/model';
 
 import { type IIncomesFilter, type IIncomesSortOrder } from '../../types/incomes-state.types';
 import { type IIncome } from '../../types/incomes.interfaces';

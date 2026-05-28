@@ -12,7 +12,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { type IncomeFormModel, type MetadataEntryModel } from '@features/incomes/types/income-edit-form.types';
 import { type IIncome } from '@features/incomes/types/incomes.interfaces';
 
-import { createMoney, Currency, CurrencySymbol } from '@core/types';
+import { createMoney, Currency, CurrencySymbol } from '@wisave/shared/model';
 
 const DEFAULT_CURRENCY = Currency.PLN;
 

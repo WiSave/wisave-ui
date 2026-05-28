@@ -1,6 +1,6 @@
 import type { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import type { Currency } from '@core/types';
+import type { Currency } from '@wisave/shared/model';
 
 export interface MetadataEntryModel {
   key: FormControl<string>;

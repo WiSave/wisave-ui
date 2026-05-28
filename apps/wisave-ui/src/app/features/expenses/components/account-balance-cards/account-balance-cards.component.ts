@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import { createMoney, formatMoney } from '@core/types/money.interface';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import { createMoney, formatMoney } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-account-balance-cards',

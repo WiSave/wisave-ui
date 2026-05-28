@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
-import { PermissionService } from '@core/services/auth/permission.service';
+import { PermissionService } from '@wisave/platform/auth';
 
 @Component({
   selector: 'app-settings-shell',

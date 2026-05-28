@@ -3,12 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { getApiBaseUrl } from '@core/config/runtime-config';
-import { type IExpenseMonthlyStats, type IExpenseMonthlyStatsApiDto } from '@core/types/expense-budget.interface';
-import { type IExpenseCategoryApiDto } from '@core/types/expense-category.interface';
-import { type ExpenseCategoryId, type ExpenseId } from '@core/types/expense-id.types';
-import { type IExpense, type IExpenseApiDto, type IExpensePageInfo, type IExpensesResponseDto } from '@core/types/expense.interface';
-import { type IExpenseCategory } from '@core/types/expense-category.interface';
+import { getApiBaseUrl } from '@wisave/platform/config';
+import { type IExpenseMonthlyStats, type IExpenseMonthlyStatsApiDto } from '@wisave/shared/model';
+import { type IExpenseCategoryApiDto } from '@wisave/shared/model';
+import { type ExpenseCategoryId, type ExpenseId } from '@wisave/shared/model';
+import { type IExpense, type IExpenseApiDto, type IExpensePageInfo, type IExpensesResponseDto } from '@wisave/shared/model';
+import { type IExpenseCategory } from '@wisave/shared/model';
 
 import { ExpensesMapperService } from './expenses-mapper.service';
 

@@ -3,11 +3,11 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, forkJoin, map, merge, of, switchMap } from 'rxjs';
 
-import type { IBudget, ICategoryMonthComparison, ICategorySpendingSummary } from '@core/types/expense-budget.interface';
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
+import type { IBudget, ICategoryMonthComparison, ICategorySpendingSummary } from '@wisave/shared/model';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
 import { ExpenseBudgetApiService } from '@services/expense-budget/expense-budget-api.service';
 import { ExpensesApiService } from '@services/expenses/expenses-api.service';
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import { toStoreError } from '@wisave/shared/ui';
 
 import { getPreviousMonth, getMonthRange } from '../../helpers/month.helper';
 import { budgetPageEvents } from '../budget/budget.events';

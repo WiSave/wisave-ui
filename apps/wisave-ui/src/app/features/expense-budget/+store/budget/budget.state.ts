@@ -1,6 +1,6 @@
-import type { IBudget, ICategorySpendingSummary, IExpenseMonthlyStats } from '@core/types/expense-budget.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { IStoreError } from '@shared/types/error.types';
+import type { IBudget, ICategorySpendingSummary, IExpenseMonthlyStats } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { IStoreError } from '@wisave/shared/model';
 
 export interface BudgetState {
   currentBudget: IBudget | null;

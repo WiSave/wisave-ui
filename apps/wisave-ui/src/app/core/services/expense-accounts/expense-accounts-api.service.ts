@@ -3,8 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { getApiBaseUrl } from '@core/config/runtime-config';
-import type { ICommandResponse } from '@core/types/command-response.interface';
+import { getApiBaseUrl } from '@wisave/platform/config';
+import type { ICommandResponse } from '@wisave/shared/model';
 import {
   type IExpenseAccount,
   type IExpenseAccountWritePayload,
@@ -12,8 +12,8 @@ import {
   type IFundingPaymentInstrumentApiDto,
   type IFundingPaymentInstrumentWritePayload,
   type IFundingTransferWritePayload,
-} from '@core/types/expense-account.interface';
-import { type ExpenseAccountId, type FundingPaymentInstrumentId } from '@core/types/expense-id.types';
+} from '@wisave/shared/model';
+import { type ExpenseAccountId, type FundingPaymentInstrumentId } from '@wisave/shared/model';
 
 import { ExpenseAccountsMapperService } from './expense-accounts-mapper.service';
 

@@ -5,7 +5,7 @@ import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 
-import { Currency, CurrencySymbol } from '@core/types';
+import { Currency, CurrencySymbol } from '@wisave/shared/model';
 
 import { type IStockPortfolio, type IStockPortfolioWritePayload } from '../../types/stock-portfolio.types';
 

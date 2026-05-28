@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, of, type Observable } from 'rxjs';
 
-import { getApiBaseUrl } from '@core/config/runtime-config';
-import type { Currency } from '@core/types';
+import { getApiBaseUrl } from '@wisave/platform/config';
+import type { Currency } from '@wisave/shared/model';
 
 import type {
   IOpenStockPositionAccepted,

@@ -1,0 +1,23 @@
+{
+  "name": "platform-signalr",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:platform", "type:signalr"],
+  "sourceRoot": "libs/platform/signalr/src",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/platform/signalr/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/platform/signalr/vite.config.ts",
+        "reportsDirectory": "coverage/libs/platform/signalr",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
 
-import type { IExpenseAccount, IExpenseAccountWritePayload } from '@core/types/expense-account.interface';
-import type { ExpenseAccountId } from '@core/types/expense-id.types';
-import type { IStoreError } from '@shared/types/error.types';
+import type { IExpenseAccount, IExpenseAccountWritePayload } from '@wisave/shared/model';
+import type { ExpenseAccountId } from '@wisave/shared/model';
+import type { IStoreError } from '@wisave/shared/model';
 
 export const accountsPageEvents = eventGroup({
   source: 'Accounts Page',

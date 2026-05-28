@@ -1,4 +1,4 @@
-import type { ExpenseAccountId, ExpenseCategoryId } from '@core/types/expense-id.types';
+import type { ExpenseAccountId, ExpenseCategoryId } from '@wisave/shared/model';
 
 export interface IDateRangeFilter {
   from: Date | null;

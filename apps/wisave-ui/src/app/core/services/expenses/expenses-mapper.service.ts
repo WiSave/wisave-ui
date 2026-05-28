@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@core/types/currency.enum';
-import { type IExpense, type IExpenseApiDto } from '@core/types/expense.interface';
-import { type IExpenseCategory, type IExpenseCategoryApiDto } from '@core/types/expense-category.interface';
-import { asExpenseAccountId, asExpenseCategoryId, asExpenseId, asExpenseSubcategoryId } from '@core/types/expense-id.types';
-import { createMoney } from '@core/types/money.interface';
+import { Currency } from '@wisave/shared/model';
+import { type IExpense, type IExpenseApiDto } from '@wisave/shared/model';
+import { type IExpenseCategory, type IExpenseCategoryApiDto } from '@wisave/shared/model';
+import { asExpenseAccountId, asExpenseCategoryId, asExpenseId, asExpenseSubcategoryId } from '@wisave/shared/model';
+import { createMoney } from '@wisave/shared/model';
 
 @Injectable({ providedIn: 'root' })
 export class ExpensesMapperService {

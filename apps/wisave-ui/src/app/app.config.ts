@@ -7,8 +7,8 @@ import { providePrimeNG } from 'primeng/config';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-import { authInterceptor } from '@core/interceptors/auth.interceptor';
-import { CommandFailedNotifierService } from '@core/signalr/command-failed-notifier.service';
+import { authInterceptor } from '@wisave/platform/auth';
+import { CommandFailedNotifierService } from '@wisave/platform/signalr';
 
 import WiSaveTheme from '../theme';
 import { routes } from './app.routes';

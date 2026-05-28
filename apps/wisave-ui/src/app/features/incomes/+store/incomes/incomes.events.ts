@@ -2,7 +2,7 @@ import { type IIncome, type IncomeId } from '@features/incomes/types/incomes.int
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
 
-import { type CursorDirection, type IPageInfo, type IStoreError } from '@shared/types';
+import { type CursorDirection, type IPageInfo, type IStoreError } from '@wisave/shared/model';
 
 import { type IIncomeMonthlyStats, type IIncomeStats, type IncomeStatsScope, type IIncomesFilter, type IIncomesSortOrder } from '../../types/incomes-state.types';
 

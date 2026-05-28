@@ -6,8 +6,8 @@ import { withProps } from '@ngrx/signals';
 import { type EntityMap } from '@ngrx/signals/entities';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
 
-import { type IPagination, initialPagination, type CursorDirection } from '@shared/types';
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import { type IPagination, initialPagination, type CursorDirection } from '@wisave/shared/model';
+import { toStoreError } from '@wisave/shared/ui';
 
 import { IncomesApiService } from '../../services/incomes-api.service';
 import type { IIncomesQueryParams } from '../../types/incomes-query.types';

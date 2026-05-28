@@ -2,7 +2,7 @@ import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-a
 import { signalStore, withFeature, withState } from '@ngrx/signals';
 import { on } from '@ngrx/signals/events';
 
-import type { ICategoryBudget } from '@core/types/expense-budget.interface';
+import type { ICategoryBudget } from '@wisave/shared/model';
 
 import { withBudgetEventHandlers } from './budget.event-handlers';
 import { withBudgetSignalR } from './with-budget-signalr.feature';

@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 
 import { provideDispatcher } from '@ngrx/signals/events';
 
-import { Currency } from '@core/types/currency.enum';
-import { asExpenseAccountId } from '@core/types/expense-id.types';
+import { Currency } from '@wisave/shared/model';
+import { asExpenseAccountId } from '@wisave/shared/model';
 import { ExpenseAccountsStore } from '@features/expense-accounts/+store/accounts/accounts.store';
 
 import { AccountsComponent } from './accounts.component';

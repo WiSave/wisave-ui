@@ -19,10 +19,10 @@ import { computeAllInsights } from '@features/expense-budget/helpers/insights.he
 import { formatMonthLabel, getNextMonth, getPreviousMonth, isCurrentMonth as isCurrentMonthFn, isFutureMonth } from '@features/expense-budget/helpers/month.helper';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import type { ICategoryBudget, ICategorySpendingSummary, IDelta } from '@core/types/expense-budget.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
-import { AppDialogComponent } from '@shared/components/dialog';
+import type { ICategoryBudget, ICategorySpendingSummary, IDelta } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
+import { AppDialogComponent } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-budget',

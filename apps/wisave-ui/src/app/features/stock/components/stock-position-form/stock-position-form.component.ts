@@ -7,7 +7,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 
-import { Currency, CurrencySymbol } from '@core/types';
+import { Currency, CurrencySymbol } from '@wisave/shared/model';
 
 import { type IStockBroker, type IStockPosition, type IStockPositionWritePayload } from '../../types/stock-portfolio.types';
 

@@ -2,14 +2,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@core/*": ["./apps/wisave-ui/src/app/core/*"],
       "@features/*": ["./apps/wisave-ui/src/app/features/*"],
-      "@layout/*": ["./apps/wisave-ui/src/app/layout/*"],
-      "@shared/*": ["./apps/wisave-ui/src/app/shared/*"],
       "@services/*": ["./apps/wisave-ui/src/app/core/services/*"],
-      "@types/*": ["./apps/wisave-ui/src/app/core/types/*"],
-      "@testing/*": ["./apps/wisave-ui/src/app/testing/*"],
-      "@views/*": ["./apps/wisave-ui/src/app/views/*"]
+      "@wisave/platform/auth": ["./libs/platform/auth/src/index.ts"],
+      "@wisave/platform/config": ["./libs/platform/config/src/index.ts"],
+      "@wisave/platform/shell": ["./libs/platform/shell/src/index.ts"],
+      "@wisave/platform/signalr": ["./libs/platform/signalr/src/index.ts"],
+      "@wisave/shared/model": ["./libs/shared/model/src/index.ts"],
+      "@wisave/shared/ui": ["./libs/shared/ui/src/index.ts"]
     },
     "strict": true,
     "noImplicitOverride": true,

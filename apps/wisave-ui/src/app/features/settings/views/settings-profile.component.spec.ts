@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@wisave/platform/auth';
 
 import { SettingsProfileComponent } from './settings-profile.component';
 

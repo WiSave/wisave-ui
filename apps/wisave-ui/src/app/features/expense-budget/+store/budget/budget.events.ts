@@ -1,10 +1,10 @@
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
 
-import type { IBudget, ICategoryBudget, ICategorySpendingSummary, IExpenseMonthlyStats } from '@core/types/expense-budget.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
-import type { IStoreError } from '@shared/types/error.types';
+import type { IBudget, ICategoryBudget, ICategorySpendingSummary, IExpenseMonthlyStats } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
+import type { IStoreError } from '@wisave/shared/model';
 
 export const budgetPageEvents = eventGroup({
   source: 'Budget Page',

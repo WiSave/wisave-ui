@@ -16,7 +16,7 @@ export default tseslint.config(
     extends: [eslint.configs.recommended, ...tseslint.configs.recommended, ...tseslint.configs.stylistic, eslintConfigPrettier],
     languageOptions: {
       parserOptions: {
-        project: ['./apps/wisave-ui/tsconfig.json', './apps/wisave-ui/tsconfig.app.json', './apps/wisave-ui/tsconfig.spec.json'],
+        project: ['./tsconfig.eslint.json'],
       },
     },
     plugins: {
@@ -31,8 +31,8 @@ export default tseslint.config(
       '@nx/enforce-module-boundaries': [
         'error',
         {
-          // Current app-local path aliases remain valid until these areas become Nx libs.
-          allow: ['@core/**', '@features/**', '@layout/**', '@services/**', '@shared/**', '@types/**'],
+          // Current feature/data-access aliases remain valid until Task E extracts domains.
+          allow: ['@features/**', '@services/**'],
           depConstraints: [
             {
               sourceTag: 'type:app',

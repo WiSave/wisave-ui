@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@wisave/platform/auth';
 
 import { RegisterAccountStepComponent } from '../components/register-account-step/register-account-step.component';
 import { RegisterPlanStepComponent } from '../components/register-plan-step/register-plan-step.component';

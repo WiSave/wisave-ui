@@ -3,7 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
-import { Currency } from '@core/types';
+import { Currency } from '@wisave/shared/model';
 
 import { StockPortfolioService } from './stock-portfolio.service';
 

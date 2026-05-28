@@ -1,0 +1,24 @@
+{
+  "name": "platform-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:platform", "type:util"],
+  "sourceRoot": "libs/platform/config/src",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/platform/config",
+        "main": "libs/platform/config/src/index.ts",
+        "tsConfig": "libs/platform/config/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/platform/config/**/*.ts"]
+      }
+    }
+  }
+}

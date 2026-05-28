@@ -1,4 +1,4 @@
-import { Currency } from '@core/types/currency.enum';
+import { Currency } from '@wisave/shared/model';
 
 import { mapFundingAccountFromSignalR } from './accounts.signalr.event-handlers';
 

@@ -13,12 +13,12 @@ import { IncomesStatsStore } from '@features/incomes/+store/stats/incomes-stats.
 import { IncomesStore } from '@features/incomes/+store/incomes/incomes.store';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { ChartCardComponent } from '@shared/components/chart-card';
-import { AppDialogComponent } from '@shared/components/dialog';
-import { SegmentedToggleComponent, type ISegmentedToggleOption } from '@shared/components/segmented-toggle';
-import { StatGroupComponent } from '@shared/components/stat-card';
-import { formatAmount } from '@shared/helpers/money.helper';
-import { type IPageNavigationEvent, type IPageSizeChangeEvent, type IStatItem } from '@shared/types';
+import { ChartCardComponent } from '@wisave/shared/ui';
+import { AppDialogComponent } from '@wisave/shared/ui';
+import { SegmentedToggleComponent, type ISegmentedToggleOption } from '@wisave/shared/ui';
+import { StatGroupComponent } from '@wisave/shared/ui';
+import { formatAmount } from '@wisave/shared/ui';
+import { type IPageNavigationEvent, type IPageSizeChangeEvent, type IStatItem } from '@wisave/shared/model';
 
 import { type IncomeId } from '../types/income-id.type';
 

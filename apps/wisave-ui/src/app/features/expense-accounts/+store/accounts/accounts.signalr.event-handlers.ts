@@ -4,15 +4,15 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, merge, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@core/signalr/expenses-signalr.service';
+import { ExpensesSignalRService } from '@wisave/platform/signalr';
 import type {
   IFundingAccountOpenedPayload,
   IFundingAccountUpdatedPayload,
-} from '@core/signalr/expenses-signalr.types';
-import { PortalSignalRService } from '@core/signalr/portal-signalr.service';
-import { Currency } from '@core/types/currency.enum';
-import type { IFundingAccount } from '@core/types/expense-account.interface';
-import { asExpenseAccountId } from '@core/types/expense-id.types';
+} from '@wisave/platform/signalr';
+import { PortalSignalRService } from '@wisave/platform/signalr';
+import { Currency } from '@wisave/shared/model';
+import type { IFundingAccount } from '@wisave/shared/model';
+import { asExpenseAccountId } from '@wisave/shared/model';
 
 import { accountsPageEvents, accountsSignalREvents } from './accounts.events';
 

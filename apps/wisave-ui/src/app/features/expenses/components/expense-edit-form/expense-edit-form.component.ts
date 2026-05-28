@@ -10,11 +10,11 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 
 import type { ExpenseFormModel, MetadataEntryModel } from '@features/expenses/types/expense-form.types';
 
-import { createMoney, Currency, CurrencySymbol } from '@core/types';
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { ExpenseAccountId, ExpenseCategoryId, ExpenseSubcategoryId } from '@core/types/expense-id.types';
-import type { IExpense } from '@core/types/expense.interface';
+import { createMoney, Currency, CurrencySymbol } from '@wisave/shared/model';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { ExpenseAccountId, ExpenseCategoryId, ExpenseSubcategoryId } from '@wisave/shared/model';
+import type { IExpense } from '@wisave/shared/model';
 
 const DEFAULT_CURRENCY = Currency.PLN;
 

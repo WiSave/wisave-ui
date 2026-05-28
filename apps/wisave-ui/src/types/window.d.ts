@@ -1,4 +1,4 @@
-import type { RuntimeEnv } from '../app/core/config/runtime-config';
+import type { RuntimeEnv } from '@wisave/platform/config';
 
 declare global {
   interface Window {

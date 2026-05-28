@@ -1,5 +1,5 @@
-import type { IStoreError } from '@shared/types/error.types';
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
+import type { IStoreError } from '@wisave/shared/model';
+import type { IExpenseAccount } from '@wisave/shared/model';
 
 import type { AccountsCommandStatus } from '@features/expense-accounts/types/accounts-state.types';
 

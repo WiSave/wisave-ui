@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Currency } from '@core/types/currency.enum';
-import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@core/types/expense-id.types';
+import { Currency } from '@wisave/shared/model';
+import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@wisave/shared/model';
 
 import { ExpenseAccountsMapperService } from './expense-accounts-mapper.service';
 

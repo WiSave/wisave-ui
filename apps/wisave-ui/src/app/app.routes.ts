@@ -1,21 +1,22 @@
 import { type Routes } from '@angular/router';
 
-import { authGuard, guestGuard } from '@core/guards/auth.guard';
+import { AuthLayoutComponent, MainLayoutComponent } from '@wisave/platform/shell';
+import { authGuard, guestGuard, SessionUnavailableComponent } from '@wisave/platform/auth';
 
 export const routes: Routes = [
   {
     path: 'session-unavailable',
-    loadComponent: () => import('./core/views/session-unavailable.component').then((m) => m.SessionUnavailableComponent),
+    component: SessionUnavailableComponent,
   },
   {
     path: 'auth',
-    loadComponent: () => import('./layout/auth-layout.component').then((m) => m.AuthLayoutComponent),
+    component: AuthLayoutComponent,
     canActivate: [guestGuard],
     loadChildren: () => import('./features/auth/auth.routes').then((m) => m.routes),
   },
   {
     path: '',
-    loadComponent: () => import('./layout/main-layout.component').then((m) => m.MainLayoutComponent),
+    component: MainLayoutComponent,
     canActivate: [authGuard],
     loadChildren: () => import('./features/features.routing').then((m) => m.routes),
   },

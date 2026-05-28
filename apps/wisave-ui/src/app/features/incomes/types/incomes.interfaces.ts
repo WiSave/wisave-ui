@@ -1,4 +1,4 @@
-import { type IMoney } from '@core/types';
+import { type IMoney } from '@wisave/shared/model';
 
 import type { IncomeId } from './income-id.type';
 

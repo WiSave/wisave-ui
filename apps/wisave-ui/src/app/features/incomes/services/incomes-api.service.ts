@@ -2,12 +2,13 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, of, throwError, type Observable } from 'rxjs';
 
+import { getApiBaseUrl } from '@wisave/platform/config';
+
 import type { IIncomeMonthlyStats, IIncomesFilter, IIncomeStats } from '../types/incomes-state.types';
 import type { IIncome, IncomeId } from '../types/incomes.interfaces';
 import type { IIncomesQueryParams, IIncomesQueryResult } from '../types/incomes-query.types';
 import type { IIncomeApiDto, IIncomesResponseDto } from '../types/incomes-api.types';
 import { IncomesMapperService } from './incomes-mapper.service';
-import { getApiBaseUrl } from '../../../core/config/runtime-config';
 
 @Injectable({ providedIn: 'root' })
 export class IncomesApiService {

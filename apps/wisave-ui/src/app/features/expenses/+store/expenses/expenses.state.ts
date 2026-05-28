@@ -1,7 +1,7 @@
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { IExpense } from '@core/types/expense.interface';
-import { initialPagination, type IPagination, type IStoreError } from '@shared/types';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { IExpense } from '@wisave/shared/model';
+import { initialPagination, type IPagination, type IStoreError } from '@wisave/shared/model';
 
 import { initialFilter, initialSort, type IExpensesFilter, type IExpensesSortOrder } from '../../types/expenses-state.types';
 

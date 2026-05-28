@@ -13,10 +13,10 @@ import { AccountCardComponent } from '@features/expense-accounts/components/acco
 import { EXPENSE_ACCOUNTS_ROUTES } from '@features/expense-accounts/constants/expense-accounts-routes.constant';
 import { injectDispatch } from '@ngrx/signals/events';
 
-import { isFundingAccount } from '@core/types/expense-account.interface';
-import { type ExpenseAccountId } from '@core/types/expense-id.types';
-import { AppDialogComponent } from '@shared/components/dialog';
-import { StatusCardComponent } from '@shared/components/status-card';
+import { isFundingAccount } from '@wisave/shared/model';
+import { type ExpenseAccountId } from '@wisave/shared/model';
+import { AppDialogComponent } from '@wisave/shared/ui';
+import { StatusCardComponent } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-accounts',

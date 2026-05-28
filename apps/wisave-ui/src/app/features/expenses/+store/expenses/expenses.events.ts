@@ -1,15 +1,15 @@
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
 
-import type { IExpenseAccount } from '@core/types/expense-account.interface';
-import type { IExpenseCategory } from '@core/types/expense-category.interface';
-import type { ExpenseId } from '@core/types/expense-id.types';
-import type { IExpense, IExpensePageInfo } from '@core/types/expense.interface';
-import type { IStoreError } from '@shared/types/error.types';
+import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseCategory } from '@wisave/shared/model';
+import type { ExpenseId } from '@wisave/shared/model';
+import type { IExpense, IExpensePageInfo } from '@wisave/shared/model';
+import type { IStoreError } from '@wisave/shared/model';
 
 import type { IExpensesFilter, IExpensesSortOrder } from '../../types/expenses-state.types';
 
-import type { CursorDirection } from '@shared/types';
+import type { CursorDirection } from '@wisave/shared/model';
 
 // UI/Component events - commands from user interactions
 export const expensesPageEvents = eventGroup({

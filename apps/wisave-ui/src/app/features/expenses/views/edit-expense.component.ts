@@ -8,8 +8,8 @@ import { Button } from 'primeng/button';
 import { ExpenseEditFormComponent } from '@features/expenses/components/expense-edit-form/expense-edit-form.component';
 import { expensesPageEvents } from '@features/expenses/+store/expenses/expenses.events';
 import { ExpensesStore } from '@features/expenses/+store/expenses/expenses.store';
-import { asExpenseId } from '@core/types/expense-id.types';
-import { type IExpense } from '@core/types/expense.interface';
+import { asExpenseId } from '@wisave/shared/model';
+import { type IExpense } from '@wisave/shared/model';
 import { injectDispatch } from '@ngrx/signals/events';
 
 @Component({

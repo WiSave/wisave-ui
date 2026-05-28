@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@wisave/platform/auth';
 
 import { LoginFormComponent } from '../components/login-form/login-form.component';
 

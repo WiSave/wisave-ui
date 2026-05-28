@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@core/types/currency.enum';
-import { type IMoney } from '@core/types/money.interface';
+import { Currency } from '@wisave/shared/model';
+import { type IMoney } from '@wisave/shared/model';
 
 import type { IIncomeApiDto } from '../types/incomes-api.types';
 import type { IIncome } from '../types/incomes.interfaces';

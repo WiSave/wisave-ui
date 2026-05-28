@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@core/types/currency.enum';
+import { Currency } from '@wisave/shared/model';
 import {
   type IExpenseAccount,
   type IExpenseAccountUpdateChanges,
@@ -12,8 +12,8 @@ import {
   type IFundingPaymentInstrumentApiDto,
   type IFundingPaymentInstrumentWritePayload,
   type IFundingTransferWritePayload,
-} from '@core/types/expense-account.interface';
-import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@core/types/expense-id.types';
+} from '@wisave/shared/model';
+import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@wisave/shared/model';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseAccountsMapperService {

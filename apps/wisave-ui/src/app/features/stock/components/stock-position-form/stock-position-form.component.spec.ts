@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { InputNumber } from 'primeng/inputnumber';
 
-import { Currency } from '@core/types';
+import { Currency } from '@wisave/shared/model';
 
 import { StockPositionFormComponent } from './stock-position-form.component';
 

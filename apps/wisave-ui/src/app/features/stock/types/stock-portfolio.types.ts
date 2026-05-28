@@ -1,4 +1,4 @@
-import { type Currency, type IMoney } from '@core/types';
+import { type Currency, type IMoney } from '@wisave/shared/model';
 
 export type StockPortfolioId = string;
 export type StockPositionId = string;

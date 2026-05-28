@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { type Observable } from 'rxjs';
 
-import { getApiBaseUrl } from '@core/config/runtime-config';
+import { getApiBaseUrl } from '@wisave/platform/config';
 import {
   type ISettingsAccessManagementResponse,
   type ISettingsRole,

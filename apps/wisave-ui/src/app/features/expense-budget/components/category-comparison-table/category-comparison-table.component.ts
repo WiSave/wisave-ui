@@ -1,7 +1,7 @@
 import { Component, computed, input, output } from '@angular/core';
 
-import type { ICategoryMonthComparison } from '@core/types/expense-budget.interface';
-import type { ExpenseCategoryId } from '@core/types/expense-id.types';
+import type { ICategoryMonthComparison } from '@wisave/shared/model';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
 import { formatShortMonth } from '@features/expense-budget/helpers/month.helper';
 
 @Component({

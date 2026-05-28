@@ -1,4 +1,4 @@
-import type { ICategorySpendingSummary, IExpenseMonthlyStats, IInsight } from '@core/types/expense-budget.interface';
+import type { ICategorySpendingSummary, IExpenseMonthlyStats, IInsight } from '@wisave/shared/model';
 
 import { formatShortMonth } from './month.helper';
 

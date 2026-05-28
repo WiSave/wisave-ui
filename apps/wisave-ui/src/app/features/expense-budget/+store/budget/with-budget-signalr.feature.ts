@@ -4,8 +4,8 @@ import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, merge, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@core/signalr/expenses-signalr.service';
-import { PortalSignalRService } from '@core/signalr/portal-signalr.service';
+import { ExpensesSignalRService } from '@wisave/platform/signalr';
+import { PortalSignalRService } from '@wisave/platform/signalr';
 
 import { budgetPageEvents } from './budget.events';
 

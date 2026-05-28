@@ -4,7 +4,7 @@ import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
 import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
 
-import { toStoreError } from '@shared/helpers/store-error.helper';
+import { toStoreError } from '@wisave/shared/ui';
 
 import { IncomesApiService } from '../../services/incomes-api.service';
 import { type IncomeStatsScope } from '../../types/incomes-state.types';

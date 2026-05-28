@@ -5,8 +5,8 @@ import { ChartModule } from 'primeng/chart';
 
 import { type IIncomeMonthlyStats } from '@features/incomes/types/incomes-state.types';
 
-import { getChartThemeColors, getIncomeChartColors } from '@core/config/chart-colors.config';
-import { ThemeService } from '@core/services/theme/theme.service';
+import { getChartThemeColors, getIncomeChartColors } from '@wisave/platform/config';
+import { ThemeService } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-monthly-income-chart',

@@ -3,10 +3,10 @@ import { inject, Injectable } from '@angular/core';
 import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { getApiBaseUrl } from '@core/config/runtime-config';
-import type { ICommandResponse } from '@core/types/command-response.interface';
-import { type IBudget, type IBudgetApiResponse, type ICategorySpendingSummary, type ICategorySpendingSummaryApiDto } from '@core/types/expense-budget.interface';
-import { type BudgetId, type ExpenseCategoryId } from '@core/types/expense-id.types';
+import { getApiBaseUrl } from '@wisave/platform/config';
+import type { ICommandResponse } from '@wisave/shared/model';
+import { type IBudget, type IBudgetApiResponse, type ICategorySpendingSummary, type ICategorySpendingSummaryApiDto } from '@wisave/shared/model';
+import { type BudgetId, type ExpenseCategoryId } from '@wisave/shared/model';
 
 import { ExpenseBudgetMapperService } from './expense-budget-mapper.service';
 

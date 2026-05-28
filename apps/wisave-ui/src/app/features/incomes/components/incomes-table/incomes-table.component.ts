@@ -11,10 +11,10 @@ import { TableModule } from 'primeng/table';
 import { type IIncomesFilter } from '@features/incomes/types/incomes-state.types';
 import { type IIncome, type IncomeId } from '@features/incomes/types/incomes.interfaces';
 
-import { Currency } from '@core/types';
-import { ButtonBarDatepickerComponent } from '@shared/components/datepicker/button-bar-datepicker';
-import { CursorPaginationComponent } from '@shared/components/pagination';
-import { type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@shared/types';
+import { Currency } from '@wisave/shared/model';
+import { ButtonBarDatepickerComponent } from '@wisave/shared/ui';
+import { CursorPaginationComponent } from '@wisave/shared/ui';
+import { type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
 
 export interface IFilterAppliedEvent {
   filter: Partial<IIncomesFilter>;

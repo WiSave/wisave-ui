@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Subject, of } from 'rxjs';
 
-import { Currency } from '@core/types/currency.enum';
-import { type IExpenseAccount } from '@core/types/expense-account.interface';
-import { asExpenseAccountId } from '@core/types/expense-id.types';
+import { Currency } from '@wisave/shared/model';
+import { type IExpenseAccount } from '@wisave/shared/model';
+import { asExpenseAccountId } from '@wisave/shared/model';
 import { Dispatcher, provideDispatcher } from '@ngrx/signals/events';
 import { ExpenseAccountsApiService } from '@services/expense-accounts/expense-accounts-api.service';
 

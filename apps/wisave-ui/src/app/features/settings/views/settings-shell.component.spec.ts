@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import { PermissionService } from '@core/services/auth/permission.service';
+import { PermissionService } from '@wisave/platform/auth';
 
 import { SettingsShellComponent } from './settings-shell.component';
 
