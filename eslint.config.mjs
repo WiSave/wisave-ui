@@ -279,14 +279,24 @@ export default tseslint.config(
   {
     files: ['apps/wisave-ui/**/*.ts'],
     rules: {
-      '@typescript-eslint/no-restricted-imports': [
+      'no-restricted-imports': [
         'error',
         {
           paths: [
             {
-              name: 'rxjs',
-              importNames: ['BehaviorSubject'],
-              message: 'Avoid BehaviorSubject for state; prefer Signal Store or signals.',
+              name: '@angular/core',
+              importNames: ['Input', 'Output', 'EventEmitter'],
+              message: 'Use signal inputs/outputs (input(), output()) instead of @Input/@Output/EventEmitter.',
+            },
+            {
+              name: '@angular/core',
+              importNames: ['ChangeDetectionStrategy'],
+              message: 'Do not import ChangeDetectionStrategy; OnPush is not used in this app.',
+            },
+            {
+              name: '@angular/core',
+              importNames: ['ChangeDetectorRef', 'NgZone'],
+              message: 'Do not import ChangeDetectorRef or NgZone; app is zoneless.',
             },
           ],
           patterns: [
