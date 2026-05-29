@@ -41,6 +41,15 @@ yarn build  # build the deployable wisave-ui app
 
 `yarn build` writes the browser output to `dist/apps/wisave-ui/browser`, which is the path copied by the Docker image.
 
+### IDE File Nesting
+
+The workspace includes VS Code file nesting to collapse Nx boilerplate under `project.json`.
+For WebStorm, configure file nesting manually with `project.json` as the parent suffix and:
+
+```text
+README.md; eslint.config.js; eslint.config.mjs; jest.config.ts; package.json; tsconfig.json; tsconfig.lib.json; tsconfig.spec.json; vite.config.ts
+```
+
 ## Docker
 
 Docker now uses Cloudflare Tunnel as the public entrypoint for `wisave.app`, which works behind CGNAT and does not require inbound port forwarding. The backend stays private on your LAN and is reverse-proxied internally by NGINX under `/api`.
