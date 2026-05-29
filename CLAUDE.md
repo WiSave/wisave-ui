@@ -73,7 +73,20 @@ bash scripts/deploy-orbstack.sh --backend-upstream http://192.168.1.50:5100
 
 Remote deploy assumes SSH user `server`, Cloudflare-managed domain `wisave.app`, and a Cloudflare Tunnel token stored in a local `.cloudflared-token` file.
 
+`yarn test` and `yarn lint` run all Nx project targets. `yarn build` builds the deployable `wisave-ui` application.
+
 ## Architecture
+
+### Nx Workspace Topology
+
+This repository is an Nx workspace.
+
+- `apps/wisave-ui` contains the deployable Angular app shell, bootstrap/config, root routes, global styles, theme, and app-level tests.
+- `apps/wisave-ui/public` contains active browser assets copied into the app build.
+- `libs/shared/*` contains cross-domain model and reusable UI primitives.
+- `libs/platform/*` contains runtime platform services such as auth, config, shell/layout, and SignalR.
+- Domain-first libraries live under `libs/<domain>/*`, including `libs/expenses/*`, `libs/incomes/*`, `libs/stock/*`, `libs/settings/*`, and `libs/auth/feature`.
+- Build output for the deployable app is `dist/apps/wisave-ui/browser`.
 
 ### State Management (NgRx Signal Store)
 
@@ -87,7 +100,7 @@ signalStore({ providedIn: 'root' },
 )
 ```
 
-Stores are located in `features/<feature>/+store/`. The `+` prefix signals that the directory is a framework-level integration layer (inspired by SvelteKit/Analog conventions) — it contains store definitions, events, reducers, state, and event handlers, but no UI components. Access store in components using `inject()`:
+Feature stores are located in the owning feature library under `libs/<domain>/<feature>/src/lib/+store/`. The `+` prefix signals that the directory is a framework-level integration layer (inspired by SvelteKit/Analog conventions) — it contains store definitions, events, reducers, state, and event handlers, but no UI components. Access store in components using `inject()`:
 ```typescript
 #store = inject(IncomesStore);
 incomes = this.#store.incomes();
@@ -132,49 +145,55 @@ All components are standalone (no NgModules). Key patterns:
 - Private fields with `#` prefix for injected dependencies
 - Prefer `output()` over `EventEmitter`
 
-### Feature Module Structure
+### Library Structure
 
 ```
-features/<feature>/
+libs/<domain>/<feature>/src/lib/
 ├── +store/         # NgRx Signal Store (events, reducers, state, event handlers)
 ├── components/     # Presentational components
-├── containers/     # Smart components (state-connected)
 ├── types/          # Interfaces and types
 ├── views/          # Route-level components
-├── services/       # Feature-specific services
+├── services/       # Feature-specific services, when they belong in the feature lib
 ├── helpers/        # Utility functions
-└── <feature>.routes.ts
+├── constants/      # Route constants and feature constants
+└── *.routes.ts
 ```
 
 The `+store/` prefix convention marks the directory as a framework integration layer (not a UI layer). It may contain sub-stores (e.g., `+store/incomes/`, `+store/stats/`).
 
+Data-access libraries own API services and mapper code when the feature has a separate backend integration layer, for example `libs/expenses/data-access` and `libs/incomes/data-access`.
+
 ### Path Aliases
 
 ```typescript
-@core/*      → src/app/core/*
-@features/*  → src/app/features/*
-@layout/*    → src/app/layout/*
-@shared/*    → src/app/shared/*
-@services/*  → src/app/core/services/*
-@types/*     → src/app/core/types/*
+@wisave/auth/feature              → libs/auth/feature/src/index.ts
+@wisave/expenses/data-access      → libs/expenses/data-access/src/index.ts
+@wisave/expenses/feature-list     → libs/expenses/feature-list/src/index.ts
+@wisave/incomes/feature           → libs/incomes/feature/src/index.ts
+@wisave/platform/auth             → libs/platform/auth/src/index.ts
+@wisave/platform/config           → libs/platform/config/src/index.ts
+@wisave/platform/shell            → libs/platform/shell/src/index.ts
+@wisave/shared/model              → libs/shared/model/src/index.ts
+@wisave/shared/ui                 → libs/shared/ui/src/index.ts
 ```
 
 ### Routing
 
-Features are lazy-loaded via router:
+The app shell routes live in `apps/wisave-ui/src/app/app.routes.ts`. Features are lazy-loaded from library entry points:
 ```typescript
 {
   path: 'incomes',
-  loadChildren: () => import('./incomes/incomes.routes').then((m) => m.routes),
+  loadChildren: () => import('@wisave/incomes/feature').then((m) => m.routes),
 }
 ```
 
 ### API Integration
 
 - The app currently uses REST, not GraphQL.
-- Prefer Angular `HttpClient` services under `features/<feature>/services/`.
+- Prefer Angular `HttpClient` services in the owning data-access library, or in the feature library only when there is no separate data-access project.
 - Runtime API base URL comes from `window.__env.API_BASE_URL`, generated from `/env.js`.
-- Local dev default backend URL: `http://localhost:5100/api`
+- Local dev frontend API base URL: `/api`
+- Local dev proxy target: `http://localhost:5100`
 - Docker/public deployment default frontend API base URL: `/api`
 - Public deployments are expected to expose only `wisave.app` through Cloudflare Tunnel.
 - `/api/*` is disabled by default and only proxied internally when `BACKEND_UPSTREAM` is explicitly configured.
@@ -184,8 +203,8 @@ Features are lazy-loaded via router:
 
 - **Tailwind CSS** for utility classes
 - **PrimeNG** components with `tailwindcss-primeui` plugin
-- **Custom theme** in `src/theme.ts` extending Aura preset
-- **Design tokens** in `src/styles/colors.css` (HSL-based)
+- **Custom theme** in `apps/wisave-ui/src/theme.ts` extending Aura preset
+- **Design tokens** in `apps/wisave-ui/src/styles/colors.css` (HSL-based)
 - **Dark mode** via `.dark` class and CSS custom properties
 
 Theme toggle managed by `ThemeService` with localStorage persistence.
@@ -208,14 +227,14 @@ Always set explicit `severity` on `<p-button>`. The default primary maps to acce
 
 ### Money Formatting
 
-Use `createMoney()` and `formatMoney()` from `@core/types/money.interface` instead of Angular pipes (`DecimalPipe`, `CurrencyPipe`). Prefer computed properties over template pipes:
+Use `createMoney()` and `formatMoney()` from `@wisave/shared/model` instead of Angular pipes (`DecimalPipe`, `CurrencyPipe`). Prefer computed properties over template pipes:
 ```typescript
 readonly formattedBalance = computed(() => formatMoney(createMoney(this.balance(), this.currency())));
 ```
 
 ### Shell Components
 
-Feature groups use a shell component (`*-shell.component.ts`) in `layout/` that provides:
+Feature groups use shell components (`*-shell.component.ts`) in their owning feature library, while shared app layout lives in `libs/platform/shell`. Shells provide:
 - Feature header (uppercase tracking label)
 - Tab-style `<nav>` with `RouterLink`/`RouterLinkActive` for sub-routes
 - `<router-outlet>` for child views
@@ -244,7 +263,7 @@ Active tab style: `bg-secondary-200 dark:bg-dark-primary-700` (not accent/yellow
 
 ## Testing
 
-Tests run via Angular CLI (`ng test`) using the `@angular/build:unit-test` builder. Tests follow `*.spec.ts` pattern.
+Tests run through Nx project targets with Vitest. Use `yarn test` for all projects or `yarn nx test <project>` for a single project. Tests follow the `*.spec.ts` pattern.
 
 ## Linting (ESLint)
 
@@ -253,26 +272,27 @@ ESLint is configured with flat config (`eslint.config.mjs`) and includes:
 - **@angular-eslint** - Angular-specific rules
 - **@typescript-eslint** - TypeScript rules
 - **@rxlint** - RxJS best practices
-- **eslint-plugin-boundaries** - Architectural boundary enforcement
+- **@nx/enforce-module-boundaries** - Nx tag-based architectural boundary enforcement
 
 ### Architectural Boundaries
 
-The boundaries plugin enforces layer separation:
+Nx project tags enforce scope and type boundaries:
 
-| Layer | Can Import | Cannot Import |
-|-------|------------|---------------|
-| `core/` | core only | shared, features, layout |
-| `shared/` | core, shared | features, layout |
-| `layout/` | core, shared, layout | features |
-| `feature/components/` | core, shared, types | **+store**, other features |
-| `feature/containers/` | core, shared, types, components, +store | other features |
-| `feature/views/` | all feature internals, core, shared | other features |
-| `feature/+store/` | core, types, services, helpers | components, other features |
+| Tag family | Rule |
+|------------|------|
+| `scope:app` | Can depend on auth, expenses, incomes, platform, settings, and stock scopes |
+| Domain scopes (`scope:expenses`, `scope:incomes`, etc.) | Can depend on their own scope plus `scope:platform` and `scope:shared` |
+| `scope:platform` | Can depend on `scope:platform` and `scope:shared` |
+| `scope:shared` | Can depend only on `scope:shared` |
+| `type:feature` | Can depend on UI, data-access, auth, signalr, util, and model libraries |
+| `type:data-access` | Can depend on auth, signalr, util, and model libraries; not feature/UI libraries |
+| `type:ui` | Can depend on util and model libraries |
+| `type:model` | Can depend only on model libraries |
 
 **Key rules:**
 - Presentational components (`components/`) cannot access store
 - Features cannot import from other features
-- Cross-feature communication goes through `core/` (shared state/services)
+- Cross-feature communication goes through `libs/shared/*` or `libs/platform/*`
 
 ## Key Types
 
@@ -358,7 +378,7 @@ refactor: extract table pagination to shared component
 - Use signal inputs: `data = input.required<T>()`
 - Use `inject()` for dependency injection
 - Use `#` prefix for private injected fields: `#store = inject(Store)`
-- Use path aliases for imports: `@features/*`, `@core/*`
+- Use path aliases for imports: `@wisave/*`
 - Keep components small and focused (single responsibility)
 - Use `output()` for event emitters
 - Use `computed()` for derived state

@@ -18,7 +18,27 @@ yarn start
 
 The app runs on `http://localhost:4200`.
 
-For local development, it should call the backend through `/api` so the Angular dev proxy can forward requests to the portal.
+For local development, the frontend calls the backend through `/api`; `nx serve wisave-ui` uses the development proxy configuration to forward requests to the portal.
+
+## Nx workspace topology
+
+This repository is an Nx workspace.
+
+- `apps/wisave-ui` contains the deployable Angular app shell, bootstrap/config, root routes, global styles, theme, and app-level tests.
+- `apps/wisave-ui/public` contains browser assets copied into the app build.
+- `libs/shared/*` contains cross-domain model and reusable UI primitives.
+- `libs/platform/*` contains runtime platform services such as auth, config, shell/layout, and SignalR.
+- Domain features are split by bounded area under `libs/<domain>/*`, for example `libs/expenses/*`, `libs/incomes/*`, `libs/stock/*`, `libs/settings/*`, and `libs/auth/feature`.
+
+Common workspace commands:
+
+```bash
+yarn lint   # run all Nx lint targets
+yarn test   # run all Nx test targets
+yarn build  # build the deployable wisave-ui app
+```
+
+`yarn build` writes the browser output to `dist/apps/wisave-ui/browser`, which is the path copied by the Docker image.
 
 ## Docker
 

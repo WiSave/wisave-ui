@@ -36,7 +36,7 @@ Dialogs are hosted by `AppDialogComponent` and use nested routes under `/stock/p
 
 ## State
 
-The portfolio workspace uses `StockPortfolioStore` under `features/stock/+store/portfolio/`.
+The portfolio workspace uses `StockPortfolioStore` under `libs/stock/feature/src/lib/+store/portfolio/`.
 
 - `stock-portfolio.events.ts` defines page and API events.
 - `stock-portfolio.event-handlers.ts` calls `StockPortfolioService`.

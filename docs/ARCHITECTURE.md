@@ -680,7 +680,7 @@ Introduce observability early enough to understand routing and service boundarie
 
 The repo currently contains only the Angular frontend. There is no backend yet.
 
-`runtime-config.ts` sets the API base URL to `http://localhost:5100/api` directly. The Angular dev server runs with plain `ng serve` — there is no `proxy.conf.json` and no proxy configuration in `angular.json`. The frontend talks directly to whatever is listening on port 5100.
+The active frontend is an Nx application at `apps/wisave-ui`. Runtime API configuration lives in `libs/platform/config`, and the local default resolves to `/api`. `yarn start` runs `nx serve wisave-ui`, whose development configuration uses `proxy.conf.json` to forward `/api` requests to the portal on `http://localhost:5100`.
 
 ### Recommended local dev topology (best practice)
 
@@ -689,8 +689,8 @@ Once the backend exists, local development should switch to same-origin `/api` c
 Recommended setup:
 
 - set frontend local `API_BASE_URL` to `/api`
-- add `proxy.conf.json`
-- run Angular with `ng serve --proxy-config proxy.conf.json`
+- keep `proxy.conf.json` wired through the `wisave-ui` Nx project development serve target
+- run the frontend with `yarn start` or `yarn nx serve wisave-ui`
 - proxy `/api` to the YARP gateway on `http://localhost:5100`
 
 Why this is the preferred model:
@@ -700,7 +700,7 @@ Why this is the preferred model:
 - avoids credential-mode edge cases for cookie auth
 - keeps BFF/session behavior simple
 
-If you temporarily keep the current cross-origin `http://localhost:5100/api` model, then you must explicitly configure:
+If you temporarily use a cross-origin `http://localhost:5100/api` model, then you must explicitly configure:
 
 - credentialed CORS on the gateway
 - cookie settings suitable for local development
@@ -710,7 +710,7 @@ Those are fallback requirements, not the preferred design.
 
 ```text
 Browser (localhost:4200)
-  -> Angular dev server (ng serve)
+  -> Angular dev server (nx serve wisave-ui)
      -> /api/* via Angular proxy -> YARP gateway (localhost:5100)
         -> Auth service    (localhost:5101)
         -> Incomes service (localhost:5102)
