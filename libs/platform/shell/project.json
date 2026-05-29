@@ -2,7 +2,7 @@
   "name": "platform-shell",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "tags": ["scope:platform", "type:shell"],
+  "tags": ["scope:platform", "type:layout"],
   "sourceRoot": "libs/platform/shell/src",
   "prefix": "app",
   "targets": {

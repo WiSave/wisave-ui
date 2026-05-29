@@ -7,6 +7,7 @@
       "@wisave/expenses/feature-accounts": ["./libs/expenses/feature-accounts/src/index.ts"],
       "@wisave/expenses/feature-budget": ["./libs/expenses/feature-budget/src/index.ts"],
       "@wisave/expenses/feature-list": ["./libs/expenses/feature-list/src/index.ts"],
+      "@wisave/expenses/shell": ["./libs/expenses/shell/src/index.ts"],
       "@wisave/incomes/data-access": ["./libs/incomes/data-access/src/index.ts"],
       "@wisave/incomes/feature": ["./libs/incomes/feature/src/index.ts"],
       "@wisave/platform/auth": ["./libs/platform/auth/src/index.ts"],

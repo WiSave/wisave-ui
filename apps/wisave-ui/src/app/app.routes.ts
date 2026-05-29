@@ -29,14 +29,7 @@ export const routes: Routes = [
       },
       {
         path: 'expenses',
-        loadComponent: () => import('@wisave/expenses/feature-list').then((m) => m.ExpensesShellComponent),
-        children: [
-          { path: '', redirectTo: 'list', pathMatch: 'full' },
-          { path: 'list', loadChildren: () => import('@wisave/expenses/feature-list').then((m) => m.routes) },
-          { path: 'budget', loadChildren: () => import('@wisave/expenses/feature-budget').then((m) => m.budgetRoutes) },
-          { path: 'accounts', loadChildren: () => import('@wisave/expenses/feature-accounts').then((m) => m.routes) },
-          { path: 'insights', loadChildren: () => import('@wisave/expenses/feature-budget').then((m) => m.insightsRoutes) },
-        ],
+        loadChildren: () => import('@wisave/expenses/shell').then((m) => m.routes),
       },
       {
         path: 'settings',

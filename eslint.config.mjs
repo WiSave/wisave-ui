@@ -54,13 +54,25 @@ export default tseslint.config(
               sourceTag: 'type:app',
               onlyDependOnLibsWithTags: [
                 'type:shell',
+                'type:layout',
                 'type:feature',
                 'type:auth',
                 'type:signalr',
                 'type:util',
               ],
             },
-            { sourceTag: 'type:shell', onlyDependOnLibsWithTags: ['type:ui', 'type:auth', 'type:util', 'type:model'] },
+            { sourceTag: 'type:layout', onlyDependOnLibsWithTags: ['type:ui', 'type:auth', 'type:util', 'type:model'] },
+            {
+              sourceTag: 'type:shell',
+              onlyDependOnLibsWithTags: [
+                'type:feature',
+                'type:ui',
+                'type:auth',
+                'type:signalr',
+                'type:util',
+                'type:model',
+              ],
+            },
             {
               sourceTag: 'type:feature',
               onlyDependOnLibsWithTags: [

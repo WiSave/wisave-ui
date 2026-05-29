@@ -1,0 +1,29 @@
+{
+  "name": "expenses-shell",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["scope:expenses", "type:shell"],
+  "implicitDependencies": [
+    "expenses-feature-list",
+    "expenses-feature-budget",
+    "expenses-feature-accounts"
+  ],
+  "sourceRoot": "libs/expenses/shell/src",
+  "prefix": "app",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["libs/expenses/shell/**/*.ts", "libs/expenses/shell/**/*.html"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "options": {
+        "configFile": "libs/expenses/shell/vite.config.ts",
+        "reportsDirectory": "coverage/libs/expenses/shell",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
