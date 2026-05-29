@@ -1,21 +1,20 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { filter, share, type Observable } from 'rxjs';
-
-import { PortalSignalRService } from './portal-signalr.service';
-import type { ISignalREnvelope } from './signalr-envelope.types';
 
 import {
   ExpensesEventType,
-  type TExpensesEnvelope,
-  type TExpensesEventType,
+  type ICommandFailedPayload,
+  type IExpenseDeletedPayload,
   type IExpenseRecordedPayload,
   type IExpenseUpdatedPayload,
-  type IExpenseDeletedPayload,
+  type IFundingAccountClosedPayload,
   type IFundingAccountOpenedPayload,
   type IFundingAccountUpdatedPayload,
-  type IFundingAccountClosedPayload,
-  type ICommandFailedPayload,
+  type TExpensesEnvelope,
+  type TExpensesEventType,
 } from './expenses-signalr.types';
+import { PortalSignalRService } from './portal-signalr.service';
+import type { ISignalREnvelope } from './signalr-envelope.types';
 
 @Injectable({ providedIn: 'root' })
 export class ExpensesSignalRService {
@@ -44,8 +43,6 @@ export class ExpensesSignalRService {
   readonly commandFailed$ = this.#byType<ICommandFailedPayload>(ExpensesEventType.CommandFailed);
 
   #byType<TPayload = unknown>(type: TExpensesEventType): Observable<ISignalREnvelope<TPayload>> {
-    return this.expenses$.pipe(
-      filter((env) => env.eventType === type),
-    ) as Observable<ISignalREnvelope<TPayload>>;
+    return this.expenses$.pipe(filter((env) => env.eventType === type)) as Observable<ISignalREnvelope<TPayload>>;
   }
 }

@@ -4,8 +4,10 @@ import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
-import type { ICommandResponse } from '@wisave/shared/model';
 import {
+  type ExpenseAccountId,
+  type FundingPaymentInstrumentId,
+  type ICommandResponse,
   type IExpenseAccount,
   type IExpenseAccountWritePayload,
   type IFundingAccountApiDto,
@@ -13,7 +15,6 @@ import {
   type IFundingPaymentInstrumentWritePayload,
   type IFundingTransferWritePayload,
 } from '@wisave/shared/model';
-import { type ExpenseAccountId, type FundingPaymentInstrumentId } from '@wisave/shared/model';
 
 import { ExpenseAccountsMapperService } from './expense-accounts-mapper.service';
 
@@ -24,15 +25,11 @@ export class ExpenseAccountsApiService {
   readonly #fundingUrl = `${getApiBaseUrl()}/expenses/funding-accounts`;
 
   getAll(): Observable<IExpenseAccount[]> {
-    return this.#http.get<IFundingAccountApiDto[]>(this.#fundingUrl).pipe(
-      map((fundingAccounts) => this.#mapper.mapToAccounts(fundingAccounts)),
-    );
+    return this.#http.get<IFundingAccountApiDto[]>(this.#fundingUrl).pipe(map((fundingAccounts) => this.#mapper.mapToAccounts(fundingAccounts)));
   }
 
   getById(id: ExpenseAccountId): Observable<IExpenseAccount> {
-    return this.#http.get<IFundingAccountApiDto>(`${this.#fundingUrl}/${id}`).pipe(
-      map((dto) => this.#mapper.mapToFundingAccount(dto)),
-    );
+    return this.#http.get<IFundingAccountApiDto>(`${this.#fundingUrl}/${id}`).pipe(map((dto) => this.#mapper.mapToFundingAccount(dto)));
   }
 
   create(account: IExpenseAccountWritePayload): Observable<ICommandResponse> {
@@ -48,40 +45,24 @@ export class ExpenseAccountsApiService {
   }
 
   getFundingPaymentInstruments(fundingAccountId: ExpenseAccountId) {
-    return this.#http.get<IFundingPaymentInstrumentApiDto[]>(`${this.#fundingUrl}/${fundingAccountId}/payment-instruments`).pipe(
-      map((dtos) => dtos.map((dto) => this.#mapper.mapToPaymentInstrument(dto))),
-    );
+    return this.#http
+      .get<IFundingPaymentInstrumentApiDto[]>(`${this.#fundingUrl}/${fundingAccountId}/payment-instruments`)
+      .pipe(map((dtos) => dtos.map((dto) => this.#mapper.mapToPaymentInstrument(dto))));
   }
 
   addFundingPaymentInstrument(fundingAccountId: ExpenseAccountId, payload: IFundingPaymentInstrumentWritePayload): Observable<ICommandResponse> {
-    return this.#http.post<ICommandResponse>(
-      `${this.#fundingUrl}/${fundingAccountId}/payment-instruments`,
-      this.#mapper.mapPaymentInstrumentToApiRequest(payload),
-    );
+    return this.#http.post<ICommandResponse>(`${this.#fundingUrl}/${fundingAccountId}/payment-instruments`, this.#mapper.mapPaymentInstrumentToApiRequest(payload));
   }
 
-  updateFundingPaymentInstrument(
-    fundingAccountId: ExpenseAccountId,
-    paymentInstrumentId: FundingPaymentInstrumentId,
-    payload: IFundingPaymentInstrumentWritePayload,
-  ): Observable<ICommandResponse> {
-    return this.#http.put<ICommandResponse>(
-      `${this.#fundingUrl}/${fundingAccountId}/payment-instruments/${paymentInstrumentId}`,
-      this.#mapper.mapPaymentInstrumentToApiRequest(payload),
-    );
+  updateFundingPaymentInstrument(fundingAccountId: ExpenseAccountId, paymentInstrumentId: FundingPaymentInstrumentId, payload: IFundingPaymentInstrumentWritePayload): Observable<ICommandResponse> {
+    return this.#http.put<ICommandResponse>(`${this.#fundingUrl}/${fundingAccountId}/payment-instruments/${paymentInstrumentId}`, this.#mapper.mapPaymentInstrumentToApiRequest(payload));
   }
 
-  removeFundingPaymentInstrument(
-    fundingAccountId: ExpenseAccountId,
-    paymentInstrumentId: FundingPaymentInstrumentId,
-  ): Observable<ICommandResponse> {
+  removeFundingPaymentInstrument(fundingAccountId: ExpenseAccountId, paymentInstrumentId: FundingPaymentInstrumentId): Observable<ICommandResponse> {
     return this.#http.delete<ICommandResponse>(`${this.#fundingUrl}/${fundingAccountId}/payment-instruments/${paymentInstrumentId}`);
   }
 
   postFundingTransfer(fundingAccountId: ExpenseAccountId, payload: IFundingTransferWritePayload): Observable<ICommandResponse & { transferId: string }> {
-    return this.#http.post<ICommandResponse & { transferId: string }>(
-      `${this.#fundingUrl}/${fundingAccountId}/transfers`,
-      this.#mapper.mapTransferToApiRequest(payload),
-    );
+    return this.#http.post<ICommandResponse & { transferId: string }>(`${this.#fundingUrl}/${fundingAccountId}/transfers`, this.#mapper.mapTransferToApiRequest(payload));
   }
 }

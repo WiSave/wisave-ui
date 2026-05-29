@@ -3,8 +3,8 @@ import { catchError, exhaustMap, filter, map, of, switchMap } from 'rxjs';
 
 import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
-
 import { StockPortfolioService } from '@wisave/stock/data-access';
+
 import { stockPortfolioApiEvents, stockPortfolioPageEvents } from './stock-portfolio.events';
 
 export function withStockPortfolioEventHandlers() {

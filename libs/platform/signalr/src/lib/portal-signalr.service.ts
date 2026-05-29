@@ -1,12 +1,12 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { type HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel } from '@microsoft/signalr';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Subject, type Observable } from 'rxjs';
 
+import { HubConnectionBuilder, HubConnectionState, LogLevel, type HubConnection } from '@microsoft/signalr';
 import { AuthService } from '@wisave/platform/auth';
 import { getApiBaseUrl } from '@wisave/platform/config';
 
-import { SIGNALR_HUB_METHOD, type ISignalREnvelope } from './signalr-envelope.types';
 import type { TConnectionStatus } from './connection-status.types';
+import { SIGNALR_HUB_METHOD, type ISignalREnvelope } from './signalr-envelope.types';
 
 const INITIAL_RECONNECT_DELAY_MS = 2_000;
 const MAX_RECONNECT_DELAY_MS = 30_000;
@@ -44,11 +44,7 @@ export class PortalSignalRService {
     this.#status.set('connecting');
     const hubUrl = `${getApiBaseUrl().replace(/\/api$/, '')}/hubs/notifications`;
 
-    const connection = new HubConnectionBuilder()
-      .withUrl(hubUrl, { withCredentials: true })
-      .withAutomaticReconnect()
-      .configureLogging(LogLevel.Warning)
-      .build();
+    const connection = new HubConnectionBuilder().withUrl(hubUrl, { withCredentials: true }).withAutomaticReconnect().configureLogging(LogLevel.Warning).build();
 
     connection.onreconnecting(() => this.#status.set('reconnecting'));
     connection.onreconnected(() => {
@@ -103,7 +99,11 @@ export class PortalSignalRService {
     this.#connection = null;
     this.#clearRetry();
     if (conn) {
-      try { await conn.stop(); } catch { /* ignore */ }
+      try {
+        await conn.stop();
+      } catch {
+        /* ignore */
+      }
     }
     this.#status.set('idle');
   }

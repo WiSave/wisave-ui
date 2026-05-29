@@ -9,10 +9,10 @@ import { MultiSelect } from 'primeng/multiselect';
 import { Select } from 'primeng/select';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 
-import { type IncomeFormModel, type MetadataEntryModel } from '../../types/income-edit-form.types';
 import { type IIncome } from '@wisave/incomes/data-access';
-
 import { createMoney, Currency, CurrencySymbol } from '@wisave/shared/model';
+
+import { type IncomeFormModel, type MetadataEntryModel } from '../../types/income-edit-form.types';
 
 const DEFAULT_CURRENCY = Currency.PLN;
 

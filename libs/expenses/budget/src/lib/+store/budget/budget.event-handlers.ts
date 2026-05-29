@@ -1,11 +1,10 @@
-import { type Signal, inject } from '@angular/core';
-import { signalStoreFeature, withProps } from '@ngrx/signals';
-import { Events, withEventHandlers } from '@ngrx/signals/events';
+import { inject, type Signal } from '@angular/core';
 import { catchError, exhaustMap, map, merge, of, switchMap, tap } from 'rxjs';
 
+import { signalStoreFeature, withProps } from '@ngrx/signals';
+import { Events, withEventHandlers } from '@ngrx/signals/events';
+import { ExpenseBudgetApiService, ExpensesApiService } from '@wisave/expenses/data-access';
 import type { IBudget } from '@wisave/shared/model';
-import { ExpenseBudgetApiService } from '@wisave/expenses/data-access';
-import { ExpensesApiService } from '@wisave/expenses/data-access';
 import { toStoreError } from '@wisave/shared/ui';
 
 import { budgetApiEvents, budgetPageEvents } from './budget.events';
@@ -54,24 +53,13 @@ export function withBudgetEventHandlers(store: BudgetStoreSlice) {
             const month = store.selectedMonth();
             const year = store.selectedYear();
 
-            return merge(
-              loadBudget$(month, year),
-              loadSummary$(month, year),
-              loadCategories$(),
-              loadMonthlyStats$(year),
-            );
+            return merge(loadBudget$(month, year), loadSummary$(month, year), loadCategories$(), loadMonthlyStats$(year));
           }),
         ),
 
-        loadOnMonthChange$: props._events.on(budgetPageEvents.monthChanged).pipe(
-          switchMap(({ payload }) =>
-            merge(
-              loadBudget$(payload.month, payload.year),
-              loadSummary$(payload.month, payload.year),
-              loadMonthlyStats$(payload.year),
-            ),
-          ),
-        ),
+        loadOnMonthChange$: props._events
+          .on(budgetPageEvents.monthChanged)
+          .pipe(switchMap(({ payload }) => merge(loadBudget$(payload.month, payload.year), loadSummary$(payload.month, payload.year), loadMonthlyStats$(payload.year)))),
 
         setOverallLimit$: props._events.on(budgetPageEvents.setOverallLimit).pipe(
           exhaustMap(({ payload }) => {

@@ -60,7 +60,14 @@ import { type IAccountStepData, type IPlan } from '../../types/auth.types';
 
       <div class="mt-auto flex gap-3">
         <p-button [disabled]="isLoading()" (onClick)="back.emit()" label="Back" severity="secondary" icon="pi pi-arrow-left" styleClass="flex-1 !py-3 !font-semibold" />
-        <p-button [loading]="isLoading()" [disabled]="isLoading()" (onClick)="confirmed.emit()" label="Create account" severity="success" icon="pi pi-check" styleClass="flex-1 !py-3 !font-semibold !text-white disabled:!cursor-not-allowed disabled:!opacity-50" />
+        <p-button
+          [loading]="isLoading()"
+          [disabled]="isLoading()"
+          (onClick)="confirmed.emit()"
+          label="Create account"
+          severity="success"
+          icon="pi pi-check"
+          styleClass="flex-1 !py-3 !font-semibold !text-white disabled:!cursor-not-allowed disabled:!opacity-50" />
       </div>
     </div>
   `,

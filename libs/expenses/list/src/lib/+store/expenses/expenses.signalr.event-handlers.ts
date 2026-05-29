@@ -1,21 +1,11 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { signalStoreFeature, withProps } from '@ngrx/signals';
-import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@wisave/platform/signalr';
-import { PortalSignalRService } from '@wisave/platform/signalr';
-import type { IExpenseRecordedPayload, IExpenseUpdatedPayload } from '@wisave/platform/signalr';
-import { Currency } from '@wisave/shared/model';
-import type { IExpense } from '@wisave/shared/model';
-import {
-  asExpenseAccountId,
-  asExpenseCategoryId,
-  asExpenseId,
-  asExpenseSubcategoryId,
-} from '@wisave/shared/model';
-import { createMoney } from '@wisave/shared/model';
+import { signalStoreFeature, withProps } from '@ngrx/signals';
+import { withEventHandlers } from '@ngrx/signals/events';
+import { ExpensesSignalRService, PortalSignalRService, type IExpenseRecordedPayload, type IExpenseUpdatedPayload } from '@wisave/platform/signalr';
+import { asExpenseAccountId, asExpenseCategoryId, asExpenseId, asExpenseSubcategoryId, createMoney, Currency, type IExpense } from '@wisave/shared/model';
 
 import { expensesPageEvents, expensesSignalREvents } from './expenses.events';
 
@@ -45,10 +35,7 @@ export function mergeExpenseUpdate(existing: IExpense, payload: IExpenseUpdatedP
     ...(payload.date !== null && { date: new Date(payload.date) }),
     ...(payload.description !== null && { description: payload.description }),
     ...((payload.amount !== null || payload.currency !== null) && {
-      amount: createMoney(
-        payload.amount ?? existing.amount.amount,
-        payload.currency !== null ? mapCurrency(payload.currency) : existing.amount.currency,
-      ),
+      amount: createMoney(payload.amount ?? existing.amount.amount, payload.currency !== null ? mapCurrency(payload.currency) : existing.amount.currency),
     }),
     ...(payload.categoryId !== null && { categoryId: asExpenseCategoryId(payload.categoryId) }),
     ...(payload.subcategoryId !== null && { subcategoryId: asExpenseSubcategoryId(payload.subcategoryId) }),
@@ -72,9 +59,11 @@ export function withExpensesSignalR() {
       return {
         expenseRecorded$: store._signalR.expenseRecorded$.pipe(
           filter((env) => env.entityId !== null && env.payload !== null),
-          map((env) => expensesSignalREvents.expenseUpsertedSignalR({
-            expense: mapExpenseFromSignalR(env.payload as IExpenseRecordedPayload),
-          })),
+          map((env) =>
+            expensesSignalREvents.expenseUpsertedSignalR({
+              expense: mapExpenseFromSignalR(env.payload as IExpenseRecordedPayload),
+            }),
+          ),
         ),
         expenseUpdated$: store._signalR.expenseUpdated$.pipe(
           filter((env) => env.entityId !== null && env.payload !== null),
@@ -93,9 +82,11 @@ export function withExpensesSignalR() {
         ),
         expenseDeleted$: store._signalR.expenseDeleted$.pipe(
           filter((env) => env.entityId !== null),
-          map((env) => expensesSignalREvents.expenseRemovedSignalR({
-            id: asExpenseId(env.entityId as string),
-          })),
+          map((env) =>
+            expensesSignalREvents.expenseRemovedSignalR({
+              id: asExpenseId(env.entityId as string),
+            }),
+          ),
         ),
         reconnectCatchUp$: toObservable(store._portal.status).pipe(
           pairwise(),

@@ -8,17 +8,15 @@ import { Button } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 import { injectDispatch } from '@ngrx/signals/events';
-
 import { formatMoney, type IMoney } from '@wisave/shared/model';
-import { AppDialogComponent } from '@wisave/shared/ui';
-import { StatusCardComponent } from '@wisave/shared/ui';
+import { AppDialogComponent, StatusCardComponent } from '@wisave/shared/ui';
+import { type StockChartScope, type StockPortfolioId, type StockPositionId } from '@wisave/stock/data-access';
 
 import { stockPortfolioPageEvents } from '../+store/portfolio/stock-portfolio.events';
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';
 import { StockAllocationPanelComponent } from '../components/stock-allocation-panel/stock-allocation-panel.component';
 import { StockPerformanceChartComponent } from '../components/stock-performance-chart/stock-performance-chart.component';
 import { StockPositionsTableComponent } from '../components/stock-positions-table/stock-positions-table.component';
-import { type StockChartScope, type StockPortfolioId, type StockPositionId } from '@wisave/stock/data-access';
 
 interface IPortfolioSummaryItem {
   label: string;
@@ -38,7 +36,7 @@ interface IPortfolioSummaryItem {
         message: { class: 'text-sm font-normal' },
         footer: { class: 'gap-2' },
       }" />
-    <div data-testid="stock-portfolio-workspace" class="flex h-full min-w-0 flex-1 flex-col gap-4 overflow-x-auto">
+    <div class="flex h-full min-w-0 flex-1 flex-col gap-4 overflow-x-auto" data-testid="stock-portfolio-workspace">
       @if (isInitialLoading()) {
         <div class="flex min-h-72 items-center justify-center gap-3">
           <i class="pi pi-spin pi-spinner text-secondary-400 text-xl"></i>

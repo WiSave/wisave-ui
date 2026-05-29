@@ -8,6 +8,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { InputNumber } from 'primeng/inputnumber';
 import { Select } from 'primeng/select';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import type { ExpenseCategoryId, ICategoryBudget, ICategorySpendingSummary, IDelta, IExpenseCategory } from '@wisave/shared/model';
+import { AppDialogComponent } from '@wisave/shared/ui';
+
 import { BudgetAnalysisStore } from '../+store/analysis';
 import { budgetPageEvents } from '../+store/budget/budget.events';
 import { ExpenseBudgetStore } from '../+store/budget/budget.store';
@@ -17,17 +21,23 @@ import { CategoryBudgetCardComponent } from '../components/category-budget-card/
 import { InsightCardComponent } from '../components/insight-card';
 import { computeAllInsights } from '../helpers/insights.helper';
 import { formatMonthLabel, getNextMonth, getPreviousMonth, isCurrentMonth as isCurrentMonthFn, isFutureMonth } from '../helpers/month.helper';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import type { ICategoryBudget, ICategorySpendingSummary, IDelta } from '@wisave/shared/model';
-import type { IExpenseCategory } from '@wisave/shared/model';
-import type { ExpenseCategoryId } from '@wisave/shared/model';
-import { AppDialogComponent } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-budget',
   standalone: true,
-  imports: [DecimalPipe, ReactiveFormsModule, Button, InputNumber, Select, ConfirmPopupModule, AppDialogComponent, BudgetOverviewCardComponent, CategoryBudgetCardComponent, BudgetChartsComponent, InsightCardComponent],
+  imports: [
+    DecimalPipe,
+    ReactiveFormsModule,
+    Button,
+    InputNumber,
+    Select,
+    ConfirmPopupModule,
+    AppDialogComponent,
+    BudgetOverviewCardComponent,
+    CategoryBudgetCardComponent,
+    BudgetChartsComponent,
+    InsightCardComponent,
+  ],
   providers: [ConfirmationService],
   template: `
     <p-confirmpopup
@@ -59,7 +69,7 @@ import { AppDialogComponent } from '@wisave/shared/ui';
         </header>
 
         @if (isPastMonth()) {
-          <div class="bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex items-center gap-2 rounded-lg border px-3 py-2">
+          <div class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex items-center gap-2 rounded-lg border bg-white px-3 py-2">
             <i class="pi pi-info-circle text-info-500 dark:text-dark-info-400 text-xs"></i>
             <span class="text-secondary-600 dark:text-dark-secondary-300 text-xs">
               Viewing <strong class="text-secondary-800 dark:text-dark-secondary-100">{{ monthLabel() }}</strong> — historical month. Edits will be flagged.
@@ -87,7 +97,7 @@ import { AppDialogComponent } from '@wisave/shared/ui';
               }
 
               @if (uncategorizedSpent() > 0) {
-                <section class="bg-white dark:bg-dark-primary-850 border-secondary-300 dark:border-dark-divider flex h-full flex-col gap-2 rounded-xl border border-dashed p-3">
+                <section class="dark:bg-dark-primary-850 border-secondary-300 dark:border-dark-divider flex h-full flex-col gap-2 rounded-xl border border-dashed bg-white p-3">
                   <span class="text-secondary-600 dark:text-dark-secondary-400 text-xs font-medium">Unbudgeted spending</span>
                   <span class="text-secondary-900 dark:text-dark-secondary-50 text-sm font-bold"> {{ uncategorizedSpent() | number: '1.2-2' }} {{ b.currency }} </span>
                   <p class="text-secondary-500 dark:text-dark-secondary-300 text-[10px] leading-4">This amount belongs to categories without a budget yet.</p>
@@ -112,11 +122,11 @@ import { AppDialogComponent } from '@wisave/shared/ui';
         }
       </div>
 
-      <div class="min-w-0 flex-1 flex flex-col gap-6">
+      <div class="flex min-w-0 flex-1 flex-col gap-6">
         @defer (on viewport) {
           <app-budget-charts [spendingSummaries]="spendingSummaries()" [monthlyStats]="monthlyStats()" [categoryDeltas]="categoryDeltaMap()" />
         } @placeholder {
-          <div class="bg-white dark:bg-dark-primary-850 border border-secondary-200 dark:border-dark-divider rounded-2xl shadow-xs h-72 flex items-center justify-center">
+          <div class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex h-72 items-center justify-center rounded-2xl border bg-white shadow-xs">
             <i class="pi pi-spin pi-spinner text-secondary-400 text-xl"></i>
           </div>
         }
@@ -241,7 +251,13 @@ import { AppDialogComponent } from '@wisave/shared/ui';
         </div>
         <div class="border-secondary-200 dark:border-dark-divider flex items-center justify-end gap-2 pt-4">
           <p-button [text]="true" (onClick)="showAddCategoryDialog.set(false)" label="Cancel" severity="secondary" size="small" />
-          <p-button [disabled]="addCategorySelectControl.invalid || addCategoryLimitControl.invalid" (onClick)="saveAddCategoryBudget()" label="Add budget" icon="pi pi-plus" severity="secondary" size="small" />
+          <p-button
+            [disabled]="addCategorySelectControl.invalid || addCategoryLimitControl.invalid"
+            (onClick)="saveAddCategoryBudget()"
+            label="Add budget"
+            icon="pi pi-plus"
+            severity="secondary"
+            size="small" />
         </div>
       </div>
     </app-dialog>

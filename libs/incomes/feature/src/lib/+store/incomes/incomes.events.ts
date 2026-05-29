@@ -1,10 +1,7 @@
-import { type IIncome, type IncomeId } from '@wisave/incomes/data-access';
 import { type } from '@ngrx/signals';
 import { eventGroup } from '@ngrx/signals/events';
-
+import { type IIncome, type IIncomeMonthlyStats, type IIncomesFilter, type IIncomesSortOrder, type IIncomeStats, type IncomeId, type IncomeStatsScope } from '@wisave/incomes/data-access';
 import { type CursorDirection, type IPageInfo, type IStoreError } from '@wisave/shared/model';
-
-import { type IIncomeMonthlyStats, type IIncomeStats, type IncomeStatsScope, type IIncomesFilter, type IIncomesSortOrder } from '@wisave/incomes/data-access';
 
 // UI/Component events - commands from user interactions
 export const incomesPageEvents = eventGroup({

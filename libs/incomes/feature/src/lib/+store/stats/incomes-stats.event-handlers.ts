@@ -3,11 +3,9 @@ import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
 
 import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
-
+import { IncomesApiService, type IncomeStatsScope } from '@wisave/incomes/data-access';
 import { toStoreError } from '@wisave/shared/ui';
 
-import { IncomesApiService } from '@wisave/incomes/data-access';
-import { type IncomeStatsScope } from '@wisave/incomes/data-access';
 import { incomesApiEvents, incomesPageEvents } from '../incomes/incomes.events';
 
 export interface StatsStoreSlice {

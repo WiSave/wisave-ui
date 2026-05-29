@@ -1,11 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { IncomeEditFormComponent } from '../components/income-edit-form/income-edit-form.component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { type IIncome } from '@wisave/incomes/data-access';
+
 import { incomesPageEvents } from '../+store/incomes/incomes.events';
 import { IncomesStore } from '../+store/incomes/incomes.store';
-import { type IIncome } from '@wisave/incomes/data-access';
-import { injectDispatch } from '@ngrx/signals/events';
+import { IncomeEditFormComponent } from '../components/income-edit-form/income-edit-form.component';
 
 @Component({
   selector: 'app-add-income',

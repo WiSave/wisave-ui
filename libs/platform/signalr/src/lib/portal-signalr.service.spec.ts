@@ -1,7 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import { signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from '@wisave/platform/auth';
+
 import { PortalSignalRService } from './portal-signalr.service';
 
 describe('PortalSignalRService', () => {

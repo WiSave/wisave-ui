@@ -4,7 +4,6 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { authInterceptor } from '../interceptors/auth.interceptor';
-
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {

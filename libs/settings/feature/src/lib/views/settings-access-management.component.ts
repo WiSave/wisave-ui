@@ -3,12 +3,11 @@ import { finalize } from 'rxjs';
 
 import { Button } from 'primeng/button';
 
+import { PermissionService } from '@wisave/platform/auth';
+import { SettingsAdminApiService, type ISettingsRole, type ISettingsUser } from '@wisave/settings/data-access';
+
 import { RolePermissionsPanelComponent } from '../components/role-permissions-panel.component';
 import { UserRoleAssignmentPanelComponent } from '../components/user-role-assignment-panel.component';
-import { SettingsAdminApiService } from '@wisave/settings/data-access';
-import { type ISettingsRole, type ISettingsUser } from '@wisave/settings/data-access';
-
-import { PermissionService } from '@wisave/platform/auth';
 
 @Component({
   selector: 'app-settings-access-management',

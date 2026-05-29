@@ -1,15 +1,12 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import type { NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, type NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { provideDispatcher } from '@ngrx/signals/events';
+import { asExpenseAccountId, Currency } from '@wisave/shared/model';
 
-import { Currency } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
-
 import { AccountsComponent } from './accounts.component';
 
 describe('AccountsComponent', () => {

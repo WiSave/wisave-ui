@@ -8,13 +8,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { Ripple } from 'primeng/ripple';
 import { TableModule } from 'primeng/table';
 
-import { type IIncomesFilter } from '@wisave/incomes/data-access';
-import { type IIncome, type IncomeId } from '@wisave/incomes/data-access';
-
-import { Currency } from '@wisave/shared/model';
-import { ButtonBarDatepickerComponent } from '@wisave/shared/ui';
-import { CursorPaginationComponent } from '@wisave/shared/ui';
-import { type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
+import { type IIncome, type IIncomesFilter, type IncomeId } from '@wisave/incomes/data-access';
+import { Currency, type IPageInfo, type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
+import { ButtonBarDatepickerComponent, CursorPaginationComponent } from '@wisave/shared/ui';
 
 export interface IFilterAppliedEvent {
   filter: Partial<IIncomesFilter>;

@@ -5,13 +5,12 @@ import { map } from 'rxjs';
 
 import { Button } from 'primeng/button';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import { asExpenseAccountId, type IExpenseAccountWritePayload } from '@wisave/shared/model';
+
 import { accountsPageEvents } from '../+store/accounts/accounts.events';
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
 import { AccountFormComponent } from '../components/account-form/account-form.component';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { type IExpenseAccountWritePayload } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-edit-account',

@@ -1,7 +1,4 @@
-import type { IExpenseAccount } from '@wisave/shared/model';
-import type { IExpenseCategory } from '@wisave/shared/model';
-import type { IExpense } from '@wisave/shared/model';
-import { initialPagination, type IPagination, type IStoreError } from '@wisave/shared/model';
+import { initialPagination, type IExpense, type IExpenseAccount, type IExpenseCategory, type IPagination, type IStoreError } from '@wisave/shared/model';
 
 import { initialFilter, initialSort, type IExpensesFilter, type IExpensesSortOrder } from '../../types/expenses-state.types';
 

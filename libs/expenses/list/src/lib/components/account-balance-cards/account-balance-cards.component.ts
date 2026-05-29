@@ -1,19 +1,18 @@
 import { Component, computed, input } from '@angular/core';
 
-import type { IExpenseAccount } from '@wisave/shared/model';
-import { createMoney, formatMoney } from '@wisave/shared/model';
+import { createMoney, formatMoney, type IExpenseAccount } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-account-balance-cards',
   template: `
     <div class="flex flex-col gap-2">
-      <span class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold uppercase tracking-wider">Account Balances</span>
+      <span class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold tracking-wider uppercase">Account Balances</span>
 
       @for (account of topLevelAccounts(); track account.id) {
         <div
-          class="bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider rounded-xl border p-3"
           [style.border-left-width]="'3px'"
-          [style.border-left-color]="account.color ?? 'hsl(215, 14%, 46%)'">
+          [style.border-left-color]="account.color ?? 'hsl(215, 14%, 46%)'"
+          class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider rounded-xl border bg-white p-3">
           <div class="flex items-center justify-between">
             <div>
               <div class="text-secondary-900 dark:text-dark-secondary-50 text-sm font-semibold">{{ account.name }}</div>
@@ -31,9 +30,7 @@ import { createMoney, formatMoney } from '@wisave/shared/model';
 export class AccountBalanceCardsComponent {
   readonly accounts = input.required<IExpenseAccount[]>();
 
-  readonly topLevelAccounts = computed(() =>
-    this.accounts().filter((a) => a.type === 'bank_account' || a.type === 'cash'),
-  );
+  readonly topLevelAccounts = computed(() => this.accounts().filter((a) => a.type === 'bank_account' || a.type === 'cash'));
 
   typeLabel(type: string): string {
     const labels: Record<string, string> = {

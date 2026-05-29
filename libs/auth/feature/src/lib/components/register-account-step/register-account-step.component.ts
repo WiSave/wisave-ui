@@ -30,18 +30,28 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="register-name">Full name</label>
           <p-iconfield>
             <p-inputicon class="pi pi-user" />
-            <input id="register-name" formControlName="name" name="name" autocomplete="off" data-lpignore="true" data-1p-ignore class="w-full" pInputText type="text" placeholder="John Doe" />
+            <input id="register-name" name="name" class="w-full" formControlName="name" autocomplete="off" data-lpignore="true" data-1p-ignore pInputText type="text" placeholder="John Doe" />
           </p-iconfield>
-          <span class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('name')">Full name is required.</span>
+          <span [class.invisible]="!isInvalid('name')" class="text-xs text-red-600 dark:text-red-400">Full name is required.</span>
         </div>
 
         <div class="flex flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="register-email">Email address</label>
           <p-iconfield>
             <p-inputicon class="pi pi-envelope" />
-            <input id="register-email" formControlName="email" name="email" autocomplete="off" data-lpignore="true" data-1p-ignore class="w-full" pInputText type="email" placeholder="you@example.com" />
+            <input
+              id="register-email"
+              name="email"
+              class="w-full"
+              formControlName="email"
+              autocomplete="off"
+              data-lpignore="true"
+              data-1p-ignore
+              pInputText
+              type="email"
+              placeholder="you@example.com" />
           </p-iconfield>
-          <span class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('email')">
+          <span [class.invisible]="!isInvalid('email')" class="text-xs text-red-600 dark:text-red-400">
             @if (form.controls.email.errors?.['required']) {
               Email is required.
             } @else {
@@ -56,25 +66,25 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
             <p-iconfield>
               <input
                 id="register-password"
+                name="new-password"
                 [type]="showPassword() ? 'text' : 'password'"
+                (input)="onPasswordInput($event)"
                 class="w-full"
                 pInputText
-                name="new-password"
                 autocomplete="off"
                 data-lpignore="true"
                 data-1p-ignore
                 formControlName="password"
-                (input)="onPasswordInput($event)"
                 placeholder="Min. 8 characters" />
               <p-inputicon
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
                 [class]="showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                (click)="showPassword.set(!showPassword())"
                 class="cursor-pointer"
                 role="button"
-                tabindex="-1"
-                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
-                (click)="showPassword.set(!showPassword())" />
+                tabindex="-1" />
             </p-iconfield>
-            <span class="text-xs text-red-600 dark:text-red-400" [class.invisible]="!isInvalid('password')">
+            <span [class.invisible]="!isInvalid('password')" class="text-xs text-red-600 dark:text-red-400">
               @if (form.controls.password.errors?.['required']) {
                 Password is required.
               } @else {
@@ -88,28 +98,25 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
             <p-iconfield>
               <input
                 id="register-confirm"
+                name="confirm-password"
                 [attr.aria-describedby]="form.hasError('passwordMismatch') && form.controls.confirmPassword.touched ? 'register-confirm-error' : null"
                 [type]="showConfirmPassword() ? 'text' : 'password'"
                 class="w-full"
                 pInputText
-                name="confirm-password"
                 autocomplete="off"
                 data-lpignore="true"
                 data-1p-ignore
                 formControlName="confirmPassword"
                 placeholder="Repeat your password" />
               <p-inputicon
+                [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
                 [class]="showConfirmPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+                (click)="showConfirmPassword.set(!showConfirmPassword())"
                 class="cursor-pointer"
                 role="button"
-                tabindex="-1"
-                [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
-                (click)="showConfirmPassword.set(!showConfirmPassword())" />
+                tabindex="-1" />
             </p-iconfield>
-            <span
-              id="register-confirm-error"
-              class="text-xs text-red-600 dark:text-red-400"
-              [class.invisible]="!(form.hasError('passwordMismatch') && form.controls.confirmPassword.touched)">
+            <span id="register-confirm-error" [class.invisible]="!(form.hasError('passwordMismatch') && form.controls.confirmPassword.touched)" class="text-xs text-red-600 dark:text-red-400">
               Passwords do not match.
             </span>
           </div>

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Currency } from '@wisave/shared/model';
-import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@wisave/shared/model';
+import { asExpenseAccountId, asFundingPaymentInstrumentId, Currency } from '@wisave/shared/model';
 
 import { ExpenseAccountsMapperService } from './expense-accounts-mapper.service';
 
@@ -70,14 +69,19 @@ describe('ExpenseAccountsMapperService', () => {
   });
 
   it('serializes funding account requests without stale generic account fields', () => {
-    expect(service.mapFundingAccountToApiRequest({
-      name: 'Checking',
-      type: 'bank_account',
-      kind: 'BankAccount',
-      currency: Currency.PLN,
-      openingBalance: 1500,
-      color: '#3b82f6',
-    }, true)).toEqual({
+    expect(
+      service.mapFundingAccountToApiRequest(
+        {
+          name: 'Checking',
+          type: 'bank_account',
+          kind: 'BankAccount',
+          currency: Currency.PLN,
+          openingBalance: 1500,
+          color: '#3b82f6',
+        },
+        true,
+      ),
+    ).toEqual({
       name: 'Checking',
       kind: 'BankAccount',
       currency: Currency.PLN,

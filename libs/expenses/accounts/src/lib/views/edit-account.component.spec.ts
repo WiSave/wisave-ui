@@ -4,11 +4,9 @@ import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
 import { provideDispatcher } from '@ngrx/signals/events';
+import { asExpenseAccountId, type IExpenseAccountWritePayload } from '@wisave/shared/model';
 
-import type { IExpenseAccountWritePayload } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
-
 import { EditAccountComponent } from './edit-account.component';
 
 describe('EditAccountComponent', () => {

@@ -4,10 +4,10 @@ import { catchError, map, of, throwError, type Observable } from 'rxjs';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
 
+import type { IIncomeApiDto, IIncomesResponseDto } from '../types/incomes-api.types';
+import type { IIncomesQueryParams, IIncomesQueryResult } from '../types/incomes-query.types';
 import type { IIncomeMonthlyStats, IIncomesFilter, IIncomeStats } from '../types/incomes-state.types';
 import type { IIncome, IncomeId } from '../types/incomes.interfaces';
-import type { IIncomesQueryParams, IIncomesQueryResult } from '../types/incomes-query.types';
-import type { IIncomeApiDto, IIncomesResponseDto } from '../types/incomes-api.types';
 import { IncomesMapperService } from './incomes-mapper.service';
 
 @Injectable({ providedIn: 'root' })
@@ -78,9 +78,7 @@ export class IncomesApiService {
     }
 
     if (sort) {
-      queryParams = queryParams
-        .set('sortField', sort.field)
-        .set('sortDirection', sort.direction);
+      queryParams = queryParams.set('sortField', sort.field).set('sortDirection', sort.direction);
     }
 
     return queryParams;

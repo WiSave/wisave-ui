@@ -1,11 +1,10 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { signalStoreFeature, withProps } from '@ngrx/signals';
-import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, merge, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@wisave/platform/signalr';
-import { PortalSignalRService } from '@wisave/platform/signalr';
+import { signalStoreFeature, withProps } from '@ngrx/signals';
+import { withEventHandlers } from '@ngrx/signals/events';
+import { ExpensesSignalRService, PortalSignalRService } from '@wisave/platform/signalr';
 
 import { budgetPageEvents } from './budget.events';
 
@@ -25,9 +24,7 @@ export function withBudgetSignalR() {
         store._realtime.overallLimitSet$,
         store._realtime.categoryLimitSet$,
         store._realtime.categoryLimitRemoved$,
-      ).pipe(
-        map(() => budgetPageEvents.opened()),
-      ),
+      ).pipe(map(() => budgetPageEvents.opened())),
       reconnectCatchUp$: toObservable(store._portal.status).pipe(
         pairwise(),
         filter(([prev, curr]) => (prev === 'reconnecting' || prev === 'disconnected') && curr === 'connected'),

@@ -4,9 +4,15 @@ import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
-import type { ICommandResponse } from '@wisave/shared/model';
-import { type IBudget, type IBudgetApiResponse, type ICategorySpendingSummary, type ICategorySpendingSummaryApiDto } from '@wisave/shared/model';
-import { type BudgetId, type ExpenseCategoryId } from '@wisave/shared/model';
+import {
+  type BudgetId,
+  type ExpenseCategoryId,
+  type IBudget,
+  type IBudgetApiResponse,
+  type ICategorySpendingSummary,
+  type ICategorySpendingSummaryApiDto,
+  type ICommandResponse,
+} from '@wisave/shared/model';
 
 import { ExpenseBudgetMapperService } from './expense-budget-mapper.service';
 
@@ -37,6 +43,8 @@ export class ExpenseBudgetApiService {
   }
 
   getSpendingSummary(month: number, year: number): Observable<ICategorySpendingSummary[]> {
-    return this.#http.get<ICategorySpendingSummaryApiDto[]>(`${this.#apiUrl}/summary`, { params: { month: month.toString(), year: year.toString() } }).pipe(map((dtos) => this.#mapper.mapToSpendingSummaries(dtos)));
+    return this.#http
+      .get<ICategorySpendingSummaryApiDto[]>(`${this.#apiUrl}/summary`, { params: { month: month.toString(), year: year.toString() } })
+      .pipe(map((dtos) => this.#mapper.mapToSpendingSummaries(dtos)));
   }
 }

@@ -88,18 +88,8 @@ export function computeConsecutiveTrendInsights(monthlyStats: IExpenseMonthlySta
   return [];
 }
 
-export function computeAllInsights(
-  currentSummaries: ICategorySpendingSummary[],
-  currentTotal: number,
-  previousTotal: number,
-  previousMonth: number,
-  monthlyStats: IExpenseMonthlyStats[],
-): IInsight[] {
-  const insights: IInsight[] = [
-    ...computeOverspendInsights(currentSummaries),
-    ...computeSavingsInsights(currentSummaries),
-    ...computeConsecutiveTrendInsights(monthlyStats),
-  ];
+export function computeAllInsights(currentSummaries: ICategorySpendingSummary[], currentTotal: number, previousTotal: number, previousMonth: number, monthlyStats: IExpenseMonthlyStats[]): IInsight[] {
+  const insights: IInsight[] = [...computeOverspendInsights(currentSummaries), ...computeSavingsInsights(currentSummaries), ...computeConsecutiveTrendInsights(monthlyStats)];
 
   const totalDelta = computeTotalDeltaInsight(currentTotal, previousTotal, previousMonth);
   if (totalDelta) insights.push(totalDelta);

@@ -1,21 +1,15 @@
-import { type Signal, inject } from '@angular/core';
+import { inject, type Signal } from '@angular/core';
 import { catchError, exhaustMap, map, merge, of, switchMap, tap } from 'rxjs';
 
 import { signalStoreFeature, withProps } from '@ngrx/signals';
 import { type EntityMap } from '@ngrx/signals/entities';
 import { Events, withEventHandlers } from '@ngrx/signals/events';
-
-import type { IExpenseAccount } from '@wisave/shared/model';
-import type { IExpenseCategory } from '@wisave/shared/model';
-import type { IExpense } from '@wisave/shared/model';
-import { type IPagination, type CursorDirection } from '@wisave/shared/model';
+import { ExpenseAccountsApiService, ExpensesApiService, type IExpensesQueryParams } from '@wisave/expenses/data-access';
+import { type CursorDirection, type IExpense, type IExpenseAccount, type IExpenseCategory, type IPagination } from '@wisave/shared/model';
 import { toStoreError } from '@wisave/shared/ui';
-import { ExpensesApiService, type IExpensesQueryParams } from '@wisave/expenses/data-access';
-import { ExpenseAccountsApiService } from '@wisave/expenses/data-access';
 
-import { type IExpensesFilter, type IExpensesSortOrder } from '../../types/expenses-state.types';
+import { emptyFilter, type IExpensesFilter, type IExpensesSortOrder } from '../../types/expenses-state.types';
 import { expensesApiEvents, expensesPageEvents } from './expenses.events';
-import { emptyFilter } from '../../types/expenses-state.types';
 
 export interface ExpensesStoreSlice {
   filter: Signal<IExpensesFilter>;
@@ -67,15 +61,9 @@ export function withExpensesEventHandlers(store: ExpensesStoreSlice) {
       });
 
       return {
-        loadExpenses$: props._events.on(expensesPageEvents.opened).pipe(
-          exhaustMap(() =>
-            merge(
-              loadExpenses$(getQueryParams(store.pagination().rows, 'first', null, store.filter(), store.sort())),
-              loadCategories$(),
-              loadAccounts$(),
-            ),
-          ),
-        ),
+        loadExpenses$: props._events
+          .on(expensesPageEvents.opened)
+          .pipe(exhaustMap(() => merge(loadExpenses$(getQueryParams(store.pagination().rows, 'first', null, store.filter(), store.sort())), loadCategories$(), loadAccounts$()))),
 
         navigatePage$: props._events
           .on(expensesPageEvents.navigatePage)
@@ -92,9 +80,7 @@ export function withExpensesEventHandlers(store: ExpensesStoreSlice) {
           }),
         ),
 
-        filtersCleared$: props._events
-          .on(expensesPageEvents.filtersCleared)
-          .pipe(switchMap(() => loadExpenses$(getQueryParams(store.pagination().rows, 'first', null, emptyFilter, store.sort())))),
+        filtersCleared$: props._events.on(expensesPageEvents.filtersCleared).pipe(switchMap(() => loadExpenses$(getQueryParams(store.pagination().rows, 'first', null, emptyFilter, store.sort())))),
 
         sortChanged$: props._events
           .on(expensesPageEvents.sortChanged)

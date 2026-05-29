@@ -15,10 +15,7 @@ describe('app routes', () => {
     expect(expensesRoute?.loadComponent).toBeUndefined();
     expect(expensesRoute?.children).toBeUndefined();
 
-    const [{ routes: expensesShellRoutes }, loadedRoutes] = await Promise.all([
-      import('@wisave/expenses/shell'),
-      (expensesRoute?.loadChildren as () => Promise<unknown>)(),
-    ]);
+    const [{ routes: expensesShellRoutes }, loadedRoutes] = await Promise.all([import('@wisave/expenses/shell'), (expensesRoute?.loadChildren as () => Promise<unknown>)()]);
 
     expect(loadedRoutes).toBe(expensesShellRoutes);
   });

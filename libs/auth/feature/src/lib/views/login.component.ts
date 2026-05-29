@@ -10,15 +10,15 @@ import { LoginFormComponent } from '../components/login-form/login-form.componen
   host: { class: 'block w-full max-w-3xl px-4' },
   imports: [RouterLink, LoginFormComponent],
   template: `
-    <div class="bg-white dark:bg-dark-primary-900 border-secondary-200 dark:border-dark-primary-700 rounded-2xl border p-8 shadow-xl sm:p-10">
+    <div class="dark:bg-dark-primary-900 border-secondary-200 dark:border-dark-primary-700 rounded-2xl border bg-white p-8 shadow-xl sm:p-10">
       <app-login-form [isLoading]="isLoading()" [error]="error()" (submitted)="onLogin($event)" (registerClicked)="onGoToRegister()" />
     </div>
 
     <div class="mt-6 text-center">
       <span class="text-secondary-600 dark:text-dark-secondary-300 text-sm">Don't have an account? </span>
       <a
-        class="text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 text-sm font-semibold transition-colors"
         [queryParams]="registerQueryParams()"
+        class="text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 text-sm font-semibold transition-colors"
         routerLink="/auth/register">
         Create one
       </a>

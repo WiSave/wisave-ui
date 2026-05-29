@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { provideDispatcher } from '@ngrx/signals/events';
 
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
-
 import { AddAccountComponent } from './add-account.component';
 
 describe('AddAccountComponent', () => {
@@ -25,12 +24,7 @@ describe('AddAccountComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [AddAccountComponent],
-      providers: [
-        provideDispatcher(),
-        { provide: ExpenseAccountsStore, useValue: storeStub },
-        { provide: Router, useValue: { navigate } },
-        { provide: ActivatedRoute, useValue: { parent: {} } },
-      ],
+      providers: [provideDispatcher(), { provide: ExpenseAccountsStore, useValue: storeStub }, { provide: Router, useValue: { navigate } }, { provide: ActivatedRoute, useValue: { parent: {} } }],
     }).compileComponents();
   });
 

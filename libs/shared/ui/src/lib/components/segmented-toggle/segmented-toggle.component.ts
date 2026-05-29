@@ -11,9 +11,9 @@ export interface ISegmentedToggleOption {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="border-secondary-200 dark:border-dark-divider bg-white dark:bg-dark-primary-850 inline-flex rounded-full border p-1">
+    <div class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850 inline-flex rounded-full border bg-white p-1">
       @for (option of options(); track option.value) {
-        <button type="button" [class]="buttonClass(option.value)" (click)="onSelect(option.value)">
+        <button [class]="buttonClass(option.value)" (click)="onSelect(option.value)" type="button">
           {{ option.label }}
         </button>
       }

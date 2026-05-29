@@ -7,15 +7,9 @@ import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 
-import { type AccountFormModel } from '../../types/account-form.types';
+import { Currency, CurrencySymbol, type ExpenseAccountId, type ExpenseAccountType, type IExpenseAccount, type IExpenseAccountWritePayload } from '@wisave/shared/model';
 
-import { Currency, CurrencySymbol } from '@wisave/shared/model';
-import {
-  type ExpenseAccountType,
-  type IExpenseAccount,
-  type IExpenseAccountWritePayload,
-} from '@wisave/shared/model';
-import { type ExpenseAccountId } from '@wisave/shared/model';
+import { type AccountFormModel } from '../../types/account-form.types';
 
 const DEFAULT_COLOR = '#6366f1';
 
@@ -190,9 +184,7 @@ export class AccountFormComponent {
       ...(v.color && { color: v.color }),
     };
 
-    const payload: IExpenseAccountWritePayload = v.type === 'cash'
-      ? { ...base, type: 'cash', kind: 'Cash' }
-      : { ...base, type: 'bank_account', kind: 'BankAccount' };
+    const payload: IExpenseAccountWritePayload = v.type === 'cash' ? { ...base, type: 'cash', kind: 'Cash' } : { ...base, type: 'bank_account', kind: 'BankAccount' };
 
     this.submitted.emit(payload);
   }

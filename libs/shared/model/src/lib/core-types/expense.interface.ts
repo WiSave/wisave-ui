@@ -1,5 +1,5 @@
-import type { IMoney } from './money.interface';
 import type { ExpenseAccountId, ExpenseCategoryId, ExpenseId, ExpenseSubcategoryId } from './expense-id.types';
+import type { IMoney } from './money.interface';
 
 export interface IExpensePageInfo {
   hasNextPage: boolean;

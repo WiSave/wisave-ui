@@ -4,11 +4,18 @@ import { type Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
-import { type IExpenseMonthlyStats, type IExpenseMonthlyStatsApiDto } from '@wisave/shared/model';
-import { type IExpenseCategoryApiDto } from '@wisave/shared/model';
-import { type ExpenseCategoryId, type ExpenseId } from '@wisave/shared/model';
-import { type IExpense, type IExpenseApiDto, type IExpensePageInfo, type IExpensesResponseDto } from '@wisave/shared/model';
-import { type IExpenseCategory } from '@wisave/shared/model';
+import {
+  type ExpenseCategoryId,
+  type ExpenseId,
+  type IExpense,
+  type IExpenseApiDto,
+  type IExpenseCategory,
+  type IExpenseCategoryApiDto,
+  type IExpenseMonthlyStats,
+  type IExpenseMonthlyStatsApiDto,
+  type IExpensePageInfo,
+  type IExpensesResponseDto,
+} from '@wisave/shared/model';
 
 import { ExpensesMapperService } from './expenses-mapper.service';
 
@@ -76,25 +83,26 @@ export class ExpensesApiService {
 
   getMonthlyStats(year: number): Observable<IExpenseMonthlyStats[]> {
     const queryParams = new HttpParams().set('year', year.toString());
-    return this.#http
-      .get<IExpenseMonthlyStatsApiDto[]>(`${getApiBaseUrl()}/expenses/budgets/monthly-stats`, { params: queryParams })
-      .pipe(
-        map((dtos) =>
-          dtos.map((dto) => ({
-            year: dto.year,
-            month: dto.month,
-            total: dto.totalSpent,
-            currency: this.#mapper.mapCurrency(dto.currency),
-          })),
-        ),
-      );
+    return this.#http.get<IExpenseMonthlyStatsApiDto[]>(`${getApiBaseUrl()}/expenses/budgets/monthly-stats`, { params: queryParams }).pipe(
+      map((dtos) =>
+        dtos.map((dto) => ({
+          year: dto.year,
+          month: dto.month,
+          total: dto.totalSpent,
+          currency: this.#mapper.mapCurrency(dto.currency),
+        })),
+      ),
+    );
   }
 
   #mapDirection(direction: CursorDirection): string {
     switch (direction) {
-      case 'first': return 'next';
-      case 'previous': return 'prev';
-      default: return direction;
+      case 'first':
+        return 'next';
+      case 'previous':
+        return 'prev';
+      default:
+        return direction;
     }
   }
 

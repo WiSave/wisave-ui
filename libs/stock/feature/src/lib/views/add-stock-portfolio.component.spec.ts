@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { provideDispatcher } from '@ngrx/signals/events';
-
 import { Currency } from '@wisave/shared/model';
 
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';

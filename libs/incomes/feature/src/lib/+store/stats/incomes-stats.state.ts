@@ -1,6 +1,5 @@
-import { type IStoreError } from '@wisave/shared/model';
-
 import { type IIncomeMonthlyStats, type IIncomeStats, type IncomeStatsScope } from '@wisave/incomes/data-access';
+import { type IStoreError } from '@wisave/shared/model';
 
 export interface IncomesStatsState {
   error: IStoreError | null;

@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, provideRouter, type UrlTree } from '@angular/router';
+import { provideRouter, Router, type UrlTree } from '@angular/router';
 import { firstValueFrom, of, type Observable } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
-
 import { authGuard, guestGuard } from './auth.guard';
 
 describe('auth guards', () => {
@@ -36,9 +35,7 @@ describe('auth guards', () => {
     authServiceMock.isInitialized.mockReturnValue(false);
     authServiceMock.initialize.mockReturnValue(of({ kind: 'unauthenticated' }));
 
-    const result = await TestBed.runInInjectionContext(async () =>
-      firstValueFrom(authGuard({} as never, { url: '/expenses/budgets' } as never) as Observable<UrlTree>),
-    );
+    const result = await TestBed.runInInjectionContext(async () => firstValueFrom(authGuard({} as never, { url: '/expenses/budgets' } as never) as Observable<UrlTree>));
 
     expect(router.serializeUrl(result)).toBe('/auth/login?returnUrl=%2Fexpenses%2Fbudgets');
   });
@@ -47,9 +44,7 @@ describe('auth guards', () => {
     authServiceMock.isInitialized.mockReturnValue(false);
     authServiceMock.initialize.mockReturnValue(of({ kind: 'unavailable', status: 500 }));
 
-    const result = await TestBed.runInInjectionContext(async () =>
-      firstValueFrom(guestGuard({} as never, { url: '/auth/login' } as never) as Observable<UrlTree>),
-    );
+    const result = await TestBed.runInInjectionContext(async () => firstValueFrom(guestGuard({} as never, { url: '/auth/login' } as never) as Observable<UrlTree>));
 
     expect(router.serializeUrl(result)).toBe('/session-unavailable?returnUrl=%2Fauth%2Flogin');
   });

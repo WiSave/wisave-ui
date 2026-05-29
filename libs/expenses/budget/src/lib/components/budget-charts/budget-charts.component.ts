@@ -3,9 +3,8 @@ import { Component, computed, inject, input } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
 import { CATEGORY_CHART_PALETTE, CHART_TOOLTIP_STYLE, getChartThemeColors } from '@wisave/platform/config';
-import { ThemeService } from '@wisave/shared/ui';
 import type { ICategorySpendingSummary, IDelta, IExpenseMonthlyStats } from '@wisave/shared/model';
-import { ChartCardComponent } from '@wisave/shared/ui';
+import { ChartCardComponent, ThemeService } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-budget-charts',

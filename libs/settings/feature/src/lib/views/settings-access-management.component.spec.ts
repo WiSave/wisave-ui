@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { SettingsAdminApiService } from '@wisave/settings/data-access';
-
 import { PermissionService } from '@wisave/platform/auth';
+import { SettingsAdminApiService } from '@wisave/settings/data-access';
 
 import { SettingsAccessManagementComponent } from './settings-access-management.component';
 

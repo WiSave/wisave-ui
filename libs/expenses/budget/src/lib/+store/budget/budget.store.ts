@@ -1,13 +1,12 @@
 import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-architects/ngrx-toolkit';
 import { signalStore, withFeature, withState } from '@ngrx/signals';
 import { on } from '@ngrx/signals/events';
-
 import type { ICategoryBudget } from '@wisave/shared/model';
 
 import { withBudgetEventHandlers } from './budget.event-handlers';
-import { withBudgetSignalR } from './with-budget-signalr.feature';
 import { budgetApiEvents, budgetPageEvents } from './budget.events';
-import { type BudgetState, initialState } from './budget.state';
+import { initialState, type BudgetState } from './budget.state';
+import { withBudgetSignalR } from './with-budget-signalr.feature';
 
 export const ExpenseBudgetStore = signalStore(
   { providedIn: 'root' },
@@ -52,9 +51,7 @@ export const ExpenseBudgetStore = signalStore(
       const budgetState = state as BudgetState;
       if (!budgetState.currentBudget) return {};
 
-      const existing = budgetState.currentBudget.categoryBudgets.findIndex(
-        (cb: ICategoryBudget) => cb.categoryId === payload.categoryBudget.categoryId,
-      );
+      const existing = budgetState.currentBudget.categoryBudgets.findIndex((cb: ICategoryBudget) => cb.categoryId === payload.categoryBudget.categoryId);
       const categoryBudgets =
         existing >= 0
           ? budgetState.currentBudget.categoryBudgets.map((cb: ICategoryBudget, i: number) => (i === existing ? payload.categoryBudget : cb))
@@ -73,9 +70,7 @@ export const ExpenseBudgetStore = signalStore(
       return {
         currentBudget: {
           ...budgetState.currentBudget,
-          categoryBudgets: budgetState.currentBudget.categoryBudgets.filter(
-            (cb: ICategoryBudget) => cb.categoryId !== payload.categoryId,
-          ),
+          categoryBudgets: budgetState.currentBudget.categoryBudgets.filter((cb: ICategoryBudget) => cb.categoryId !== payload.categoryId),
         },
         isLoading: false,
         error: null,

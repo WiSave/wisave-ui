@@ -3,8 +3,8 @@ import { computed } from '@angular/core';
 import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-architects/ngrx-toolkit';
 import { signalStore, withComputed, withState } from '@ngrx/signals';
 import { on } from '@ngrx/signals/events';
-
 import { type IStockAllocationItem, type IStockPosition, type StockChartScope, type StockCommandStatus } from '@wisave/stock/data-access';
+
 import { withStockPortfolioEventHandlers } from './stock-portfolio.event-handlers';
 import { stockPortfolioApiEvents, stockPortfolioPageEvents } from './stock-portfolio.events';
 import { initialState } from './stock-portfolio.state';

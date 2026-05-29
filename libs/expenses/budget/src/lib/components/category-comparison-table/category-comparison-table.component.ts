@@ -1,12 +1,16 @@
 import { Component, computed, input, output } from '@angular/core';
 
-import type { ICategoryMonthComparison } from '@wisave/shared/model';
-import type { ExpenseCategoryId } from '@wisave/shared/model';
+import type { ExpenseCategoryId, ICategoryMonthComparison } from '@wisave/shared/model';
+
 import { formatShortMonth } from '../../helpers/month.helper';
 
 @Component({
   selector: 'app-category-comparison-table',
-  styles: `:host { display: block; }`,
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   template: `
     <div class="overflow-x-auto">
       <table class="w-full text-xs">
@@ -25,14 +29,10 @@ import { formatShortMonth } from '../../helpers/month.helper';
               class="border-secondary-100 dark:border-dark-divider hover:bg-secondary-100 dark:hover:bg-dark-primary-800 cursor-pointer border-b transition-colors">
               <td class="text-secondary-800 dark:text-dark-secondary-100 px-3 py-2 font-medium">{{ row.categoryName }}</td>
               @for (m of row.months; track m.month) {
-                <td
-                  class="px-3 py-2 text-right tabular-nums"
-                  [class]="m.limit !== null && m.spent > m.limit ? 'text-rose-500' : 'text-secondary-700 dark:text-dark-secondary-200'">
+                <td [class]="m.limit !== null && m.spent > m.limit ? 'text-rose-500' : 'text-secondary-700 dark:text-dark-secondary-200'" class="px-3 py-2 text-right tabular-nums">
                   {{ m.spent.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
                   @if (m.limit !== null) {
-                    <span class="text-secondary-400 dark:text-dark-secondary-500">
-                      / {{ m.limit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }}
-                    </span>
+                    <span class="text-secondary-400 dark:text-dark-secondary-500"> / {{ m.limit.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) }} </span>
                   }
                 </td>
               }

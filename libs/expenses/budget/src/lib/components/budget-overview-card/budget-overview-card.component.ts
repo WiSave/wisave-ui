@@ -2,18 +2,16 @@ import { Component, computed, input, output } from '@angular/core';
 
 import { Button } from 'primeng/button';
 
-import type { IBudget, IDelta } from '@wisave/shared/model';
-import { createMoney, formatMoney } from '@wisave/shared/model';
+import { createMoney, formatMoney, type IBudget, type IDelta } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-budget-overview-card',
   imports: [Button],
   template: `
-    <section
-      class="bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex flex-col gap-2 rounded-xl border p-3">
+    <section class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex flex-col gap-2 rounded-xl border bg-white p-3">
       <div class="flex items-center justify-between">
-        <span class="text-secondary-600 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-wider">Monthly Budget</span>
-        <p-button [text]="true" icon="pi pi-pencil" severity="secondary" size="small" ariaLabel="Edit" (onClick)="editClicked.emit()" />
+        <span class="text-secondary-600 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-wider uppercase">Monthly Budget</span>
+        <p-button [text]="true" (onClick)="editClicked.emit()" icon="pi pi-pencil" severity="secondary" size="small" ariaLabel="Edit" />
       </div>
       <div class="flex items-end justify-between">
         <div class="flex items-baseline gap-1.5">
@@ -31,10 +29,7 @@ import { createMoney, formatMoney } from '@wisave/shared/model';
         </div>
       </div>
       <div class="bg-secondary-200 dark:bg-dark-primary-700 h-1 w-full overflow-hidden rounded-full">
-        <div
-          class="h-full rounded-full transition-all duration-300"
-          [class]="isOverBudget() ? 'bg-rose-500' : 'bg-progress dark:bg-dark-progress'"
-          [style.width.%]="progressPercent()"></div>
+        <div [class]="isOverBudget() ? 'bg-rose-500' : 'bg-progress dark:bg-dark-progress'" [style.width.%]="progressPercent()" class="h-full rounded-full transition-all duration-300"></div>
       </div>
       <div class="flex items-center justify-between">
         <span class="text-secondary-500 dark:text-dark-secondary-500 text-xs">{{ progressPercent().toFixed(0) }}% used</span>

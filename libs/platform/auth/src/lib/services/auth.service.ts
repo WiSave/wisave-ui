@@ -1,15 +1,12 @@
 import { HttpClient, type HttpErrorResponse } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map, type Observable, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, of, shareReplay, switchMap, tap, throwError, type Observable } from 'rxjs';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
 import { type IAuthResponse, type IChangePasswordRequest, type ILoginRequest, type IRegisterRequest, type IUser } from '@wisave/shared/model';
 
-export type AuthBootstrapResult =
-  | { kind: 'authenticated'; user: IUser }
-  | { kind: 'unauthenticated' }
-  | { kind: 'unavailable'; status: number };
+export type AuthBootstrapResult = { kind: 'authenticated'; user: IUser } | { kind: 'unauthenticated' } | { kind: 'unavailable'; status: number };
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

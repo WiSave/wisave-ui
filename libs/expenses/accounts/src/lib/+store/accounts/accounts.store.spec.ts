@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { Subject, of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
-import { Currency } from '@wisave/shared/model';
-import { type IExpenseAccount } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
 import { Dispatcher, provideDispatcher } from '@ngrx/signals/events';
 import { ExpenseAccountsApiService } from '@wisave/expenses/data-access';
+import { asExpenseAccountId, Currency, type IExpenseAccount } from '@wisave/shared/model';
 
 import { accountsApiEvents, accountsPageEvents } from './accounts.events';
 import { ExpenseAccountsStore } from './accounts.store';

@@ -1,11 +1,12 @@
 import { Component, computed, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { ExpenseEditFormComponent } from '../components/expense-edit-form/expense-edit-form.component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { type IExpense } from '@wisave/shared/model';
+
 import { expensesPageEvents } from '../+store/expenses/expenses.events';
 import { ExpensesStore } from '../+store/expenses/expenses.store';
-import { type IExpense } from '@wisave/shared/model';
-import { injectDispatch } from '@ngrx/signals/events';
+import { ExpenseEditFormComponent } from '../components/expense-edit-form/expense-edit-form.component';
 
 @Component({
   selector: 'app-add-expense',
@@ -17,13 +18,7 @@ import { injectDispatch } from '@ngrx/signals/events';
         <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm">Create a new expense and save it.</p>
       </div>
 
-      <app-expense-edit-form
-        [expense]="null"
-        [categories]="categories()"
-        [accounts]="accounts()"
-        [isLoading]="isBusy()"
-        (submitted)="onSubmit($event)"
-        (cancelled)="onCancel()" />
+      <app-expense-edit-form [expense]="null" [categories]="categories()" [accounts]="accounts()" [isLoading]="isBusy()" (submitted)="onSubmit($event)" (cancelled)="onCancel()" />
     </div>
   `,
 })

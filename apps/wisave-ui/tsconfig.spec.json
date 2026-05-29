@@ -4,16 +4,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/spec",
-    "types": [
-      "vitest/globals",
-      "node"
-    ]
+    "types": ["vitest/globals", "node"]
   },
-  "files": [
-    "src/test-setup.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.spec.ts"
-  ]
+  "files": ["src/test-setup.ts"],
+  "include": ["src/**/*.d.ts", "src/**/*.spec.ts"]
 }

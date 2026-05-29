@@ -4,9 +4,8 @@ import { Button } from 'primeng/button';
 import { ChartModule } from 'primeng/chart';
 
 import { getChartThemeColors } from '@wisave/platform/config';
-import { ThemeService } from '@wisave/shared/ui';
 import { formatMoney } from '@wisave/shared/model';
-
+import { ThemeService } from '@wisave/shared/ui';
 import { type IStockPosition, type StockChartScope } from '@wisave/stock/data-access';
 
 const SERIES_COLORS = ['hsl(215, 28%, 24%)', 'hsl(198, 62%, 38%)', 'hsl(160, 48%, 36%)', 'hsl(38, 78%, 44%)'];

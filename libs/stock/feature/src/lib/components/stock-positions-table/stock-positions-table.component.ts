@@ -3,7 +3,6 @@ import { Component, input, output } from '@angular/core';
 import { Button } from 'primeng/button';
 
 import { CurrencyLocale, formatMoney } from '@wisave/shared/model';
-
 import { type IStockPosition } from '@wisave/stock/data-access';
 
 @Component({
@@ -16,14 +15,14 @@ import { type IStockPosition } from '@wisave/stock/data-access';
           <h3 class="text-secondary-950 dark:text-dark-secondary-50 text-sm font-semibold">Positions</h3>
           <p class="text-secondary-500 dark:text-dark-secondary-400 mt-1 text-xs">Select rows to focus the chart on one or more holdings.</p>
         </div>
-        <div data-testid="stock-positions-header-actions" class="flex shrink-0 flex-wrap items-center justify-end gap-2">
+        <div class="flex shrink-0 flex-wrap items-center justify-end gap-2" data-testid="stock-positions-header-actions">
           <p-button label="Open" icon="pi pi-filter" severity="secondary" size="small" />
           <p-button [outlined]="true" label="Closed" icon="pi pi-history" severity="secondary" size="small" />
           <p-button (onClick)="addPosition.emit()" label="Add Position" icon="pi pi-plus" severity="success" size="small" />
         </div>
       </header>
 
-      <div data-testid="stock-positions-scroll" class="min-h-0 overflow-x-auto overflow-y-auto [scrollbar-gutter:stable]">
+      <div class="min-h-0 overflow-x-auto overflow-y-auto [scrollbar-gutter:stable]" data-testid="stock-positions-scroll">
         <table class="w-full min-w-[87.5rem] table-fixed text-left text-sm">
           <thead class="bg-secondary-50 dark:bg-dark-primary-900/70 text-secondary-500 dark:text-dark-secondary-300">
             <tr>

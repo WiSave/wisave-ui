@@ -1,7 +1,6 @@
 import type { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import type { Currency } from '@wisave/shared/model';
-import type { ExpenseAccountId, ExpenseCategoryId, ExpenseSubcategoryId } from '@wisave/shared/model';
+import type { Currency, ExpenseAccountId, ExpenseCategoryId, ExpenseSubcategoryId } from '@wisave/shared/model';
 
 export interface MetadataEntryModel {
   key: FormControl<string>;

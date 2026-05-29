@@ -8,7 +8,6 @@ import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 
 import { Currency, CurrencySymbol } from '@wisave/shared/model';
-
 import { type IStockBroker, type IStockPosition, type IStockPositionWritePayload } from '@wisave/stock/data-access';
 
 const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) => ({
@@ -21,8 +20,8 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
   imports: [ReactiveFormsModule, Button, DatePicker, InputNumber, InputText, Select],
   template: `
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex min-h-0 min-w-0 flex-col gap-5">
-      <div data-testid="stock-position-identity-fields" class="grid min-w-0 grid-cols-1 gap-x-4 gap-y-3 md:grid-cols-12">
-        <div data-testid="stock-position-symbol-field" class="flex min-w-0 flex-col gap-2 md:col-span-3">
+      <div class="grid min-w-0 grid-cols-1 gap-x-4 gap-y-3 md:grid-cols-12" data-testid="stock-position-identity-fields">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-3" data-testid="stock-position-symbol-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-symbol">Symbol</label>
           <input id="stock-symbol" class="w-full min-w-0 uppercase" pInputText type="text" formControlName="symbol" placeholder="AAPL" />
           <div class="min-h-5 text-xs leading-5">
@@ -32,24 +31,32 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
           </div>
         </div>
 
-        <div data-testid="stock-position-name-field" class="flex min-w-0 flex-col gap-2 md:col-span-6">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-6" data-testid="stock-position-name-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-name">Name</label>
           <input id="stock-name" class="w-full min-w-0" pInputText type="text" formControlName="name" placeholder="Apple Inc." />
           <div class="min-h-5" aria-hidden="true"></div>
         </div>
 
-        <div data-testid="stock-position-currency-field" class="flex min-w-0 flex-col gap-2 md:col-span-3">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-3" data-testid="stock-position-currency-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-currency">Currency</label>
-          <p-select class="w-full min-w-0" [options]="currencyOptions" inputId="stock-currency" formControlName="currency" optionLabel="label" optionValue="value" appendTo="body" placeholder="Select currency" />
+          <p-select
+            [options]="currencyOptions"
+            class="w-full min-w-0"
+            inputId="stock-currency"
+            formControlName="currency"
+            optionLabel="label"
+            optionValue="value"
+            appendTo="body"
+            placeholder="Select currency" />
           <div class="min-h-5" aria-hidden="true"></div>
         </div>
 
-        <div data-testid="stock-position-broker-field" class="flex min-w-0 flex-col gap-2 md:col-span-4">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-4" data-testid="stock-position-broker-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-broker">Broker</label>
           <p-select
-            class="w-full min-w-0"
             [options]="brokerOptions()"
             [loading]="isBrokerLoading()"
+            class="w-full min-w-0"
             inputId="stock-broker"
             formControlName="brokerId"
             optionLabel="label"
@@ -63,7 +70,7 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
           </div>
         </div>
 
-        <div data-testid="stock-position-isin-field" class="flex min-w-0 flex-col gap-2 md:col-span-4">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-4" data-testid="stock-position-isin-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-isin">ISIN</label>
           <input id="stock-isin" class="w-full min-w-0 uppercase" pInputText type="text" formControlName="isin" placeholder="US0378331005" />
           <div class="min-h-5 text-xs leading-5">
@@ -73,15 +80,15 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
           </div>
         </div>
 
-        <div data-testid="stock-position-ordered-at-field" class="flex min-w-0 flex-col gap-2 md:col-span-4">
+        <div class="flex min-w-0 flex-col gap-2 md:col-span-4" data-testid="stock-position-ordered-at-field">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-ordered-at">Ordered at</label>
           <p-datepicker
-            class="w-full min-w-0"
             [showIcon]="true"
             [showTime]="true"
             [showButtonBar]="true"
             [readonlyInput]="true"
             [fluid]="true"
+            class="w-full min-w-0"
             inputStyleClass="w-full !py-[0.625rem]"
             inputId="stock-ordered-at"
             formControlName="orderedAtUtc"
@@ -94,16 +101,16 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
         </div>
       </div>
 
-      <div data-testid="stock-position-allocation-tag-field" class="flex min-w-0 flex-col gap-2 md:max-w-sm">
+      <div class="flex min-w-0 flex-col gap-2 md:max-w-sm" data-testid="stock-position-allocation-tag-field">
         <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-allocation-tag">Allocation tag</label>
         <input id="stock-allocation-tag" class="w-full min-w-0" pInputText type="text" formControlName="allocationTag" placeholder="US Tech" />
         <div class="min-h-5" aria-hidden="true"></div>
       </div>
 
-      <div data-testid="stock-position-pricing-fields" class="border-secondary-200 dark:border-dark-divider grid min-w-0 grid-cols-1 gap-x-4 gap-y-3 border-t pt-4 md:grid-cols-3">
+      <div class="border-secondary-200 dark:border-dark-divider grid min-w-0 grid-cols-1 gap-x-4 gap-y-3 border-t pt-4 md:grid-cols-3" data-testid="stock-position-pricing-fields">
         <div class="flex min-w-0 flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-quantity">Quantity</label>
-          <p-inputNumber class="w-full min-w-0" inputStyleClass="w-full" [min]="0.000001" [maxFractionDigits]="6" inputId="stock-quantity" formControlName="quantity" mode="decimal" placeholder="0" />
+          <p-inputNumber [min]="0.000001" [maxFractionDigits]="6" class="w-full min-w-0" inputStyleClass="w-full" inputId="stock-quantity" formControlName="quantity" mode="decimal" placeholder="0" />
           <div class="min-h-5 text-xs leading-5">
             @if (isInvalid('quantity')) {
               <span class="text-danger-600 dark:text-danger-400">Quantity must be greater than zero.</span>
@@ -113,7 +120,15 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
 
         <div class="flex min-w-0 flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-unit-price">Unit price</label>
-          <p-inputNumber class="w-full min-w-0" inputStyleClass="w-full" [min]="0.000001" [maxFractionDigits]="6" inputId="stock-unit-price" formControlName="unitPrice" mode="decimal" placeholder="0.000000" />
+          <p-inputNumber
+            [min]="0.000001"
+            [maxFractionDigits]="6"
+            class="w-full min-w-0"
+            inputStyleClass="w-full"
+            inputId="stock-unit-price"
+            formControlName="unitPrice"
+            mode="decimal"
+            placeholder="0.000000" />
           <div class="min-h-5 text-xs leading-5">
             @if (isInvalid('unitPrice')) {
               <span class="text-danger-600 dark:text-danger-400">Unit price must be greater than zero.</span>
@@ -123,7 +138,16 @@ const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) 
 
         <div class="flex min-w-0 flex-col gap-2">
           <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-medium" for="stock-fees">Fees</label>
-          <p-inputNumber class="w-full min-w-0" inputStyleClass="w-full" [min]="0" [minFractionDigits]="2" [maxFractionDigits]="2" inputId="stock-fees" formControlName="fees" mode="decimal" placeholder="0.00" />
+          <p-inputNumber
+            [min]="0"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+            class="w-full min-w-0"
+            inputStyleClass="w-full"
+            inputId="stock-fees"
+            formControlName="fees"
+            mode="decimal"
+            placeholder="0.00" />
           <div class="min-h-5 text-xs leading-5">
             @if (isInvalid('fees')) {
               <span class="text-danger-600 dark:text-danger-400">Fees cannot be negative.</span>

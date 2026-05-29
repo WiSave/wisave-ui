@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@wisave/shared/model';
 import {
+  asExpenseAccountId,
+  asFundingPaymentInstrumentId,
+  Currency,
   type IExpenseAccount,
   type IExpenseAccountUpdateChanges,
   type IExpenseAccountWritePayload,
@@ -13,7 +15,6 @@ import {
   type IFundingPaymentInstrumentWritePayload,
   type IFundingTransferWritePayload,
 } from '@wisave/shared/model';
-import { asExpenseAccountId, asFundingPaymentInstrumentId } from '@wisave/shared/model';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseAccountsMapperService {
@@ -29,9 +30,7 @@ export class ExpenseAccountsMapperService {
       ...(dto.color && { color: dto.color }),
     };
 
-    return dto.kind === 'Cash'
-      ? { ...base, type: 'cash', kind: 'Cash' }
-      : { ...base, type: 'bank_account', kind: 'BankAccount' };
+    return dto.kind === 'Cash' ? { ...base, type: 'cash', kind: 'Cash' } : { ...base, type: 'bank_account', kind: 'BankAccount' };
   }
 
   mapToPaymentInstrument(dto: IFundingPaymentInstrumentApiDto): IFundingPaymentInstrument {

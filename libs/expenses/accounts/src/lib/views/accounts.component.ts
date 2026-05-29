@@ -7,16 +7,14 @@ import { ConfirmationService } from 'primeng/api';
 import { Button } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import { isFundingAccount, type ExpenseAccountId } from '@wisave/shared/model';
+import { AppDialogComponent, StatusCardComponent } from '@wisave/shared/ui';
+
 import { accountsPageEvents } from '../+store/accounts/accounts.events';
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
 import { AccountCardComponent } from '../components/account-card/account-card.component';
 import { EXPENSE_ACCOUNTS_ROUTES } from '../constants/expense-accounts-routes.constant';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { isFundingAccount } from '@wisave/shared/model';
-import { type ExpenseAccountId } from '@wisave/shared/model';
-import { AppDialogComponent } from '@wisave/shared/ui';
-import { StatusCardComponent } from '@wisave/shared/ui';
 
 @Component({
   selector: 'app-accounts',

@@ -5,22 +5,17 @@ import { filter, map } from 'rxjs';
 
 import { TableModule } from 'primeng/table';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import { type IncomeId } from '@wisave/incomes/data-access';
+import { type IPageNavigationEvent, type IPageSizeChangeEvent, type IStatItem } from '@wisave/shared/model';
+import { AppDialogComponent, ChartCardComponent, formatAmount, SegmentedToggleComponent, StatGroupComponent, type ISegmentedToggleOption } from '@wisave/shared/ui';
+
+import { incomesPageEvents } from '../+store/incomes/incomes.events';
+import { IncomesStore } from '../+store/incomes/incomes.store';
+import { IncomesStatsStore } from '../+store/stats/incomes-stats.store';
 import { IncomesTableComponent, type IFilterAppliedEvent } from '../components/incomes-table/incomes-table.component';
 import { MonthlyIncomeChartComponent } from '../components/monthly-income-chart/monthly-income-chart.component';
 import { INCOMES_ROUTES } from '../constants/incomes-routes.constant';
-import { incomesPageEvents } from '../+store/incomes/incomes.events';
-import { IncomesStatsStore } from '../+store/stats/incomes-stats.store';
-import { IncomesStore } from '../+store/incomes/incomes.store';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { ChartCardComponent } from '@wisave/shared/ui';
-import { AppDialogComponent } from '@wisave/shared/ui';
-import { SegmentedToggleComponent, type ISegmentedToggleOption } from '@wisave/shared/ui';
-import { StatGroupComponent } from '@wisave/shared/ui';
-import { formatAmount } from '@wisave/shared/ui';
-import { type IPageNavigationEvent, type IPageSizeChangeEvent, type IStatItem } from '@wisave/shared/model';
-
-import { type IncomeId } from '@wisave/incomes/data-access';
 
 @Component({
   selector: 'app-incomes',
@@ -30,7 +25,7 @@ import { type IncomeId } from '@wisave/incomes/data-access';
       <div class="flex min-w-0 flex-2 flex-col gap-4 2xl:flex-3">
         <div class="flex items-start justify-between gap-4">
           <header class="space-y-1">
-            <p class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold uppercase tracking-[0.24em]">Incomes</p>
+            <p class="text-secondary-500 dark:text-dark-secondary-400 text-xs font-semibold tracking-[0.24em] uppercase">Incomes</p>
           </header>
           <app-segmented-toggle [options]="statsScopeOptions" [value]="statsScope()" (valueChange)="onStatsScopeChange($event)" />
         </div>
@@ -53,14 +48,10 @@ import { type IncomeId } from '@wisave/incomes/data-access';
       <div class="min-w-0 flex-1">
         @defer (on viewport) {
           <app-chart-card title="Yearly income">
-            <app-monthly-income-chart
-              [stats]="monthlyStats()"
-              [loading]="monthlyStatsLoading()"
-              [year]="monthlyStatsYear()"
-              (navigate)="onMonthlyStatsYearChange($event)" />
+            <app-monthly-income-chart [stats]="monthlyStats()" [loading]="monthlyStatsLoading()" [year]="monthlyStatsYear()" (navigate)="onMonthlyStatsYearChange($event)" />
           </app-chart-card>
         } @placeholder {
-          <div class="bg-white dark:bg-dark-primary-850 border border-secondary-200 dark:border-dark-divider rounded-2xl shadow-xs h-72 flex items-center justify-center">
+          <div class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex h-72 items-center justify-center rounded-2xl border bg-white shadow-xs">
             <i class="pi pi-spin pi-spinner text-secondary-400 text-xl"></i>
           </div>
         }
@@ -97,7 +88,6 @@ export class IncomesComponent implements OnInit {
     { label: 'Recurring', value: 'recurring' },
     { label: 'All', value: 'all' },
   ];
-
 
   readonly isLoading = computed(() => this.#store.isLoading());
   readonly pagination = computed(() => this.#store.pagination());

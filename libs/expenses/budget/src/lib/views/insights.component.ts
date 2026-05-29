@@ -2,19 +2,17 @@ import { Component, computed, inject, signal, type OnInit } from '@angular/core'
 
 import { ChartModule } from 'primeng/chart';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import { getChartThemeColors } from '@wisave/platform/config';
+import type { ExpenseCategoryId } from '@wisave/shared/model';
+import { ChartCardComponent, ThemeService } from '@wisave/shared/ui';
+
 import { BudgetAnalysisStore } from '../+store/analysis';
+import { analysisPageEvents } from '../+store/analysis/analysis.events';
 import { ExpenseBudgetStore } from '../+store/budget/budget.store';
 import { CategoryComparisonTableComponent } from '../components/category-comparison-table';
 import { InsightCardComponent } from '../components/insight-card';
 import { computeAllInsights } from '../helpers/insights.helper';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { getChartThemeColors } from '@wisave/platform/config';
-import type { ExpenseCategoryId } from '@wisave/shared/model';
-import { ThemeService } from '@wisave/shared/ui';
-import { ChartCardComponent } from '@wisave/shared/ui';
-
-import { analysisPageEvents } from '../+store/analysis/analysis.events';
 
 @Component({
   selector: 'app-insights',
@@ -50,9 +48,7 @@ import { analysisPageEvents } from '../+store/analysis/analysis.events';
 
         @if (analysisStore.categoryComparison().length > 0) {
           <app-chart-card title="Category breakdown">
-            <app-category-comparison-table
-              [rows]="analysisStore.categoryComparison()"
-              (categoryClicked)="onCategorySelected($event)" />
+            <app-category-comparison-table [rows]="analysisStore.categoryComparison()" (categoryClicked)="onCategorySelected($event)" />
           </app-chart-card>
         }
 
@@ -63,7 +59,7 @@ import { analysisPageEvents } from '../+store/analysis/analysis.events';
             </div>
           </app-chart-card>
         } @placeholder {
-          <div class="bg-white dark:bg-dark-primary-850 border border-secondary-200 dark:border-dark-divider rounded-2xl shadow-xs h-72 flex items-center justify-center">
+          <div class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider flex h-72 items-center justify-center rounded-2xl border bg-white shadow-xs">
             <i class="pi pi-spin pi-spinner text-secondary-400 text-xl"></i>
           </div>
         }

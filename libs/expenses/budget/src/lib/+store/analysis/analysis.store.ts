@@ -1,8 +1,8 @@
-import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-architects/ngrx-toolkit';
 import { computed } from '@angular/core';
+
+import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-architects/ngrx-toolkit';
 import { signalStore, withComputed, withState } from '@ngrx/signals';
 import { on } from '@ngrx/signals/events';
-
 import type { ExpenseCategoryId } from '@wisave/shared/model';
 
 import { withAnalysisEventHandlers } from './analysis.event-handlers';

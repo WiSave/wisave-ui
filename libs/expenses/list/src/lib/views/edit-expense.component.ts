@@ -5,12 +5,12 @@ import { map } from 'rxjs';
 
 import { Button } from 'primeng/button';
 
-import { ExpenseEditFormComponent } from '../components/expense-edit-form/expense-edit-form.component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { asExpenseId, type IExpense } from '@wisave/shared/model';
+
 import { expensesPageEvents } from '../+store/expenses/expenses.events';
 import { ExpensesStore } from '../+store/expenses/expenses.store';
-import { asExpenseId } from '@wisave/shared/model';
-import { type IExpense } from '@wisave/shared/model';
-import { injectDispatch } from '@ngrx/signals/events';
+import { ExpenseEditFormComponent } from '../components/expense-edit-form/expense-edit-form.component';
 
 @Component({
   selector: 'app-edit-expense',
@@ -28,13 +28,7 @@ import { injectDispatch } from '@ngrx/signals/events';
           <span>Loading expense...</span>
         </div>
       } @else if (expense()) {
-        <app-expense-edit-form
-          [expense]="expense()"
-          [categories]="categories()"
-          [accounts]="accounts()"
-          [isLoading]="isBusy()"
-          (submitted)="onSubmit($event)"
-          (cancelled)="onCancel()" />
+        <app-expense-edit-form [expense]="expense()" [categories]="categories()" [accounts]="accounts()" [isLoading]="isBusy()" (submitted)="onSubmit($event)" (cancelled)="onCancel()" />
       } @else {
         <div class="border-secondary-200 dark:border-dark-divider flex flex-col items-center justify-center gap-3 rounded-xl border p-6 text-center">
           <i class="pi pi-exclamation-triangle text-warning-500 text-xl"></i>

@@ -19,7 +19,7 @@ import { Password } from 'primeng/password';
       </div>
 
       @if (error()) {
-        <div class="flex items-start gap-3 rounded-xl bg-danger-50 p-4 text-sm text-danger-700 dark:bg-dark-danger-900-20 dark:text-dark-danger-400" role="alert" aria-live="polite">
+        <div class="bg-danger-50 text-danger-700 dark:bg-dark-danger-900-20 dark:text-dark-danger-400 flex items-start gap-3 rounded-xl p-4 text-sm" role="alert" aria-live="polite">
           <i class="pi pi-exclamation-circle mt-0.5 text-base"></i>
           <span>{{ error() }}</span>
         </div>
@@ -32,18 +32,18 @@ import { Password } from 'primeng/password';
             <p-inputicon class="pi pi-envelope" />
             <input
               id="login-email"
+              name="email"
               [attr.aria-describedby]="isInvalid('email') ? 'login-email-error' : null"
               class="w-full"
               pInputText
               type="email"
-              name="email"
               autocomplete="off"
               data-lpignore="true"
               data-1p-ignore
               formControlName="email"
               placeholder="you@example.com" />
           </p-iconfield>
-          <span id="login-email-error" class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isInvalid('email')">
+          <span id="login-email-error" [class.invisible]="!isInvalid('email')" class="text-danger-600 dark:text-dark-danger-400 text-xs">
             @if (form.controls.email.errors?.['required']) {
               Email is required.
             } @else {
@@ -57,17 +57,17 @@ import { Password } from 'primeng/password';
             <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="login-password">Password</label>
           </div>
           <p-password
-            inputId="login-password"
-            formControlName="password"
             [feedback]="false"
             [toggleMask]="true"
             [fluid]="true"
+            [pt]="{ pcInputText: { root: { 'aria-describedby': isInvalid('password') ? 'login-password-error' : null } } }"
+            inputId="login-password"
+            formControlName="password"
             inputStyleClass="w-full"
             autocomplete="off"
-            placeholder="Enter your password"
-            [pt]="{ pcInputText: { root: { 'aria-describedby': isInvalid('password') ? 'login-password-error' : null } } }" />
+            placeholder="Enter your password" />
 
-          <span id="login-password-error" class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isInvalid('password')">Password is required.</span>
+          <span id="login-password-error" [class.invisible]="!isInvalid('password')" class="text-danger-600 dark:text-dark-danger-400 text-xs">Password is required.</span>
         </div>
 
         <p-button

@@ -1,18 +1,11 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { signalStoreFeature, withProps } from '@ngrx/signals';
-import { withEventHandlers } from '@ngrx/signals/events';
 import { filter, map, merge, pairwise } from 'rxjs';
 
-import { ExpensesSignalRService } from '@wisave/platform/signalr';
-import type {
-  IFundingAccountOpenedPayload,
-  IFundingAccountUpdatedPayload,
-} from '@wisave/platform/signalr';
-import { PortalSignalRService } from '@wisave/platform/signalr';
-import { Currency } from '@wisave/shared/model';
-import type { IFundingAccount } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
+import { signalStoreFeature, withProps } from '@ngrx/signals';
+import { withEventHandlers } from '@ngrx/signals/events';
+import { ExpensesSignalRService, PortalSignalRService, type IFundingAccountOpenedPayload, type IFundingAccountUpdatedPayload } from '@wisave/platform/signalr';
+import { asExpenseAccountId, Currency, type IFundingAccount } from '@wisave/shared/model';
 
 import { accountsPageEvents, accountsSignalREvents } from './accounts.events';
 
@@ -33,9 +26,7 @@ export function mapFundingAccountFromSignalR(payload: IFundingAccountOpenedPaylo
     ...(payload.color && { color: payload.color }),
   };
 
-  return payload.kind === 'Cash'
-    ? { ...base, type: 'cash', kind: 'Cash' }
-    : { ...base, type: 'bank_account', kind: 'BankAccount' };
+  return payload.kind === 'Cash' ? { ...base, type: 'cash', kind: 'Cash' } : { ...base, type: 'bank_account', kind: 'BankAccount' };
 }
 
 export function withAccountsSignalR() {

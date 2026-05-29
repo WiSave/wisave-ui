@@ -6,12 +6,11 @@ import { finalize, map } from 'rxjs';
 import { Button } from 'primeng/button';
 
 import { injectDispatch } from '@ngrx/signals/events';
+import { StockPortfolioService, type IStockBroker, type IStockPositionEditPayload, type IStockPositionWritePayload } from '@wisave/stock/data-access';
 
 import { stockPortfolioPageEvents } from '../+store/portfolio/stock-portfolio.events';
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';
 import { StockPositionFormComponent } from '../components/stock-position-form/stock-position-form.component';
-import { StockPortfolioService } from '@wisave/stock/data-access';
-import { type IStockBroker, type IStockPositionEditPayload, type IStockPositionWritePayload } from '@wisave/stock/data-access';
 
 @Component({
   selector: 'app-edit-stock-position',

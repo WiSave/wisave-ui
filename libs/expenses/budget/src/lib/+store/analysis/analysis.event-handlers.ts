@@ -1,15 +1,13 @@
 import { inject } from '@angular/core';
-import { signalStoreFeature, withProps } from '@ngrx/signals';
-import { Events, withEventHandlers } from '@ngrx/signals/events';
 import { catchError, forkJoin, map, merge, of, switchMap } from 'rxjs';
 
-import type { IBudget, ICategoryMonthComparison, ICategorySpendingSummary } from '@wisave/shared/model';
-import type { ExpenseCategoryId } from '@wisave/shared/model';
-import { ExpenseBudgetApiService } from '@wisave/expenses/data-access';
-import { ExpensesApiService } from '@wisave/expenses/data-access';
+import { signalStoreFeature, withProps } from '@ngrx/signals';
+import { Events, withEventHandlers } from '@ngrx/signals/events';
+import { ExpenseBudgetApiService, ExpensesApiService } from '@wisave/expenses/data-access';
+import type { ExpenseCategoryId, IBudget, ICategoryMonthComparison, ICategorySpendingSummary } from '@wisave/shared/model';
 import { toStoreError } from '@wisave/shared/ui';
 
-import { getPreviousMonth, getMonthRange } from '../../helpers/month.helper';
+import { getMonthRange, getPreviousMonth } from '../../helpers/month.helper';
 import { budgetPageEvents } from '../budget/budget.events';
 import { analysisApiEvents, analysisPageEvents } from './analysis.events';
 
@@ -24,17 +22,9 @@ export function withAnalysisEventHandlers() {
       const loadComparison$ = (month: number, year: number) => {
         const prev = getPreviousMonth(month, year);
         return forkJoin({
-          budget: props._budgetApi.getBudget(prev.month, prev.year).pipe(
-            catchError(() => of(null as IBudget | null)),
-          ),
-          summaries: props._budgetApi.getSpendingSummary(prev.month, prev.year).pipe(
-            catchError(() => of([] as ICategorySpendingSummary[])),
-          ),
-        }).pipe(
-          map(({ budget, summaries }) =>
-            analysisApiEvents.comparisonLoadedSuccess({ budget, summaries }),
-          ),
-        );
+          budget: props._budgetApi.getBudget(prev.month, prev.year).pipe(catchError(() => of(null as IBudget | null))),
+          summaries: props._budgetApi.getSpendingSummary(prev.month, prev.year).pipe(catchError(() => of([] as ICategorySpendingSummary[]))),
+        }).pipe(map(({ budget, summaries }) => analysisApiEvents.comparisonLoadedSuccess({ budget, summaries })));
       };
 
       const loadRange$ = (months: number) => {
@@ -91,20 +81,14 @@ export function withAnalysisEventHandlers() {
       const defaultYear = now.getFullYear();
 
       return {
-        loadComparisonOnOpen$: props._events.on(budgetPageEvents.opened).pipe(
-          switchMap(() => loadComparison$(defaultMonth, defaultYear)),
-        ),
+        loadComparisonOnOpen$: props._events.on(budgetPageEvents.opened).pipe(switchMap(() => loadComparison$(defaultMonth, defaultYear))),
 
-        loadComparisonOnMonthChange$: props._events.on(budgetPageEvents.monthChanged).pipe(
-          switchMap(({ payload }) => loadComparison$(payload.month, payload.year)),
-        ),
+        loadComparisonOnMonthChange$: props._events.on(budgetPageEvents.monthChanged).pipe(switchMap(({ payload }) => loadComparison$(payload.month, payload.year))),
 
         loadRangeData$: merge(
           props._events.on(analysisPageEvents.insightsPageOpened).pipe(map(() => 3 as const)),
           props._events.on(analysisPageEvents.rangeChanged).pipe(map(({ payload }) => payload.months)),
-        ).pipe(
-          switchMap((months) => loadRange$(months)),
-        ),
+        ).pipe(switchMap((months) => loadRange$(months))),
       };
     }),
   );

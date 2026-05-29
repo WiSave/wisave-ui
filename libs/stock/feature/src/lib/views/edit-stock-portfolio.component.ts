@@ -6,11 +6,11 @@ import { map } from 'rxjs';
 import { Button } from 'primeng/button';
 
 import { injectDispatch } from '@ngrx/signals/events';
+import { type IStockPortfolioWritePayload } from '@wisave/stock/data-access';
 
 import { stockPortfolioPageEvents } from '../+store/portfolio/stock-portfolio.events';
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';
 import { StockPortfolioFormComponent } from '../components/stock-portfolio-form/stock-portfolio-form.component';
-import { type IStockPortfolioWritePayload } from '@wisave/stock/data-access';
 
 @Component({
   selector: 'app-edit-stock-portfolio',

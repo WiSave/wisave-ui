@@ -22,11 +22,13 @@ const SEVERITY_STYLES: Record<InsightSeverity, { icon: string; borderClass: stri
 
 @Component({
   selector: 'app-insight-card',
-  styles: `:host { display: block; }`,
+  styles: `
+    :host {
+      display: block;
+    }
+  `,
   template: `
-    <div
-      class="bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider rounded-lg border px-4 py-3 text-sm"
-      [class]="style().borderClass">
+    <div [class]="style().borderClass" class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider rounded-lg border bg-white px-4 py-3 text-sm">
       <span [class]="style().iconClass"><i [class]="style().icon" class="mr-2 text-sm"></i></span>
       <span class="text-secondary-700 dark:text-dark-secondary-200">{{ insight().message }}</span>
     </div>

@@ -3,11 +3,7 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:shell"],
-  "implicitDependencies": [
-    "expenses-list",
-    "expenses-budget",
-    "expenses-accounts"
-  ],
+  "implicitDependencies": ["expenses-list", "expenses-budget", "expenses-accounts"],
   "sourceRoot": "libs/expenses/shell/src",
   "prefix": "app",
   "targets": {

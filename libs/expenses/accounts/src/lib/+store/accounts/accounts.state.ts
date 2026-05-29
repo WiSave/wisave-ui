@@ -1,5 +1,4 @@
-import type { IStoreError } from '@wisave/shared/model';
-import type { IExpenseAccount } from '@wisave/shared/model';
+import type { IExpenseAccount, IStoreError } from '@wisave/shared/model';
 
 import type { AccountsCommandStatus } from '../../types/accounts-state.types';
 

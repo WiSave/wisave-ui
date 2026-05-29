@@ -1,7 +1,5 @@
+import { type IIncome, type IIncomesFilter, type IIncomesSortOrder } from '@wisave/incomes/data-access';
 import { initialPagination, type IPagination, type IStoreError } from '@wisave/shared/model';
-
-import { type IIncomesFilter, type IIncomesSortOrder } from '@wisave/incomes/data-access';
-import { type IIncome } from '@wisave/incomes/data-access';
 
 export interface IncomesState {
   isLoading: boolean;

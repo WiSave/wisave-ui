@@ -3,11 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { type Observable } from 'rxjs';
 
 import { getApiBaseUrl } from '@wisave/platform/config';
+
 import {
+  type ICreateRoleRequest,
   type ISettingsAccessManagementResponse,
   type ISettingsRole,
   type ISettingsUser,
-  type ICreateRoleRequest,
   type IUpdateRolePermissionsRequest,
   type IUpdateUserRolesRequest,
 } from '../types/settings-admin.types';

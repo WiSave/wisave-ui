@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+
 import { type IStoreError } from '@wisave/shared/model';
 
 export const toStoreError = (err: unknown): IStoreError => {

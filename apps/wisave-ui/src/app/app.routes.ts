@@ -1,7 +1,7 @@
 import { type Routes } from '@angular/router';
 
-import { AuthLayoutComponent, MainLayoutComponent } from '@wisave/platform/shell';
 import { authGuard, guestGuard, SessionUnavailableComponent } from '@wisave/platform/auth';
+import { AuthLayoutComponent, MainLayoutComponent } from '@wisave/platform/shell';
 
 export const routes: Routes = [
   {

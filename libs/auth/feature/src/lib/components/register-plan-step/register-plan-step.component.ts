@@ -25,19 +25,18 @@ import { type IPlan } from '../../types/auth.types';
       <div class="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
         @for (plan of plans(); track plan.id) {
           <div
-            class="group relative flex cursor-pointer rounded-2xl border-2 transition-all duration-200"
             [class]="
-              (plan.recommended ? 'md:-my-4 md:py-4 md:z-10 ' : '') +
+              (plan.recommended ? 'md:z-10 md:-my-4 md:py-4 ' : '') +
               (selected() === plan.id
-                ? 'border-accent-500 bg-accent-50/60 dark:bg-accent-950/20 shadow-lg ring-1 ring-accent-500/20'
+                ? 'border-accent-500 bg-accent-50/60 dark:bg-accent-950/20 ring-accent-500/20 shadow-lg ring-1'
                 : plan.recommended
                   ? 'border-accent-300 dark:border-accent-700 bg-secondary-50 dark:bg-dark-primary-800 hover:border-accent-400 dark:hover:border-accent-600 hover:shadow-lg'
                   : 'border-secondary-200 dark:border-dark-primary-700 bg-secondary-50 dark:bg-dark-primary-800 hover:border-secondary-300 dark:hover:border-dark-primary-600 hover:shadow-md')
             "
-            (click)="onSelect(plan)">
+            (click)="onSelect(plan)"
+            class="group relative flex cursor-pointer rounded-2xl border-2 transition-all duration-200">
             @if (plan.recommended) {
-              <span
-                class="bg-accent-500 text-dark-primary-950 absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[11px] font-bold uppercase tracking-widest shadow-sm">
+              <span class="bg-accent-500 text-dark-primary-950 absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[11px] font-bold tracking-widest uppercase shadow-sm">
                 Recommended
               </span>
             }
@@ -45,23 +44,17 @@ import { type IPlan } from '../../types/auth.types';
             <!-- Mobile: compact horizontal layout -->
             <div class="flex w-full items-center gap-4 p-4 md:hidden">
               <div
-                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                [class]="
-                  plan.id === 'free'
-                    ? 'bg-secondary-200 dark:bg-dark-primary-700'
-                    : plan.id === 'pro'
-                      ? 'bg-accent-100 dark:bg-accent-900/30'
-                      : 'bg-accent-200 dark:bg-accent-800/30'
-                ">
+                [class]="plan.id === 'free' ? 'bg-secondary-200 dark:bg-dark-primary-700' : plan.id === 'pro' ? 'bg-accent-100 dark:bg-accent-900/30' : 'bg-accent-200 dark:bg-accent-800/30'"
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                 <i
-                  class="pi text-lg"
                   [class]="
                     plan.id === 'free'
                       ? 'pi-bolt text-secondary-600 dark:text-dark-secondary-300'
                       : plan.id === 'pro'
                         ? 'pi-star text-accent-600 dark:text-accent-400'
                         : 'pi-crown text-accent-700 dark:text-accent-300'
-                  "></i>
+                  "
+                  class="pi text-lg"></i>
               </div>
               <div class="flex-1">
                 <h3 class="text-secondary-900 dark:text-dark-secondary-50 text-base font-bold">{{ plan.name }}</h3>
@@ -87,32 +80,24 @@ import { type IPlan } from '../../types/auth.types';
             <div class="hidden w-full flex-col p-7 md:flex">
               <div class="mb-5 flex items-center gap-3">
                 <div
-                  class="flex h-10 w-10 items-center justify-center rounded-xl"
-                  [class]="
-                    plan.id === 'free'
-                      ? 'bg-secondary-200 dark:bg-dark-primary-700'
-                      : plan.id === 'pro'
-                        ? 'bg-accent-100 dark:bg-accent-900/30'
-                        : 'bg-accent-200 dark:bg-accent-800/30'
-                  ">
+                  [class]="plan.id === 'free' ? 'bg-secondary-200 dark:bg-dark-primary-700' : plan.id === 'pro' ? 'bg-accent-100 dark:bg-accent-900/30' : 'bg-accent-200 dark:bg-accent-800/30'"
+                  class="flex h-10 w-10 items-center justify-center rounded-xl">
                   <i
-                    class="pi text-lg"
                     [class]="
                       plan.id === 'free'
                         ? 'pi-bolt text-secondary-600 dark:text-dark-secondary-300'
                         : plan.id === 'pro'
                           ? 'pi-star text-accent-600 dark:text-accent-400'
                           : 'pi-crown text-accent-700 dark:text-accent-300'
-                    "></i>
+                    "
+                    class="pi text-lg"></i>
                 </div>
                 <h3 class="text-secondary-900 dark:text-dark-secondary-50 text-lg font-bold">{{ plan.name }}</h3>
               </div>
 
               <div class="mb-6 flex items-baseline gap-1">
                 @if (plan.price !== null) {
-                  <span class="text-secondary-900 dark:text-dark-secondary-50 text-4xl font-extrabold tracking-tight">
-                    \${{ plan.price }}
-                  </span>
+                  <span class="text-secondary-900 dark:text-dark-secondary-50 text-4xl font-extrabold tracking-tight"> \${{ plan.price }} </span>
                   <span class="text-secondary-600 dark:text-dark-secondary-300 text-sm font-medium">/{{ plan.interval }}</span>
                 } @else {
                   <span class="text-secondary-900 dark:text-dark-secondary-50 text-4xl font-extrabold tracking-tight">Free</span>

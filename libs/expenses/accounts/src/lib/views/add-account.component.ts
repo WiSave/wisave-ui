@@ -1,12 +1,12 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { injectDispatch } from '@ngrx/signals/events';
+import { type IExpenseAccountWritePayload } from '@wisave/shared/model';
+
 import { accountsPageEvents } from '../+store/accounts/accounts.events';
 import { ExpenseAccountsStore } from '../+store/accounts/accounts.store';
 import { AccountFormComponent } from '../components/account-form/account-form.component';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { type IExpenseAccountWritePayload } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-add-account',

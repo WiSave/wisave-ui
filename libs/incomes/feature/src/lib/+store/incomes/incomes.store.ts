@@ -1,8 +1,8 @@
 import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-architects/ngrx-toolkit';
-import { type IIncome } from '@wisave/incomes/data-access';
 import { signalStore, withFeature, withState } from '@ngrx/signals';
 import { addEntity, removeEntity, setAllEntities, setEntity, updateEntity, withEntities } from '@ngrx/signals/entities';
 import { on } from '@ngrx/signals/events';
+import { type IIncome } from '@wisave/incomes/data-access';
 
 import { withIncomesEventHandlers as withEventHandlers } from './incomes.event-handlers';
 import { incomesApiEvents, incomesPageEvents } from './incomes.events';

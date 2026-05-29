@@ -2,13 +2,12 @@ import { withDevtools, withGlitchTracking, withTrackedReducer } from '@angular-a
 import { signalStore, withState } from '@ngrx/signals';
 import { removeEntity, setAllEntities, setEntity, withEntities } from '@ngrx/signals/entities';
 import { on } from '@ngrx/signals/events';
-
 import type { IExpenseAccount } from '@wisave/shared/model';
-import type { AccountsCommandStatus } from '../../types/accounts-state.types';
 
+import type { AccountsCommandStatus } from '../../types/accounts-state.types';
 import { withAccountsEventHandlers } from './accounts.event-handlers';
-import { withAccountsSignalR } from './accounts.signalr.event-handlers';
 import { accountsApiEvents, accountsPageEvents, accountsSignalREvents } from './accounts.events';
+import { withAccountsSignalR } from './accounts.signalr.event-handlers';
 import { initialState } from './accounts.state';
 
 export const ExpenseAccountsStore = signalStore(
@@ -33,7 +32,10 @@ export const ExpenseAccountsStore = signalStore(
     on(accountsApiEvents.updatedFailure, ({ payload }) => ({ isLoading: false, error: payload.error, commandStatus: 'failed' as AccountsCommandStatus })),
     on(accountsApiEvents.removeAccepted, () => ({ isLoading: false, error: null, commandStatus: 'accepted' as AccountsCommandStatus })),
     on(accountsApiEvents.removedFailure, ({ payload }) => ({ isLoading: false, error: payload.error, commandStatus: 'failed' as AccountsCommandStatus })),
-    on(accountsApiEvents.selectedAccountLoaded, ({ payload }) => [setEntity<IExpenseAccount>(payload.account), () => ({ isLoading: false, error: null, selectedAccount: payload.account, commandStatus: 'idle' as AccountsCommandStatus })]),
+    on(accountsApiEvents.selectedAccountLoaded, ({ payload }) => [
+      setEntity<IExpenseAccount>(payload.account),
+      () => ({ isLoading: false, error: null, selectedAccount: payload.account, commandStatus: 'idle' as AccountsCommandStatus }),
+    ]),
     on(accountsSignalREvents.accountUpsertedSignalR, ({ payload }, state) => [
       setEntity<IExpenseAccount>(payload.account),
       () => ({

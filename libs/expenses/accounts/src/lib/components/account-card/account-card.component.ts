@@ -2,14 +2,7 @@ import { Component, computed, input, output } from '@angular/core';
 
 import { Button } from 'primeng/button';
 
-import {
-  type ExpenseAccountType,
-  type IBankAccount,
-  type ICashAccount,
-  type IExpenseAccount,
-} from '@wisave/shared/model';
-import type { ExpenseAccountId } from '@wisave/shared/model';
-import { createMoney, formatMoney } from '@wisave/shared/model';
+import { createMoney, formatMoney, type ExpenseAccountId, type ExpenseAccountType, type IBankAccount, type ICashAccount, type IExpenseAccount } from '@wisave/shared/model';
 
 const ACCOUNT_TYPE_LABELS: Record<ExpenseAccountType, string> = {
   bank_account: 'Funding Account',
@@ -29,7 +22,7 @@ const ACCOUNT_TYPE_LABELS: Record<ExpenseAccountType, string> = {
     <div
       [style.border-left-width]="'3px'"
       [style.border-left-color]="borderColor()"
-      class="bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider relative flex h-44 flex-col overflow-hidden rounded-xl border p-4">
+      class="dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider relative flex h-44 flex-col overflow-hidden rounded-xl border bg-white p-4">
       <div class="flex items-start justify-between">
         <div class="flex flex-col gap-0.5">
           <span class="text-secondary-900 dark:text-dark-secondary-50 text-sm font-semibold">{{ account().name }}</span>

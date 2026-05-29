@@ -12,8 +12,7 @@ export const routes: Routes = [
       },
       {
         path: 'access',
-        loadComponent: () =>
-          import('./views/settings-access-management.component').then((m) => m.SettingsAccessManagementComponent),
+        loadComponent: () => import('./views/settings-access-management.component').then((m) => m.SettingsAccessManagementComponent),
       },
     ],
   },

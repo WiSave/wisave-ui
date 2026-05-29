@@ -18,92 +18,74 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
   imports: [ReactiveFormsModule, Button, Password],
   template: `
     <div class="flex min-w-0 flex-col gap-4">
-      <section class="border-secondary-200 dark:border-dark-divider bg-white/80 dark:bg-dark-primary-850/80 rounded-lg border p-5">
+      <section class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850/80 rounded-lg border bg-white/80 p-5">
         <div class="grid gap-6 xl:grid-cols-[minmax(240px,0.45fr)_minmax(420px,0.55fr)]">
           <div class="flex max-w-md flex-col gap-2">
-            <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.2em]">
-              User profile
-            </p>
+            <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.2em] uppercase">User profile</p>
             <h2 class="text-secondary-950 dark:text-dark-secondary-50 text-base font-semibold">Account details</h2>
-            <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">
-              Account identity details used across WiSave.
-            </p>
+            <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">Account identity details used across WiSave.</p>
           </div>
 
-          <dl class="border-secondary-200 dark:border-dark-divider grid gap-4 rounded-lg border bg-secondary-50/60 p-4 dark:bg-dark-primary-900/40 md:grid-cols-2">
+          <dl class="border-secondary-200 dark:border-dark-divider bg-secondary-50/60 dark:bg-dark-primary-900/40 grid gap-4 rounded-lg border p-4 md:grid-cols-2">
             <div>
-              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                Name
-              </dt>
+              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">Name</dt>
               <dd class="text-secondary-900 dark:text-dark-secondary-50 mt-1 truncate text-sm font-medium">{{ displayName() }}</dd>
             </div>
             <div>
-              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                Email
-              </dt>
+              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">Email</dt>
               <dd class="text-secondary-900 dark:text-dark-secondary-50 mt-1 truncate text-sm font-medium">{{ email() }}</dd>
             </div>
             <div class="md:col-span-2">
-              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-                User ID
-              </dt>
+              <dt class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">User ID</dt>
               <dd class="text-secondary-900 dark:text-dark-secondary-50 mt-1 truncate text-sm font-medium">{{ userId() }}</dd>
             </div>
           </dl>
         </div>
       </section>
 
-      <section class="border-secondary-200 dark:border-dark-divider bg-white/80 dark:bg-dark-primary-850/80 rounded-lg border p-5">
+      <section class="border-secondary-200 dark:border-dark-divider dark:bg-dark-primary-850/80 rounded-lg border bg-white/80 p-5">
         <div class="grid gap-6 xl:grid-cols-[minmax(240px,0.45fr)_minmax(420px,0.55fr)]">
           <div class="flex max-w-md flex-col gap-2">
-            <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold uppercase tracking-[0.18em]">
-              Security
-            </p>
+            <p class="text-secondary-500 dark:text-dark-secondary-400 text-[10px] font-semibold tracking-[0.18em] uppercase">Security</p>
             <h3 class="text-secondary-950 dark:text-dark-secondary-50 text-base font-semibold">Change password</h3>
-            <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">
-              Keep your account password current. Use at least 8 characters.
-            </p>
+            <p class="text-secondary-500 dark:text-dark-secondary-300 text-sm leading-6">Keep your account password current. Use at least 8 characters.</p>
           </div>
 
-          <div class="border-secondary-200 dark:border-dark-divider rounded-lg border bg-secondary-50/60 p-4 dark:bg-dark-primary-900/40">
+          <div class="border-secondary-200 dark:border-dark-divider bg-secondary-50/60 dark:bg-dark-primary-900/40 rounded-lg border p-4">
             @if (passwordStatus() === 'success') {
-              <div class="mb-4 rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200">
-                Password changed.
-              </div>
+              <div class="mb-4 rounded-md bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-200">Password changed.</div>
             } @else if (passwordError()) {
-              <div class="mb-4 rounded-md bg-danger-50 px-3 py-2 text-sm font-medium text-danger-700 dark:bg-dark-danger-900-20 dark:text-dark-danger-400">
+              <div class="bg-danger-50 text-danger-700 dark:bg-dark-danger-900-20 dark:text-dark-danger-400 mb-4 rounded-md px-3 py-2 text-sm font-medium">
                 {{ passwordError() }}
               </div>
             }
 
-            <form class="grid gap-4 md:grid-cols-2" [formGroup]="passwordForm" (ngSubmit)="onChangePassword()">
+            <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="grid gap-4 md:grid-cols-2">
               <div class="flex min-w-0 flex-col gap-2 md:col-span-2">
                 <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="current-password">Current password</label>
                 <p-password
-                  inputId="current-password"
-                  formControlName="currentPassword"
                   [feedback]="false"
                   [toggleMask]="true"
                   [fluid]="true"
+                  inputId="current-password"
+                  formControlName="currentPassword"
                   inputStyleClass="w-full"
                   autocomplete="current-password"
                   placeholder="Current password" />
-                <span class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isPasswordInvalid('currentPassword')">
-                  Current password is required.
-                </span>
+                <span [class.invisible]="!isPasswordInvalid('currentPassword')" class="text-danger-600 dark:text-dark-danger-400 text-xs"> Current password is required. </span>
               </div>
 
               <div class="flex min-w-0 flex-col gap-2">
                 <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="new-password">New password</label>
                 <p-password
-                  inputId="new-password"
-                  formControlName="newPassword"
                   [toggleMask]="true"
                   [fluid]="true"
+                  inputId="new-password"
+                  formControlName="newPassword"
                   inputStyleClass="w-full"
                   autocomplete="new-password"
                   placeholder="Min. 8 characters" />
-                <span class="text-xs text-danger-600 dark:text-dark-danger-400" [class.invisible]="!isPasswordInvalid('newPassword')">
+                <span [class.invisible]="!isPasswordInvalid('newPassword')" class="text-danger-600 dark:text-dark-danger-400 text-xs">
                   @if (passwordForm.controls.newPassword.errors?.['required']) {
                     New password is required.
                   } @else {
@@ -115,30 +97,28 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
               <div class="flex min-w-0 flex-col gap-2">
                 <label class="text-secondary-700 dark:text-dark-secondary-100 text-sm font-semibold" for="confirm-password">Confirm password</label>
                 <p-password
-                  inputId="confirm-password"
-                  formControlName="confirmPassword"
                   [feedback]="false"
                   [toggleMask]="true"
                   [fluid]="true"
+                  inputId="confirm-password"
+                  formControlName="confirmPassword"
                   inputStyleClass="w-full"
                   autocomplete="new-password"
                   placeholder="Repeat new password" />
-                <span
-                  class="text-xs text-danger-600 dark:text-dark-danger-400"
-                  [class.invisible]="!(passwordForm.hasError('passwordMismatch') && passwordForm.controls.confirmPassword.touched)">
+                <span [class.invisible]="!(passwordForm.hasError('passwordMismatch') && passwordForm.controls.confirmPassword.touched)" class="text-danger-600 dark:text-dark-danger-400 text-xs">
                   Passwords do not match.
                 </span>
               </div>
 
               <div class="flex justify-end md:col-span-2">
                 <p-button
+                  [loading]="passwordStatus() === 'submitting'"
+                  [disabled]="passwordForm.invalid || passwordStatus() === 'submitting'"
                   type="submit"
                   label="Update password"
                   icon="pi pi-lock"
                   size="small"
-                  severity="secondary"
-                  [loading]="passwordStatus() === 'submitting'"
-                  [disabled]="passwordForm.invalid || passwordStatus() === 'submitting'" />
+                  severity="secondary" />
               </div>
             </form>
           </div>

@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, Subject, take, toArray } from 'rxjs';
 
-import { PortalSignalRService } from './portal-signalr.service';
-import type { ISignalREnvelope } from './signalr-envelope.types';
-
 import { ExpensesSignalRService } from './expenses-signalr.service';
 import { ExpensesEventType } from './expenses-signalr.types';
+import { PortalSignalRService } from './portal-signalr.service';
+import type { ISignalREnvelope } from './signalr-envelope.types';
 
 describe('ExpensesSignalRService', () => {
   let messages$: Subject<ISignalREnvelope>;
@@ -13,10 +12,7 @@ describe('ExpensesSignalRService', () => {
   beforeEach(() => {
     messages$ = new Subject<ISignalREnvelope>();
     TestBed.configureTestingModule({
-      providers: [
-        ExpensesSignalRService,
-        { provide: PortalSignalRService, useValue: { messages$: messages$.asObservable() } },
-      ],
+      providers: [ExpensesSignalRService, { provide: PortalSignalRService, useValue: { messages$: messages$.asObservable() } }],
     });
   });
 

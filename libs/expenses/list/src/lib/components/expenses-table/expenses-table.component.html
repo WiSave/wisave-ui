@@ -60,7 +60,7 @@
         <td>
           <div class="flex items-center gap-2">
             @if (getAccountColor(expense.accountId); as color) {
-              <div class="h-2.5 w-2.5 shrink-0 rounded-full" [style.background-color]="color"></div>
+              <div [style.background-color]="color" class="h-2.5 w-2.5 shrink-0 rounded-full"></div>
             }
             <span class="truncate">{{ getAccountName(expense.accountId) }}</span>
           </div>

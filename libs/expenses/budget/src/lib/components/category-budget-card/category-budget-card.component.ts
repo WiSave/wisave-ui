@@ -2,9 +2,7 @@ import { Component, computed, input, output } from '@angular/core';
 
 import { Button } from 'primeng/button';
 
-import { Currency } from '@wisave/shared/model';
-import type { IDelta } from '@wisave/shared/model';
-import { createMoney, formatMoney } from '@wisave/shared/model';
+import { createMoney, Currency, formatMoney, type IDelta } from '@wisave/shared/model';
 
 @Component({
   selector: 'app-category-budget-card',
@@ -17,9 +15,7 @@ import { createMoney, formatMoney } from '@wisave/shared/model';
   `,
   template: `
     <section
-      [class]="
-        isOverBudget() ? 'bg-white dark:bg-dark-primary-850 border-rose-400 dark:border-rose-500/50' : 'bg-white dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider'
-      "
+      [class]="isOverBudget() ? 'dark:bg-dark-primary-850 border-rose-400 bg-white dark:border-rose-500/50' : 'dark:bg-dark-primary-850 border-secondary-200 dark:border-dark-divider bg-white'"
       class="flex h-full flex-col gap-2 rounded-xl border p-3 transition-colors">
       <div class="flex items-start justify-between">
         <span class="text-secondary-900 dark:text-dark-secondary-50 text-sm font-semibold">{{ categoryName() }}</span>
@@ -34,10 +30,7 @@ import { createMoney, formatMoney } from '@wisave/shared/model';
           <span class="text-secondary-500 dark:text-dark-secondary-400 text-[10px]">/ {{ formattedLimit() }}</span>
         </div>
         <div class="bg-secondary-200 dark:bg-dark-primary-700 mt-1.5 h-1 w-full overflow-hidden rounded-full">
-          <div
-            [class]="isOverBudget() ? 'bg-rose-500' : 'bg-progress dark:bg-dark-progress'"
-            [style.width.%]="progressPercent()"
-            class="h-full rounded-full transition-all duration-300"></div>
+          <div [class]="isOverBudget() ? 'bg-rose-500' : 'bg-progress dark:bg-dark-progress'" [style.width.%]="progressPercent()" class="h-full rounded-full transition-all duration-300"></div>
         </div>
         <div class="mt-1 flex items-center justify-between">
           @if (isOverBudget()) {

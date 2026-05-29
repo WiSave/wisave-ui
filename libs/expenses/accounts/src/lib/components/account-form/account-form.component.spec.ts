@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 
-import { Currency } from '@wisave/shared/model';
-import type { IBankAccount } from '@wisave/shared/model';
-import { asExpenseAccountId } from '@wisave/shared/model';
+import { asExpenseAccountId, Currency, type IBankAccount } from '@wisave/shared/model';
+import { vi } from 'vitest';
 
 import { AccountFormComponent } from './account-form.component';
 

@@ -9,24 +9,22 @@ import { PermissionService } from '@wisave/platform/auth';
   template: `
     <section class="flex h-full min-w-0 flex-col px-6 py-5">
       <header class="mb-5">
-        <p class="text-secondary-500 dark:text-dark-secondary-400 text-[11px] font-bold uppercase tracking-[0.22em]">
-          Settings
-        </p>
+        <p class="text-secondary-500 dark:text-dark-secondary-400 text-[11px] font-bold tracking-[0.22em] uppercase">Settings</p>
         <h1 class="text-secondary-950 dark:text-dark-secondary-50 mt-2 text-2xl font-semibold">Settings</h1>
       </header>
 
       <nav class="border-secondary-200 dark:border-dark-divider mb-6 flex gap-1 border-b">
         <a
+          class="text-secondary-500 hover:text-secondary-950 dark:text-dark-secondary-400 dark:hover:text-dark-secondary-50 [&.active]:border-secondary-700 [&.active]:text-secondary-950 dark:[&.active]:border-dark-secondary-100 dark:[&.active]:text-dark-secondary-50 border-b-2 border-transparent px-4 py-2.5 text-sm font-semibold transition-colors"
           routerLink="profile"
-          routerLinkActive="active"
-          class="text-secondary-500 hover:text-secondary-950 dark:text-dark-secondary-400 dark:hover:text-dark-secondary-50 border-b-2 border-transparent px-4 py-2.5 text-sm font-semibold transition-colors [&.active]:border-secondary-700 [&.active]:text-secondary-950 dark:[&.active]:border-dark-secondary-100 dark:[&.active]:text-dark-secondary-50">
+          routerLinkActive="active">
           Profile
         </a>
         @if (canManageAccess()) {
           <a
+            class="text-secondary-500 hover:text-secondary-950 dark:text-dark-secondary-400 dark:hover:text-dark-secondary-50 [&.active]:border-secondary-700 [&.active]:text-secondary-950 dark:[&.active]:border-dark-secondary-100 dark:[&.active]:text-dark-secondary-50 border-b-2 border-transparent px-4 py-2.5 text-sm font-semibold transition-colors"
             routerLink="access"
-            routerLinkActive="active"
-            class="text-secondary-500 hover:text-secondary-950 dark:text-dark-secondary-400 dark:hover:text-dark-secondary-50 border-b-2 border-transparent px-4 py-2.5 text-sm font-semibold transition-colors [&.active]:border-secondary-700 [&.active]:text-secondary-950 dark:[&.active]:border-dark-secondary-100 dark:[&.active]:text-dark-secondary-50">
+            routerLinkActive="active">
             Access Management
           </a>
         }

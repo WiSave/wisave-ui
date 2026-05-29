@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { Dispatcher, provideDispatcher } from '@ngrx/signals/events';
-
 import { Currency } from '@wisave/shared/model';
-
 import { type IStockPortfolio, type IStockPosition } from '@wisave/stock/data-access';
+
 import { stockPortfolioApiEvents, stockPortfolioPageEvents } from './stock-portfolio.events';
 import { StockPortfolioStore } from './stock-portfolio.store';
 
@@ -188,22 +187,24 @@ describe('StockPortfolioStore', () => {
 
   it('accepts open-position commands without appending a projected row', () => {
     dispatcher.dispatch(stockPortfolioApiEvents.loadedSuccess({ portfolios, positions }));
-    dispatcher.dispatch(stockPortfolioPageEvents.addPosition({
-      position: {
-        portfolioId: 'portfolio-core',
-        brokerId: 'broker-1',
-        symbol: 'AAPL',
-        isin: 'US0378331005',
-        name: 'Apple Inc.',
-        currency: Currency.USD,
-        allocationTag: 'US Tech',
-        orderedAtUtc: '2026-05-01T10:30:00.000Z',
-        quantity: 12,
-        unitPrice: 185.1,
-        fees: 1.5,
-        brokerOrderId: null,
-      },
-    }));
+    dispatcher.dispatch(
+      stockPortfolioPageEvents.addPosition({
+        position: {
+          portfolioId: 'portfolio-core',
+          brokerId: 'broker-1',
+          symbol: 'AAPL',
+          isin: 'US0378331005',
+          name: 'Apple Inc.',
+          currency: Currency.USD,
+          allocationTag: 'US Tech',
+          orderedAtUtc: '2026-05-01T10:30:00.000Z',
+          quantity: 12,
+          unitPrice: 185.1,
+          fees: 1.5,
+          brokerOrderId: null,
+        },
+      }),
+    );
 
     expect(store.commandStatus()).toBe('submitting');
 

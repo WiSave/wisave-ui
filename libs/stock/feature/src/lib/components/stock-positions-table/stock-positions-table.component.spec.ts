@@ -1,10 +1,9 @@
 import { type ComponentRef } from '@angular/core';
-import { type ComponentFixture } from '@angular/core/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { Currency } from '@wisave/shared/model';
-
 import { type IStockPosition } from '@wisave/stock/data-access';
+
 import { StockPositionsTableComponent } from './stock-positions-table.component';
 
 describe('StockPositionsTableComponent', () => {

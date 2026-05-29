@@ -1,12 +1,11 @@
 import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
-import { APP_INITIALIZER, type ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, isDevMode, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, type ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-
 import { authInterceptor } from '@wisave/platform/auth';
 import { CommandFailedNotifierService } from '@wisave/platform/signalr';
 

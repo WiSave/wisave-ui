@@ -5,12 +5,12 @@ import { map } from 'rxjs';
 
 import { Button } from 'primeng/button';
 
-import { IncomeEditFormComponent } from '../components/income-edit-form/income-edit-form.component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { asIncomeId, type IIncome } from '@wisave/incomes/data-access';
+
 import { incomesPageEvents } from '../+store/incomes/incomes.events';
 import { IncomesStore } from '../+store/incomes/incomes.store';
-import { asIncomeId } from '@wisave/incomes/data-access';
-import { type IIncome } from '@wisave/incomes/data-access';
-import { injectDispatch } from '@ngrx/signals/events';
+import { IncomeEditFormComponent } from '../components/income-edit-form/income-edit-form.component';
 
 @Component({
   selector: 'app-edit-income',

@@ -6,7 +6,6 @@ import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 
 import { Currency, CurrencySymbol } from '@wisave/shared/model';
-
 import { type IStockPortfolio, type IStockPortfolioWritePayload } from '@wisave/stock/data-access';
 
 const CURRENCY_OPTIONS = (Object.values(Currency) as Currency[]).map((currency) => ({

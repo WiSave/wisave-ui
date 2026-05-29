@@ -8,13 +8,19 @@ import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 
-import type { ExpenseFormModel, MetadataEntryModel } from '../../types/expense-form.types';
+import {
+  createMoney,
+  Currency,
+  CurrencySymbol,
+  type ExpenseAccountId,
+  type ExpenseCategoryId,
+  type ExpenseSubcategoryId,
+  type IExpense,
+  type IExpenseAccount,
+  type IExpenseCategory,
+} from '@wisave/shared/model';
 
-import { createMoney, Currency, CurrencySymbol } from '@wisave/shared/model';
-import type { IExpenseAccount } from '@wisave/shared/model';
-import type { IExpenseCategory } from '@wisave/shared/model';
-import type { ExpenseAccountId, ExpenseCategoryId, ExpenseSubcategoryId } from '@wisave/shared/model';
-import type { IExpense } from '@wisave/shared/model';
+import type { ExpenseFormModel, MetadataEntryModel } from '../../types/expense-form.types';
 
 const DEFAULT_CURRENCY = Currency.PLN;
 

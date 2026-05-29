@@ -3,14 +3,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 
-import { AccountBalanceCardsComponent } from '../components/account-balance-cards/account-balance-cards.component';
-import { ExpensesTableComponent, type IExpenseFilterAppliedEvent } from '../components/expenses-table/expenses-table.component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
+import { AppDialogComponent } from '@wisave/shared/ui';
+
 import { expensesPageEvents } from '../+store/expenses/expenses.events';
 import { ExpensesStore } from '../+store/expenses/expenses.store';
-import { injectDispatch } from '@ngrx/signals/events';
-
-import { AppDialogComponent } from '@wisave/shared/ui';
-import { type IPageNavigationEvent, type IPageSizeChangeEvent } from '@wisave/shared/model';
+import { AccountBalanceCardsComponent } from '../components/account-balance-cards/account-balance-cards.component';
+import { ExpensesTableComponent, type IExpenseFilterAppliedEvent } from '../components/expenses-table/expenses-table.component';
 
 @Component({
   selector: 'app-expenses',

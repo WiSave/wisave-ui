@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Currency } from '@wisave/shared/model';
-import { type IMoney } from '@wisave/shared/model';
+import { Currency, type IMoney } from '@wisave/shared/model';
 
+import { asIncomeId } from '../types/income-id.type';
 import type { IIncomeApiDto } from '../types/incomes-api.types';
 import type { IIncome } from '../types/incomes.interfaces';
-import { asIncomeId } from '../types/income-id.type';
 
 @Injectable({ providedIn: 'root' })
 export class IncomesMapperService {

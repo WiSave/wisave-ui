@@ -6,12 +6,11 @@ import { finalize } from 'rxjs';
 import { Button } from 'primeng/button';
 
 import { injectDispatch } from '@ngrx/signals/events';
+import { StockPortfolioService, type IStockBroker, type IStockPositionWritePayload } from '@wisave/stock/data-access';
 
 import { stockPortfolioPageEvents } from '../+store/portfolio/stock-portfolio.events';
 import { StockPortfolioStore } from '../+store/portfolio/stock-portfolio.store';
 import { StockPositionFormComponent } from '../components/stock-position-form/stock-position-form.component';
-import { StockPortfolioService } from '@wisave/stock/data-access';
-import { type IStockBroker, type IStockPositionWritePayload } from '@wisave/stock/data-access';
 
 @Component({
   selector: 'app-add-stock-position',
@@ -25,7 +24,8 @@ import { type IStockBroker, type IStockPositionWritePayload } from '@wisave/stoc
 
       @if (selectedPortfolio()) {
         @if (brokerLoadError()) {
-          <div class="border-warning-200 bg-warning-50 text-warning-700 dark:border-warning-700/40 dark:bg-warning-900/20 dark:text-warning-200 flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm">
+          <div
+            class="border-warning-200 bg-warning-50 text-warning-700 dark:border-warning-700/40 dark:bg-warning-900/20 dark:text-warning-200 flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm">
             <span>{{ brokerLoadError() }}</span>
             <p-button [text]="true" (onClick)="loadBrokers()" label="Retry" severity="secondary" size="small" />
           </div>
