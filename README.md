@@ -47,7 +47,7 @@ The workspace includes VS Code file nesting to collapse Nx boilerplate under `pr
 For WebStorm, configure file nesting manually with `project.json` as the parent suffix and:
 
 ```text
-README.md; eslint.config.js; eslint.config.mjs; jest.config.ts; package.json; tsconfig.json; tsconfig.lib.json; tsconfig.spec.json; vite.config.ts
+.eslintrc.json; .stylelintrc.json; README.md; eslint.config.js; eslint.config.mjs; jest.config.ts; package.json; tsconfig.json; tsconfig.lib.json; tsconfig.spec.json; vite.config.ts
 ```
 
 ## Docker
