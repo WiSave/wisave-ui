@@ -1,15 +1,15 @@
 {
-  "name": "expenses-feature-list",
+  "name": "expenses-budget",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:feature"],
-  "sourceRoot": "libs/expenses/feature-list/src",
+  "sourceRoot": "libs/expenses/budget/src",
   "prefix": "app",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/expenses/feature-list/**/*.ts", "libs/expenses/feature-list/**/*.html"]
+        "lintFilePatterns": ["libs/expenses/budget/**/*.ts", "libs/expenses/budget/**/*.html"]
       }
     }
   }

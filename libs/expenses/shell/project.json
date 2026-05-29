@@ -4,9 +4,9 @@
   "projectType": "library",
   "tags": ["scope:expenses", "type:shell"],
   "implicitDependencies": [
-    "expenses-feature-list",
-    "expenses-feature-budget",
-    "expenses-feature-accounts"
+    "expenses-list",
+    "expenses-budget",
+    "expenses-accounts"
   ],
   "sourceRoot": "libs/expenses/shell/src",
   "prefix": "app",

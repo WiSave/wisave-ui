@@ -1,7 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/out-tsc/libs/expenses/feature-budget"
+    "outDir": "../../../dist/out-tsc/libs/expenses/budget"
   },
   "references": [
     {

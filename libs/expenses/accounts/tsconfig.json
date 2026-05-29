@@ -1,11 +1,15 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/out-tsc/libs/expenses/feature-list"
+    "outDir": "../../../dist/out-tsc/libs/expenses/accounts"
   },
+  "files": ["vite.config.ts"],
   "references": [
     {
       "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
     }
   ]
 }

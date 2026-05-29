@@ -1,22 +1,22 @@
 {
-  "name": "expenses-feature-accounts",
+  "name": "expenses-accounts",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:feature"],
-  "sourceRoot": "libs/expenses/feature-accounts/src",
+  "sourceRoot": "libs/expenses/accounts/src",
   "prefix": "app",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/expenses/feature-accounts/**/*.ts", "libs/expenses/feature-accounts/**/*.html"]
+        "lintFilePatterns": ["libs/expenses/accounts/**/*.ts", "libs/expenses/accounts/**/*.html"]
       }
     },
     "test": {
       "executor": "@nx/vitest:test",
       "options": {
-        "configFile": "libs/expenses/feature-accounts/vite.config.ts",
-        "reportsDirectory": "coverage/libs/expenses/feature-accounts",
+        "configFile": "libs/expenses/accounts/vite.config.ts",
+        "reportsDirectory": "coverage/libs/expenses/accounts",
         "passWithNoTests": true
       }
     }

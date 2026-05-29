@@ -167,8 +167,10 @@ Data-access libraries own API services and mapper code when the feature has a se
 
 ```typescript
 @wisave/auth/feature              → libs/auth/feature/src/index.ts
+@wisave/expenses/accounts         → libs/expenses/accounts/src/index.ts
+@wisave/expenses/budget           → libs/expenses/budget/src/index.ts
 @wisave/expenses/data-access      → libs/expenses/data-access/src/index.ts
-@wisave/expenses/feature-list     → libs/expenses/feature-list/src/index.ts
+@wisave/expenses/list             → libs/expenses/list/src/index.ts
 @wisave/incomes/feature           → libs/incomes/feature/src/index.ts
 @wisave/platform/auth             → libs/platform/auth/src/index.ts
 @wisave/platform/config           → libs/platform/config/src/index.ts
@@ -256,8 +258,8 @@ Active tab style: `bg-secondary-200 dark:bg-dark-primary-700` (not accent/yellow
   - `docs/features/auth.md` — login, registration wizard, guards
 - `README.md` — project setup, Docker usage, runtime API configuration
 - External documentation repo (`/Users/jakubchwastek/Desktop/Projects/wisave_project/wisave-documentation/`):
-  - `specs/` — feature design specs (e.g. `2026-03-26-expenses-feature-design.md`, `2026-03-28-expenses-microservice-design.md`)
-  - `plans/` — implementation plans (e.g. `2026-03-26-expenses-feature-implementation.md`)
+  - `specs/` — feature design and microservice design specs
+  - `plans/` — feature implementation plans
   - `architecture/` — architecture decisions
   - `adr/` — architecture decision records
 
