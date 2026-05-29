@@ -389,7 +389,7 @@ refactor: extract table pagination to shared component
 
 - Don't use `@Input()` decorator — use signal inputs
 - Don't use constructor injection — use `inject()`
-- Don't import from other features directly — use `core/` for shared state
+- Don't import from other feature libraries directly — move shared state/contracts into `libs/shared/*` or `libs/platform/*`
 - Don't access store from presentational components
 - Don't rely on manual change detection (`ChangeDetectorRef`, `markForCheck`) — app is zoneless; prefer signals/async pipe patterns
 - Don't use `BehaviorSubject` for state — use Signal Store
