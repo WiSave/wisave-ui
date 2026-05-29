@@ -277,6 +277,29 @@ export default tseslint.config(
     },
   },
   {
+    files: ['apps/wisave-ui/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'rxjs',
+              importNames: ['BehaviorSubject'],
+              message: 'Avoid BehaviorSubject for state; prefer Signal Store or signals.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['@wisave/expenses/list', '@wisave/expenses/budget', '@wisave/expenses/accounts'],
+              message: 'The app must import @wisave/expenses/shell instead of individual expenses plugin slices.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ['**/*.html'],
     plugins: {
       '@angular-eslint/template': angularTemplatePlugin,
