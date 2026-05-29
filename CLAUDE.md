@@ -13,12 +13,14 @@ Based on [Scalable Angular App Architecture](https://georgebyte.com/scalable-ang
 ### Component Types
 
 **Presentational Components** (`components/`):
+
 - Handle only UI rendering and user interaction
 - Receive data via signal inputs, emit events via outputs
 - No business logic, no state mutations, no API calls
 - Highly reusable
 
 **Smart/Container Components** (`containers/`, `views/`):
+
 - Connect stores with presentational components
 - Know app state structure and store methods
 - `views/` are routable containers that sync route params with store state
@@ -108,14 +110,11 @@ Feature/plugin slices must not import sibling slices. Shared state/contracts bel
 The app uses NgRx Signal Store (not traditional NgRx) with `@angular-architects/ngrx-toolkit`:
 
 ```typescript
-signalStore({ providedIn: 'root' },
-  withDevtools('StoreName'),
-  withGlitchTracking(),
-  withState(initialState)
-)
+signalStore({ providedIn: 'root' }, withDevtools('StoreName'), withGlitchTracking(), withState(initialState));
 ```
 
 Feature stores are located in the owning feature library under `libs/<domain>/<feature>/src/lib/+store/`. The `+` prefix signals that the directory is a framework-level integration layer (inspired by SvelteKit/Analog conventions) — it contains store definitions, events, reducers, state, and event handlers, but no UI components. Access store in components using `inject()`:
+
 ```typescript
 #store = inject(IncomesStore);
 incomes = this.#store.incomes();
@@ -125,10 +124,10 @@ incomes = this.#store.incomes();
 
 Event handlers use `@ngrx/signals/events` with `withEventHandlers`. Choose the flattening operator based on intent:
 
-| Operator | Use When | Example |
-|----------|----------|---------|
+| Operator     | Use When                                                                         | Example                   |
+| ------------ | -------------------------------------------------------------------------------- | ------------------------- |
 | `exhaustMap` | Trigger should be ignored while a request is in-flight (prevent duplicate loads) | Page opened, select by ID |
-| `switchMap` | New parameter should cancel the in-flight request and start a fresh one | Filter/sort/page changes |
+| `switchMap`  | New parameter should cancel the in-flight request and start a fresh one          | Filter/sort/page changes  |
 
 #### Typing Event Handlers
 
@@ -144,9 +143,7 @@ export function withFeatureEventHandlers() {
     })),
     withEventHandlers((store) => ({
       // store is fully typed — no `any`
-      load$: store._events.on(pageEvents.opened).pipe(
-        exhaustMap(() => store._api.load(store.neededProp1())),
-      ),
+      load$: store._events.on(pageEvents.opened).pipe(exhaustMap(() => store._api.load(store.neededProp1()))),
     })),
   );
 }
@@ -155,6 +152,7 @@ export function withFeatureEventHandlers() {
 ### Component Patterns
 
 All components are standalone (no NgModules). Key patterns:
+
 - Signal-based inputs: `data = input.required<IIncome[]>()`
 - Inject function: `#service = inject(ServiceName)`
 - Private fields with `#` prefix for injected dependencies
@@ -198,6 +196,7 @@ Data-access libraries own API services and mapper code when the feature has a se
 ### Routing
 
 The app shell routes live in `apps/wisave-ui/src/app/app.routes.ts`. Features are lazy-loaded from library entry points:
+
 ```typescript
 {
   path: 'incomes',
@@ -230,6 +229,7 @@ Theme toggle managed by `ThemeService` with localStorage persistence.
 ### PrimeNG Button Severity
 
 Always set explicit `severity` on `<p-button>`. The default primary maps to accent (yellow) which clashes in most contexts.
+
 - Primary actions (save, submit): `severity="secondary"` or `severity="success"`
 - Cancel/dismiss: `severity="secondary"` with `[text]="true"`
 - Destructive (delete, remove): `severity="danger"`
@@ -238,6 +238,7 @@ Always set explicit `severity` on `<p-button>`. The default primary maps to acce
 ### PrimeNG Chart Sizing
 
 `p-chart` wraps a Chart.js canvas. CSS height/width on a parent div is unreliable — the canvas ignores it.
+
 - Use `width` and `height` input props on `<p-chart>` for fixed-size charts (e.g. doughnut)
 - For fluid charts, use a parent with explicit height and `class="w-full"` on `<p-chart>`
 - Always set `responsive: true` and `maintainAspectRatio: false` in chart options
@@ -246,6 +247,7 @@ Always set explicit `severity` on `<p-button>`. The default primary maps to acce
 ### Money Formatting
 
 Use `createMoney()` and `formatMoney()` from `@wisave/shared/model` instead of Angular pipes (`DecimalPipe`, `CurrencyPipe`). Prefer computed properties over template pipes:
+
 ```typescript
 readonly formattedBalance = computed(() => formatMoney(createMoney(this.balance(), this.currency())));
 ```
@@ -253,6 +255,7 @@ readonly formattedBalance = computed(() => formatMoney(createMoney(this.balance(
 ### Shell Components
 
 Feature groups use shell components (`*-shell.component.ts`) in their owning feature library, while shared app layout lives in `libs/platform/shell`. Shells provide:
+
 - Feature header (uppercase tracking label)
 - Tab-style `<nav>` with `RouterLink`/`RouterLinkActive` for sub-routes
 - `<router-outlet>` for child views
@@ -296,18 +299,19 @@ ESLint is configured with flat config (`eslint.config.mjs`) and includes:
 
 Nx project tags enforce scope and type boundaries:
 
-| Tag family | Rule |
-|------------|------|
-| `scope:app` | Can depend on auth, expenses, incomes, platform, settings, and stock scopes |
-| Domain scopes (`scope:expenses`, `scope:incomes`, etc.) | Can depend on their own scope plus `scope:platform` and `scope:shared` |
-| `scope:platform` | Can depend on `scope:platform` and `scope:shared` |
-| `scope:shared` | Can depend only on `scope:shared` |
-| `type:feature` | Can depend on UI, data-access, auth, signalr, util, and model libraries |
-| `type:data-access` | Can depend on auth, signalr, util, and model libraries; not feature/UI libraries |
-| `type:ui` | Can depend on util and model libraries |
-| `type:model` | Can depend only on model libraries |
+| Tag family                                              | Rule                                                                             |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `scope:app`                                             | Can depend on auth, expenses, incomes, platform, settings, and stock scopes      |
+| Domain scopes (`scope:expenses`, `scope:incomes`, etc.) | Can depend on their own scope plus `scope:platform` and `scope:shared`           |
+| `scope:platform`                                        | Can depend on `scope:platform` and `scope:shared`                                |
+| `scope:shared`                                          | Can depend only on `scope:shared`                                                |
+| `type:feature`                                          | Can depend on UI, data-access, auth, signalr, util, and model libraries          |
+| `type:data-access`                                      | Can depend on auth, signalr, util, and model libraries; not feature/UI libraries |
+| `type:ui`                                               | Can depend on util and model libraries                                           |
+| `type:model`                                            | Can depend only on model libraries                                               |
 
 **Key rules:**
+
 - Presentational components (`components/`) cannot access store
 - Features cannot import from other features
 - Cross-feature communication goes through `libs/shared/*` or `libs/platform/*`
@@ -342,15 +346,15 @@ interface IIncome {
 
 ### Files
 
-| Type | Pattern | Example |
-|------|---------|---------|
+| Type      | Pattern                     | Example                      |
+| --------- | --------------------------- | ---------------------------- |
 | Component | `feature-name.component.ts` | `incomes-table.component.ts` |
-| Service | `feature-name.service.ts` | `incomes.service.ts` |
-| Store | `feature-name.store.ts` | `incomes.store.ts` |
-| Interface | `feature-name.interface.ts` | `incomes.interface.ts` |
-| Type | `feature-name.type.ts` | `incomes.type.ts` |
-| Helper | `feature-name.helper.ts` | `currency.helper.ts` |
-| Enum | `feature-name.enum.ts` | `currency.enum.ts` |
+| Service   | `feature-name.service.ts`   | `incomes.service.ts`         |
+| Store     | `feature-name.store.ts`     | `incomes.store.ts`           |
+| Interface | `feature-name.interface.ts` | `incomes.interface.ts`       |
+| Type      | `feature-name.type.ts`      | `incomes.type.ts`            |
+| Helper    | `feature-name.helper.ts`    | `currency.helper.ts`         |
+| Enum      | `feature-name.enum.ts`      | `currency.enum.ts`           |
 
 ### Classes & Interfaces
 
@@ -383,6 +387,7 @@ chore/short-description
 **Types:** `feat`, `fix`, `refactor`, `style`, `docs`, `test`, `chore`
 
 **Examples:**
+
 ```
 feat: add income filtering by category
 fix: resolve currency conversion rounding error

@@ -741,7 +741,7 @@ Databases
 services:
   yarp-gateway:
     build: { context: ., dockerfile: docker/Dockerfile.gateway }
-    ports: ["5100:8080"]
+    ports: ['5100:8080']
     environment:
       ReverseProxy__Clusters__incomes-cluster__Destinations__primary__Address: http://incomes-service:8080/
       AuthService__BaseUrl: http://auth-service:8080/
@@ -749,26 +749,26 @@ services:
 
   auth-service:
     build: { context: ., dockerfile: docker/Dockerfile.auth }
-    ports: ["5101:8080"]
+    ports: ['5101:8080']
     environment:
       ConnectionStrings__Default: Host=postgres-users;Database=wisave_users;Username=wisave;Password=wisave
     depends_on: [postgres-users]
 
   incomes-service:
     build: { context: ., dockerfile: docker/Dockerfile.incomes }
-    ports: ["5102:8080"]
+    ports: ['5102:8080']
     environment:
       ConnectionStrings__Default: Host=postgres-incomes;Database=wisave_incomes;Username=wisave;Password=wisave
     depends_on: [postgres-incomes]
 
   postgres-users:
     image: postgres:16-alpine
-    ports: ["5432:5432"]
+    ports: ['5432:5432']
     environment: { POSTGRES_USER: wisave, POSTGRES_PASSWORD: wisave, POSTGRES_DB: wisave_users }
 
   postgres-incomes:
     image: postgres:16-alpine
-    ports: ["5433:5432"]
+    ports: ['5433:5432']
     environment: { POSTGRES_USER: wisave, POSTGRES_PASSWORD: wisave, POSTGRES_DB: wisave_incomes }
 ```
 
@@ -833,17 +833,17 @@ Recommended Angular dev proxy:
 
 ## 19. Technology Choices Summary
 
-| Concern | Choice | Why |
-|---------|--------|-----|
-| Frontend public entry | Angular + NGINX + Cloudflare Tunnel | Already in place, simple same-origin deployment |
-| Gateway | YARP | Best fit for .NET stack, starts simple, can grow into auth/BFF |
-| Auth | ASP.NET Core Identity + OpenIddict | .NET-native, stronger than raw Identity + ad hoc JWT |
-| Sync communication | HTTP first | Lowest complexity |
-| Async communication | RabbitMQ + MassTransit | Pragmatic .NET choice |
-| Service runtime | .NET 10 Minimal APIs | Lightweight and fast to build |
-| Database | PostgreSQL | Strong default choice |
-| Orchestration | Kubernetes for backend | Good learning platform, but not required for frontend on day one |
-| Observability | OpenTelemetry + Grafana stack | Standard, flexible, vendor-neutral |
+| Concern               | Choice                              | Why                                                              |
+| --------------------- | ----------------------------------- | ---------------------------------------------------------------- |
+| Frontend public entry | Angular + NGINX + Cloudflare Tunnel | Already in place, simple same-origin deployment                  |
+| Gateway               | YARP                                | Best fit for .NET stack, starts simple, can grow into auth/BFF   |
+| Auth                  | ASP.NET Core Identity + OpenIddict  | .NET-native, stronger than raw Identity + ad hoc JWT             |
+| Sync communication    | HTTP first                          | Lowest complexity                                                |
+| Async communication   | RabbitMQ + MassTransit              | Pragmatic .NET choice                                            |
+| Service runtime       | .NET 10 Minimal APIs                | Lightweight and fast to build                                    |
+| Database              | PostgreSQL                          | Strong default choice                                            |
+| Orchestration         | Kubernetes for backend              | Good learning platform, but not required for frontend on day one |
+| Observability         | OpenTelemetry + Grafana stack       | Standard, flexible, vendor-neutral                               |
 
 ## 20. Final Decisions
 

@@ -12,11 +12,11 @@ Expense transaction management — recording, filtering, sorting, and paginating
 
 ## Routes
 
-| Path | Component | Description |
-|------|-----------|-------------|
-| `/expenses/list` | `ExpensesComponent` | Main table with account balance cards |
-| `/expenses/list/add` | `AddExpenseComponent` | Dialog: create new expense |
-| `/expenses/list/edit/:id` | `EditExpenseComponent` | Dialog: edit existing expense |
+| Path                      | Component              | Description                           |
+| ------------------------- | ---------------------- | ------------------------------------- |
+| `/expenses/list`          | `ExpensesComponent`    | Main table with account balance cards |
+| `/expenses/list/add`      | `AddExpenseComponent`  | Dialog: create new expense            |
+| `/expenses/list/edit/:id` | `EditExpenseComponent` | Dialog: edit existing expense         |
 
 ## Store
 
@@ -36,14 +36,14 @@ Expense transaction management — recording, filtering, sorting, and paginating
 
 `ExpensesApiService` → `/expenses`
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/expenses` | Cursor-paginated list with filter/sort params |
-| GET | `/expenses/:id` | Single expense |
-| POST | `/expenses` | Create expense |
-| PUT | `/expenses/:id` | Update expense |
-| DELETE | `/expenses/:id` | Delete expense |
-| GET | `/expenses/categories` | Category list |
+| Method | Endpoint               | Description                                   |
+| ------ | ---------------------- | --------------------------------------------- |
+| GET    | `/expenses`            | Cursor-paginated list with filter/sort params |
+| GET    | `/expenses/:id`        | Single expense                                |
+| POST   | `/expenses`            | Create expense                                |
+| PUT    | `/expenses/:id`        | Update expense                                |
+| DELETE | `/expenses/:id`        | Delete expense                                |
+| GET    | `/expenses/categories` | Category list                                 |
 
 ## Key Types
 
