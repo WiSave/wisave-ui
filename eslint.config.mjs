@@ -10,6 +10,43 @@ import securityPlugin from 'eslint-plugin-security';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
 
+const angularRestrictedSyntaxRules = [
+  {
+    selector: "PropertyDefinition[accessibility='private']",
+    message: 'Use # private fields instead of the private keyword.',
+  },
+  {
+    selector: "MethodDefinition[accessibility='private']",
+    message: 'Use # private methods instead of the private keyword.',
+  },
+  {
+    selector: "TSParameterProperty[accessibility='private']",
+    message: 'Use # private fields instead of private constructor parameters.',
+  },
+  {
+    selector: "ClassDeclaration:has(Decorator[expression.callee.name='Component']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
+    message: 'Use inject() instead of constructor injection.',
+  },
+  {
+    selector: "ClassDeclaration:has(Decorator[expression.callee.name='Directive']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
+    message: 'Use inject() instead of constructor injection.',
+  },
+  {
+    selector: "ClassDeclaration:has(Decorator[expression.callee.name='Pipe']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
+    message: 'Use inject() instead of constructor injection.',
+  },
+  {
+    selector: "ClassDeclaration:has(Decorator[expression.callee.name='Injectable']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
+    message: 'Use inject() instead of constructor injection.',
+  },
+  {
+    selector: "Property[key.name='changeDetection'][value.type='MemberExpression'][value.object.name='ChangeDetectionStrategy'][value.property.name='OnPush']",
+    message: 'Do not use OnPush change detection; app is zoneless.',
+  },
+];
+
+const expensesShellImportMessage = 'The app must import @wisave/expenses/shell instead of individual expenses plugin slices.';
+
 export default tseslint.config(
   {
     files: ['**/*.ts'],
@@ -34,14 +71,7 @@ export default tseslint.config(
           depConstraints: [
             {
               sourceTag: 'scope:app',
-              onlyDependOnLibsWithTags: [
-                'scope:auth',
-                'scope:expenses',
-                'scope:incomes',
-                'scope:platform',
-                'scope:settings',
-                'scope:stock',
-              ],
+              onlyDependOnLibsWithTags: ['scope:auth', 'scope:expenses', 'scope:incomes', 'scope:platform', 'scope:settings', 'scope:stock'],
             },
             { sourceTag: 'scope:auth', onlyDependOnLibsWithTags: ['scope:auth', 'scope:platform', 'scope:shared'] },
             { sourceTag: 'scope:expenses', onlyDependOnLibsWithTags: ['scope:expenses', 'scope:platform', 'scope:shared'] },
@@ -52,37 +82,16 @@ export default tseslint.config(
             { sourceTag: 'scope:stock', onlyDependOnLibsWithTags: ['scope:stock', 'scope:platform', 'scope:shared'] },
             {
               sourceTag: 'type:app',
-              onlyDependOnLibsWithTags: [
-                'type:shell',
-                'type:layout',
-                'type:feature',
-                'type:auth',
-                'type:signalr',
-                'type:util',
-              ],
+              onlyDependOnLibsWithTags: ['type:shell', 'type:layout', 'type:feature', 'type:auth', 'type:signalr', 'type:util'],
             },
             { sourceTag: 'type:layout', onlyDependOnLibsWithTags: ['type:ui', 'type:auth', 'type:util', 'type:model'] },
             {
               sourceTag: 'type:shell',
-              onlyDependOnLibsWithTags: [
-                'type:feature',
-                'type:ui',
-                'type:auth',
-                'type:signalr',
-                'type:util',
-                'type:model',
-              ],
+              onlyDependOnLibsWithTags: ['type:feature', 'type:ui', 'type:auth', 'type:signalr', 'type:util', 'type:model'],
             },
             {
               sourceTag: 'type:feature',
-              onlyDependOnLibsWithTags: [
-                'type:ui',
-                'type:data-access',
-                'type:auth',
-                'type:signalr',
-                'type:util',
-                'type:model',
-              ],
+              onlyDependOnLibsWithTags: ['type:ui', 'type:data-access', 'type:auth', 'type:signalr', 'type:util', 'type:model'],
             },
             { sourceTag: 'type:data-access', onlyDependOnLibsWithTags: ['type:auth', 'type:signalr', 'type:util', 'type:model'] },
             { sourceTag: 'type:auth', onlyDependOnLibsWithTags: ['type:util', 'type:model'] },
@@ -138,46 +147,7 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', fixStyle: 'inline-type-imports' }],
 
       // Enforce # private fields over private keyword
-      'no-restricted-syntax': [
-        'error',
-        {
-          selector: "PropertyDefinition[accessibility='private']",
-          message: 'Use # private fields instead of the private keyword.',
-        },
-        {
-          selector: "MethodDefinition[accessibility='private']",
-          message: 'Use # private methods instead of the private keyword.',
-        },
-        {
-          selector: "TSParameterProperty[accessibility='private']",
-          message: 'Use # private fields instead of private constructor parameters.',
-        },
-        {
-          selector:
-            "ClassDeclaration:has(Decorator[expression.callee.name='Component']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
-          message: 'Use inject() instead of constructor injection.',
-        },
-        {
-          selector:
-            "ClassDeclaration:has(Decorator[expression.callee.name='Directive']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
-          message: 'Use inject() instead of constructor injection.',
-        },
-        {
-          selector:
-            "ClassDeclaration:has(Decorator[expression.callee.name='Pipe']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
-          message: 'Use inject() instead of constructor injection.',
-        },
-        {
-          selector:
-            "ClassDeclaration:has(Decorator[expression.callee.name='Injectable']) MethodDefinition[kind='constructor'] > FunctionExpression[params.length>0]",
-          message: 'Use inject() instead of constructor injection.',
-        },
-        {
-          selector:
-            "Property[key.name='changeDetection'][value.type='MemberExpression'][value.object.name='ChangeDetectionStrategy'][value.property.name='OnPush']",
-          message: 'Do not use OnPush change detection; app is zoneless.',
-        },
-      ],
+      'no-restricted-syntax': ['error', ...angularRestrictedSyntaxRules],
 
       // Disallow importing ChangeDetectionStrategy (OnPush is not used)
       'no-restricted-imports': [
@@ -302,9 +272,17 @@ export default tseslint.config(
           patterns: [
             {
               group: ['@wisave/expenses/list', '@wisave/expenses/budget', '@wisave/expenses/accounts'],
-              message: 'The app must import @wisave/expenses/shell instead of individual expenses plugin slices.',
+              message: expensesShellImportMessage,
             },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        ...angularRestrictedSyntaxRules,
+        {
+          selector: 'ImportExpression[source.value=/^@wisave\\/expenses\\/(list|budget|accounts)$/]',
+          message: expensesShellImportMessage,
         },
       ],
     },
