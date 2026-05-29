@@ -88,6 +88,21 @@ This repository is an Nx workspace.
 - Domain-first libraries live under `libs/<domain>/*`, including `libs/expenses/*`, `libs/incomes/*`, `libs/stock/*`, `libs/settings/*`, and `libs/auth/feature`.
 - Build output for the deployable app is `dist/apps/wisave-ui/browser`.
 
+### Domain Shell Libraries
+
+Domains with multiple routed slices expose a shell library as the app-facing entry point. The app imports the shell only. The shell composes same-domain feature/plugin slices.
+
+Example:
+
+```text
+apps/wisave-ui -> @wisave/expenses/shell
+@wisave/expenses/shell -> @wisave/expenses/list
+@wisave/expenses/shell -> @wisave/expenses/budget
+@wisave/expenses/shell -> @wisave/expenses/accounts
+```
+
+Feature/plugin slices must not import sibling slices. Shared state/contracts belong in `libs/shared/*`, `libs/platform/*`, or the domain data-access library when domain-specific.
+
 ### State Management (NgRx Signal Store)
 
 The app uses NgRx Signal Store (not traditional NgRx) with `@angular-architects/ngrx-toolkit`:
@@ -171,6 +186,7 @@ Data-access libraries own API services and mapper code when the feature has a se
 @wisave/expenses/budget           → libs/expenses/budget/src/index.ts
 @wisave/expenses/data-access      → libs/expenses/data-access/src/index.ts
 @wisave/expenses/list             → libs/expenses/list/src/index.ts
+@wisave/expenses/shell            → libs/expenses/shell/src/index.ts
 @wisave/incomes/feature           → libs/incomes/feature/src/index.ts
 @wisave/platform/auth             → libs/platform/auth/src/index.ts
 @wisave/platform/config           → libs/platform/config/src/index.ts

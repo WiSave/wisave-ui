@@ -682,6 +682,21 @@ The repo currently contains only the Angular frontend. There is no backend yet.
 
 The active frontend is an Nx application at `apps/wisave-ui`. Runtime API configuration lives in `libs/platform/config`, and the local default resolves to `/api`. `yarn start` runs `nx serve wisave-ui`, whose development configuration uses `proxy.conf.json` to forward `/api` requests to the portal on `http://localhost:5100`.
 
+### Domain Shell Libraries
+
+Domains with multiple routed slices expose a shell library as the app-facing entry point. The app imports the shell only. The shell composes same-domain feature/plugin slices.
+
+Example:
+
+```text
+apps/wisave-ui -> @wisave/expenses/shell
+@wisave/expenses/shell -> @wisave/expenses/list
+@wisave/expenses/shell -> @wisave/expenses/budget
+@wisave/expenses/shell -> @wisave/expenses/accounts
+```
+
+Feature/plugin slices must not import sibling slices. Shared state/contracts belong in `libs/shared/*`, `libs/platform/*`, or the domain data-access library when domain-specific.
+
 ### Recommended local dev topology (best practice)
 
 Once the backend exists, local development should switch to same-origin `/api` calls through the Angular dev server.
