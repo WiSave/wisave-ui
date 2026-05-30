@@ -271,7 +271,14 @@ export default tseslint.config(
           ],
           patterns: [
             {
-              group: ['@wisave/expenses/list', '@wisave/expenses/budget', '@wisave/expenses/accounts'],
+              group: [
+                '@wisave/expenses/list',
+                '@wisave/expenses/budget',
+                '@wisave/expenses/accounts',
+                '@wisave/expenses/plugins/list',
+                '@wisave/expenses/plugins/budget',
+                '@wisave/expenses/plugins/accounts',
+              ],
               message: expensesShellImportMessage,
             },
           ],
@@ -281,7 +288,7 @@ export default tseslint.config(
         'error',
         ...angularRestrictedSyntaxRules,
         {
-          selector: 'ImportExpression[source.value=/^@wisave\\/expenses\\/(list|budget|accounts)$/]',
+          selector: 'ImportExpression[source.value=/^@wisave\\/expenses\\/(plugins\\/)?(list|budget|accounts)$/]',
           message: expensesShellImportMessage,
         },
       ],

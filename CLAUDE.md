@@ -88,6 +88,7 @@ This repository is an Nx workspace.
 - `libs/shared/*` contains cross-domain model and reusable UI primitives.
 - `libs/platform/*` contains runtime platform services such as auth, config, shell/layout, and SignalR.
 - Domain-first libraries live under `libs/<domain>/*`, including `libs/expenses/*`, `libs/incomes/*`, `libs/stock/*`, `libs/settings/*`, and `libs/auth/feature`.
+- Expenses uses the shell/plugin folder convention: `libs/expenses/shell` is the app-facing domain shell, and actual routed feature slices live under `libs/expenses/plugins/*`.
 - Build output for the deployable app is `dist/apps/wisave-ui/browser`.
 
 ### Domain Shell Libraries
@@ -98,9 +99,9 @@ Example:
 
 ```text
 apps/wisave-ui -> @wisave/expenses/shell
-@wisave/expenses/shell -> @wisave/expenses/list
-@wisave/expenses/shell -> @wisave/expenses/budget
-@wisave/expenses/shell -> @wisave/expenses/accounts
+@wisave/expenses/shell -> @wisave/expenses/plugins/list
+@wisave/expenses/shell -> @wisave/expenses/plugins/budget
+@wisave/expenses/shell -> @wisave/expenses/plugins/accounts
 ```
 
 Feature/plugin slices must not import sibling slices. Shared state/contracts belong in `libs/shared/*`, `libs/platform/*`, or the domain data-access library when domain-specific.
@@ -179,15 +180,15 @@ Data-access libraries own API services and mapper code when the feature has a se
 ### Path Aliases
 
 ```typescript
-@wisave/auth/feature              → libs/auth/feature/src/index.ts
-@wisave/expenses/accounts         → libs/expenses/accounts/src/index.ts
-@wisave/expenses/budget           → libs/expenses/budget/src/index.ts
-@wisave/expenses/data-access      → libs/expenses/data-access/src/index.ts
-@wisave/expenses/list             → libs/expenses/list/src/index.ts
-@wisave/expenses/shell            → libs/expenses/shell/src/index.ts
-@wisave/incomes/feature           → libs/incomes/feature/src/index.ts
-@wisave/platform/auth             → libs/platform/auth/src/index.ts
-@wisave/platform/config           → libs/platform/config/src/index.ts
+@wisave/auth/feature                       → libs/auth/feature/src/index.ts
+@wisave/expenses/plugins/accounts         → libs/expenses/plugins/accounts/src/index.ts
+@wisave/expenses/plugins/budget           → libs/expenses/plugins/budget/src/index.ts
+@wisave/expenses/data-access              → libs/expenses/data-access/src/index.ts
+@wisave/expenses/plugins/list             → libs/expenses/plugins/list/src/index.ts
+@wisave/expenses/shell                    → libs/expenses/shell/src/index.ts
+@wisave/incomes/feature                   → libs/incomes/feature/src/index.ts
+@wisave/platform/auth                     → libs/platform/auth/src/index.ts
+@wisave/platform/config                   → libs/platform/config/src/index.ts
 @wisave/platform/shell            → libs/platform/shell/src/index.ts
 @wisave/shared/model              → libs/shared/model/src/index.ts
 @wisave/shared/ui                 → libs/shared/ui/src/index.ts

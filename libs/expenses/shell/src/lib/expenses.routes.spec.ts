@@ -16,9 +16,9 @@ describe('expenses shell routes', () => {
 
   it('delegates list, budget, accounts, and insights to expenses plugin libraries', async () => {
     const [{ routes: listRoutes }, { budgetRoutes, insightsRoutes }, { routes: accountRoutes }] = await Promise.all([
-      import('@wisave/expenses/list'),
-      import('@wisave/expenses/budget'),
-      import('@wisave/expenses/accounts'),
+      import('@wisave/expenses/plugins/list'),
+      import('@wisave/expenses/plugins/budget'),
+      import('@wisave/expenses/plugins/accounts'),
     ]);
 
     await expect((child('list')?.loadChildren as () => Promise<unknown>)()).resolves.toBe(listRoutes);

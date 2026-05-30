@@ -4,11 +4,12 @@
 
 **Goal:** Convert the expenses domain from app-composed feature libraries to a domain shell that composes expenses feature/plugin slices.
 
-**Architecture:** `wisave-ui` should lazy-load `@wisave/expenses/shell` only. The expenses shell owns the `/expenses` child route composition and delegates to same-domain slices: `@wisave/expenses/list`, `@wisave/expenses/budget`, and `@wisave/expenses/accounts`. This follows the shell library pattern from Angular.love: a shell is the bounded-context entry point/glue, while Nx tags enforce dependency direction.
+**Architecture:** `wisave-ui` should lazy-load `@wisave/expenses/shell` only. The expenses shell owns the `/expenses` child route composition and delegates to same-domain slices: `@wisave/expenses/plugins/list`, `@wisave/expenses/plugins/budget`, and `@wisave/expenses/plugins/accounts`. This follows the shell library pattern from Angular.love: a shell is the bounded-context entry point/glue, while Nx tags enforce dependency direction.
 
 **Tech Stack:** Angular 21 standalone routes/components, Nx 22 project graph, Vitest via `@nx/vitest`, ESLint flat config with `@nx/enforce-module-boundaries`, Yarn 4.
 
 **Source Basis:**
+
 - https://angular.love/shell-library-patterns-with-nx-and-monorepo-architectures
 - https://angular.love/beyond-clean-code-building-a-scalable-angular-frontend-architecture-with-nx-monorepos
 - https://angular.love/hide-boilerplate-nx-files-in-vscode-webstorm
@@ -37,10 +38,10 @@ Target:
 apps/wisave-ui
   -> @wisave/expenses/shell
 
-libs/expenses/shell        # routes + domain shell component
-libs/expenses/list         # former feature-list
-libs/expenses/budget       # former feature-budget
-libs/expenses/accounts     # former feature-accounts
+libs/expenses/shell             # routes + domain shell component
+libs/expenses/plugins/list      # former feature-list
+libs/expenses/plugins/budget    # former feature-budget
+libs/expenses/plugins/accounts  # former feature-accounts
 libs/expenses/data-access
 ```
 
@@ -80,9 +81,9 @@ Keep plugin slices tagged as `type:feature`. "Plugin" is the domain language and
 - Create: `libs/expenses/shell/tsconfig.lib.json`
 - Create: `libs/expenses/shell/tsconfig.spec.json`
 - Create: `libs/expenses/shell/vite.config.ts`
-- Move: `libs/expenses/feature-list` -> `libs/expenses/list`
-- Move: `libs/expenses/feature-budget` -> `libs/expenses/budget`
-- Move: `libs/expenses/feature-accounts` -> `libs/expenses/accounts`
+- Move: `libs/expenses/feature-list` -> `libs/expenses/plugins/list`
+- Move: `libs/expenses/feature-budget` -> `libs/expenses/plugins/budget`
+- Move: `libs/expenses/feature-accounts` -> `libs/expenses/plugins/accounts`
 - Modify: `apps/wisave-ui/src/app/app.routes.ts`
 - Create: `apps/wisave-ui/src/app/app.routes.spec.ts`
 - Modify: `apps/wisave-ui/project.json`
@@ -101,6 +102,7 @@ Keep plugin slices tagged as `type:feature`. "Plugin" is the domain language and
 ### Task 1: Add App Route Contract Test
 
 **Files:**
+
 - Create: `apps/wisave-ui/src/app/app.routes.spec.ts`
 
 - [ ] **Step 1: Write the failing app route test**
@@ -153,6 +155,7 @@ Do not commit this failing state. Task 2 creates the shell library and commits t
 ### Task 2: Create Expenses Shell Library
 
 **Files:**
+
 - Create: `libs/expenses/shell/project.json`
 - Create: `libs/expenses/shell/src/index.ts`
 - Create: `libs/expenses/shell/src/lib/expenses.routes.ts`
@@ -195,11 +198,7 @@ Create `libs/expenses/shell/project.json`:
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:shell"],
-  "implicitDependencies": [
-    "expenses-feature-list",
-    "expenses-feature-budget",
-    "expenses-feature-accounts"
-  ],
+  "implicitDependencies": ["expenses-feature-list", "expenses-feature-budget", "expenses-feature-accounts"],
   "sourceRoot": "libs/expenses/shell/src",
   "prefix": "app",
   "targets": {
@@ -231,10 +230,7 @@ Create `libs/expenses/shell/tsconfig.json`:
   },
   "files": [],
   "include": [],
-  "references": [
-    { "path": "./tsconfig.lib.json" },
-    { "path": "./tsconfig.spec.json" }
-  ]
+  "references": [{ "path": "./tsconfig.lib.json" }, { "path": "./tsconfig.spec.json" }]
 }
 ```
 
@@ -336,8 +332,8 @@ Create `libs/expenses/shell/src/lib/expenses.routes.spec.ts`:
 import { type Route } from '@angular/router';
 
 import { routes as accountRoutes } from '@wisave/expenses/feature-accounts';
-import { routes as listRoutes } from '@wisave/expenses/feature-list';
 import { budgetRoutes, insightsRoutes } from '@wisave/expenses/feature-budget';
+import { routes as listRoutes } from '@wisave/expenses/feature-list';
 
 import { routes } from './expenses.routes';
 import { ExpensesShellComponent } from './views/expenses-shell.component';
@@ -462,16 +458,17 @@ git commit -m "refactor: add expenses shell library"
 ### Task 3: Rename Expenses Feature Slices To Plugin-Style Names
 
 **Files:**
-- Move: `libs/expenses/feature-list` -> `libs/expenses/list`
-- Move: `libs/expenses/feature-budget` -> `libs/expenses/budget`
-- Move: `libs/expenses/feature-accounts` -> `libs/expenses/accounts`
-- Modify: `libs/expenses/list/project.json`
-- Modify: `libs/expenses/budget/project.json`
-- Modify: `libs/expenses/accounts/project.json`
-- Modify: `libs/expenses/list/tsconfig.json`
-- Modify: `libs/expenses/budget/tsconfig.json`
-- Modify: `libs/expenses/accounts/tsconfig.json`
-- Modify: `libs/expenses/accounts/vite.config.ts`
+
+- Move: `libs/expenses/feature-list` -> `libs/expenses/plugins/list`
+- Move: `libs/expenses/feature-budget` -> `libs/expenses/plugins/budget`
+- Move: `libs/expenses/feature-accounts` -> `libs/expenses/plugins/accounts`
+- Modify: `libs/expenses/plugins/list/project.json`
+- Modify: `libs/expenses/plugins/budget/project.json`
+- Modify: `libs/expenses/plugins/accounts/project.json`
+- Modify: `libs/expenses/plugins/list/tsconfig.json`
+- Modify: `libs/expenses/plugins/budget/tsconfig.json`
+- Modify: `libs/expenses/plugins/accounts/tsconfig.json`
+- Modify: `libs/expenses/plugins/accounts/vite.config.ts`
 - Modify: `libs/expenses/shell/project.json`
 - Modify: `libs/expenses/shell/src/lib/expenses.routes.ts`
 - Modify: `libs/expenses/shell/src/lib/expenses.routes.spec.ts`
@@ -482,14 +479,14 @@ git commit -m "refactor: add expenses shell library"
 Run:
 
 ```bash
-git mv libs/expenses/feature-list libs/expenses/list
-git mv libs/expenses/feature-budget libs/expenses/budget
-git mv libs/expenses/feature-accounts libs/expenses/accounts
+git mv libs/expenses/feature-list libs/expenses/plugins/list
+git mv libs/expenses/feature-budget libs/expenses/plugins/budget
+git mv libs/expenses/feature-accounts libs/expenses/plugins/accounts
 ```
 
 - [ ] **Step 2: Rename project metadata**
 
-Modify `libs/expenses/list/project.json`:
+Modify `libs/expenses/plugins/list/project.json`:
 
 ```json
 {
@@ -497,20 +494,20 @@ Modify `libs/expenses/list/project.json`:
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:feature"],
-  "sourceRoot": "libs/expenses/list/src",
+  "sourceRoot": "libs/expenses/plugins/list/src",
   "prefix": "app",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/expenses/list/**/*.ts", "libs/expenses/list/**/*.html"]
+        "lintFilePatterns": ["libs/expenses/plugins/list/**/*.ts", "libs/expenses/plugins/list/**/*.html"]
       }
     }
   }
 }
 ```
 
-Modify `libs/expenses/budget/project.json`:
+Modify `libs/expenses/plugins/budget/project.json`:
 
 ```json
 {
@@ -518,20 +515,20 @@ Modify `libs/expenses/budget/project.json`:
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:feature"],
-  "sourceRoot": "libs/expenses/budget/src",
+  "sourceRoot": "libs/expenses/plugins/budget/src",
   "prefix": "app",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/expenses/budget/**/*.ts", "libs/expenses/budget/**/*.html"]
+        "lintFilePatterns": ["libs/expenses/plugins/budget/**/*.ts", "libs/expenses/plugins/budget/**/*.html"]
       }
     }
   }
 }
 ```
 
-Modify `libs/expenses/accounts/project.json`:
+Modify `libs/expenses/plugins/accounts/project.json`:
 
 ```json
 {
@@ -539,20 +536,20 @@ Modify `libs/expenses/accounts/project.json`:
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "tags": ["scope:expenses", "type:feature"],
-  "sourceRoot": "libs/expenses/accounts/src",
+  "sourceRoot": "libs/expenses/plugins/accounts/src",
   "prefix": "app",
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["libs/expenses/accounts/**/*.ts", "libs/expenses/accounts/**/*.html"]
+        "lintFilePatterns": ["libs/expenses/plugins/accounts/**/*.ts", "libs/expenses/plugins/accounts/**/*.html"]
       }
     },
     "test": {
       "executor": "@nx/vitest:test",
       "options": {
-        "configFile": "libs/expenses/accounts/vite.config.ts",
-        "reportsDirectory": "coverage/libs/expenses/accounts",
+        "configFile": "libs/expenses/plugins/accounts/vite.config.ts",
+        "reportsDirectory": "coverage/libs/expenses/plugins/accounts",
         "passWithNoTests": true
       }
     }
@@ -565,23 +562,23 @@ Modify `libs/expenses/accounts/project.json`:
 Set these values:
 
 ```json
-// libs/expenses/list/tsconfig.json
-"outDir": "../../../dist/out-tsc/libs/expenses/list"
+// libs/expenses/plugins/list/tsconfig.json
+"outDir": "../../../../dist/out-tsc/libs/expenses/plugins/list"
 
-// libs/expenses/budget/tsconfig.json
-"outDir": "../../../dist/out-tsc/libs/expenses/budget"
+// libs/expenses/plugins/budget/tsconfig.json
+"outDir": "../../../../dist/out-tsc/libs/expenses/plugins/budget"
 
-// libs/expenses/accounts/tsconfig.json
-"outDir": "../../../dist/out-tsc/libs/expenses/accounts"
+// libs/expenses/plugins/accounts/tsconfig.json
+"outDir": "../../../../dist/out-tsc/libs/expenses/plugins/accounts"
 ```
 
 - [ ] **Step 4: Update accounts Vitest paths**
 
-Modify `libs/expenses/accounts/vite.config.ts`:
+Modify `libs/expenses/plugins/accounts/vite.config.ts`:
 
 ```typescript
 const config: UserConfig & { test: InlineConfig } = {
-  cacheDir: '../../../node_modules/.vite/libs/expenses/accounts',
+  cacheDir: '../../../../node_modules/.vite/libs/expenses/plugins/accounts',
   plugins: [angular(), nxViteTsPaths()],
   test: {
     globals: true,
@@ -590,7 +587,7 @@ const config: UserConfig & { test: InlineConfig } = {
     include: ['src/**/*.spec.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../coverage/libs/expenses/accounts',
+      reportsDirectory: '../../../../coverage/libs/expenses/plugins/accounts',
     },
   },
 };
@@ -601,10 +598,10 @@ const config: UserConfig & { test: InlineConfig } = {
 Modify `tsconfig.base.json` expenses paths:
 
 ```json
-"@wisave/expenses/accounts": ["./libs/expenses/accounts/src/index.ts"],
-"@wisave/expenses/budget": ["./libs/expenses/budget/src/index.ts"],
+"@wisave/expenses/plugins/accounts": ["./libs/expenses/plugins/accounts/src/index.ts"],
+"@wisave/expenses/plugins/budget": ["./libs/expenses/plugins/budget/src/index.ts"],
 "@wisave/expenses/data-access": ["./libs/expenses/data-access/src/index.ts"],
-"@wisave/expenses/list": ["./libs/expenses/list/src/index.ts"],
+"@wisave/expenses/plugins/list": ["./libs/expenses/plugins/list/src/index.ts"],
 "@wisave/expenses/shell": ["./libs/expenses/shell/src/index.ts"]
 ```
 
@@ -631,18 +628,18 @@ Modify `libs/expenses/shell/project.json`:
 Modify `libs/expenses/shell/src/lib/expenses.routes.ts` imports:
 
 ```typescript
-{ path: 'list', loadChildren: () => import('@wisave/expenses/list').then((m) => m.routes) },
-{ path: 'budget', loadChildren: () => import('@wisave/expenses/budget').then((m) => m.budgetRoutes) },
-{ path: 'accounts', loadChildren: () => import('@wisave/expenses/accounts').then((m) => m.routes) },
-{ path: 'insights', loadChildren: () => import('@wisave/expenses/budget').then((m) => m.insightsRoutes) },
+{ path: 'list', loadChildren: () => import('@wisave/expenses/plugins/list').then((m) => m.routes) },
+{ path: 'budget', loadChildren: () => import('@wisave/expenses/plugins/budget').then((m) => m.budgetRoutes) },
+{ path: 'accounts', loadChildren: () => import('@wisave/expenses/plugins/accounts').then((m) => m.routes) },
+{ path: 'insights', loadChildren: () => import('@wisave/expenses/plugins/budget').then((m) => m.insightsRoutes) },
 ```
 
 Modify `libs/expenses/shell/src/lib/expenses.routes.spec.ts` imports:
 
 ```typescript
-import { routes as accountRoutes } from '@wisave/expenses/accounts';
-import { budgetRoutes, insightsRoutes } from '@wisave/expenses/budget';
-import { routes as listRoutes } from '@wisave/expenses/list';
+import { routes as accountRoutes } from '@wisave/expenses/plugins/accounts';
+import { budgetRoutes, insightsRoutes } from '@wisave/expenses/plugins/budget';
+import { routes as listRoutes } from '@wisave/expenses/plugins/list';
 ```
 
 - [ ] **Step 7: Replace remaining old expenses aliases**
@@ -699,6 +696,7 @@ git commit -m "refactor: rename expenses feature slices"
 ### Task 4: Enforce App-To-Shell Boundary For Expenses
 
 **Files:**
+
 - Modify: `eslint.config.mjs`
 - Modify: `apps/wisave-ui/project.json`
 
@@ -722,7 +720,7 @@ Add a flat-config block after the base TypeScript config in `eslint.config.mjs`:
         ],
         patterns: [
           {
-            group: ['@wisave/expenses/list', '@wisave/expenses/budget', '@wisave/expenses/accounts'],
+            group: ['@wisave/expenses/plugins/list', '@wisave/expenses/plugins/budget', '@wisave/expenses/plugins/accounts'],
             message: 'The app must import @wisave/expenses/shell instead of individual expenses plugin slices.',
           },
         ],
@@ -753,7 +751,7 @@ Confirm `apps/wisave-ui/project.json` contains:
 Temporarily add this import to `apps/wisave-ui/src/app/app.routes.ts`:
 
 ```typescript
-import '@wisave/expenses/list';
+import '@wisave/expenses/plugins/list';
 ```
 
 Run:
@@ -786,6 +784,7 @@ git commit -m "chore: enforce expenses app shell boundary"
 ### Task 5: Update Documentation For Shell/Plugin Topology
 
 **Files:**
+
 - Modify: `README.md`
 - Modify: `AGENTS.md`
 - Modify: `CLAUDE.md`
@@ -796,7 +795,7 @@ git commit -m "chore: enforce expenses app shell boundary"
 
 Document this rule in `AGENTS.md`, `CLAUDE.md`, and `docs/ARCHITECTURE.md`:
 
-```markdown
+````markdown
 ### Domain Shell Libraries
 
 Domains with multiple routed slices expose a shell library as the app-facing entry point.
@@ -806,13 +805,15 @@ Example:
 
 ```text
 apps/wisave-ui -> @wisave/expenses/shell
-@wisave/expenses/shell -> @wisave/expenses/list
-@wisave/expenses/shell -> @wisave/expenses/budget
-@wisave/expenses/shell -> @wisave/expenses/accounts
+@wisave/expenses/shell -> @wisave/expenses/plugins/list
+@wisave/expenses/shell -> @wisave/expenses/plugins/budget
+@wisave/expenses/shell -> @wisave/expenses/plugins/accounts
 ```
+````
 
 Feature/plugin slices must not import sibling slices. Shared state/contracts belong in `libs/shared/*`, `libs/platform/*`, or the domain data-access library when domain-specific.
-```
+
+````
 
 - [ ] **Step 2: Update alias tables**
 
@@ -822,15 +823,15 @@ Replace old expenses aliases in docs:
 @wisave/expenses/feature-list
 @wisave/expenses/feature-budget
 @wisave/expenses/feature-accounts
-```
+````
 
 with:
 
 ```text
 @wisave/expenses/shell
-@wisave/expenses/list
-@wisave/expenses/budget
-@wisave/expenses/accounts
+@wisave/expenses/plugins/list
+@wisave/expenses/plugins/budget
+@wisave/expenses/plugins/accounts
 ```
 
 - [ ] **Step 3: Update expenses feature doc**
@@ -841,9 +842,9 @@ In `docs/features/expenses.md`, describe the active structure:
 ## Nx Libraries
 
 - `libs/expenses/shell` owns the `/expenses` shell component and child route composition.
-- `libs/expenses/list` owns transaction list views, transaction editing routes, and list store.
-- `libs/expenses/budget` owns budget and insights views/stores.
-- `libs/expenses/accounts` owns funding account views, dialogs, account store, and account tests.
+- `libs/expenses/plugins/list` owns transaction list views, transaction editing routes, and list store.
+- `libs/expenses/plugins/budget` owns budget and insights views/stores.
+- `libs/expenses/plugins/accounts` owns funding account views, dialogs, account store, and account tests.
 - `libs/expenses/data-access` owns expenses, budget, and account API services/mappers.
 ```
 
@@ -869,6 +870,7 @@ git commit -m "docs: document expenses shell topology"
 ### Task 6: Add Nx Boilerplate File Nesting For VS Code
 
 **Files:**
+
 - Create: `.vscode/settings.json`
 - Modify: `README.md`
 
@@ -896,7 +898,7 @@ Create `.vscode/settings.json`:
 
 Add this short note to `README.md`:
 
-```markdown
+````markdown
 ### IDE File Nesting
 
 The workspace includes VS Code file nesting to collapse Nx boilerplate under `project.json`.
@@ -905,20 +907,23 @@ For WebStorm, configure file nesting manually with `project.json` as the parent 
 ```text
 README.md; eslint.config.js; eslint.config.mjs; jest.config.ts; package.json; tsconfig.json; tsconfig.lib.json; tsconfig.spec.json; vite.config.ts
 ```
-```
+````
+
+````
 
 - [ ] **Step 3: Commit IDE nesting**
 
 ```bash
 git add .vscode/settings.json README.md
 git commit -m "chore: add Nx file nesting settings"
-```
+````
 
 ---
 
 ### Task 7: Final Graph, Affected, Build, Test, And Lint Verification
 
 **Files:**
+
 - No source edits.
 
 - [ ] **Step 1: Verify project list**
@@ -978,13 +983,13 @@ Run:
 
 ```bash
 printf 'EXPENSES_LIST\n'
-NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/list/src/lib/expenses.routes.ts
+NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/plugins/list/src/lib/expenses.routes.ts
 
 printf '\nEXPENSES_BUDGET\n'
-NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/budget/src/lib/expense-budget.routes.ts
+NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/plugins/budget/src/lib/expense-budget.routes.ts
 
 printf '\nEXPENSES_ACCOUNTS\n'
-NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/accounts/src/lib/expense-accounts.routes.ts
+NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/plugins/accounts/src/lib/expense-accounts.routes.ts
 
 printf '\nEXPENSES_DATA_ACCESS\n'
 NX_DAEMON=false yarn nx show projects --affected --files=libs/expenses/data-access/src/lib/expenses/expenses-api.service.ts

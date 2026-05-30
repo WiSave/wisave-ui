@@ -8,10 +8,10 @@ export const routes: Routes = [
     component: ExpensesShellComponent,
     children: [
       { path: '', redirectTo: 'list', pathMatch: 'full' },
-      { path: 'list', loadChildren: () => import('@wisave/expenses/list').then((m) => m.routes) },
-      { path: 'budget', loadChildren: () => import('@wisave/expenses/budget').then((m) => m.budgetRoutes) },
-      { path: 'accounts', loadChildren: () => import('@wisave/expenses/accounts').then((m) => m.routes) },
-      { path: 'insights', loadChildren: () => import('@wisave/expenses/budget').then((m) => m.insightsRoutes) },
+      { path: 'list', loadChildren: () => import('@wisave/expenses/plugins/list').then((m) => m.routes) },
+      { path: 'budget', loadChildren: () => import('@wisave/expenses/plugins/budget').then((m) => m.budgetRoutes) },
+      { path: 'accounts', loadChildren: () => import('@wisave/expenses/plugins/accounts').then((m) => m.routes) },
+      { path: 'insights', loadChildren: () => import('@wisave/expenses/plugins/budget').then((m) => m.insightsRoutes) },
     ],
   },
 ];

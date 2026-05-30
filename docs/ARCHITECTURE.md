@@ -684,15 +684,15 @@ The active frontend is an Nx application at `apps/wisave-ui`. Runtime API config
 
 ### Domain Shell Libraries
 
-Domains with multiple routed slices expose a shell library as the app-facing entry point. The app imports the shell only. The shell composes same-domain feature/plugin slices.
+Domains with multiple routed slices expose a shell library as the app-facing entry point. The app imports the shell only. The shell composes same-domain feature/plugin slices. Expenses makes this explicit by keeping routed feature slices under `libs/expenses/plugins/*`.
 
 Example:
 
 ```text
 apps/wisave-ui -> @wisave/expenses/shell
-@wisave/expenses/shell -> @wisave/expenses/list
-@wisave/expenses/shell -> @wisave/expenses/budget
-@wisave/expenses/shell -> @wisave/expenses/accounts
+@wisave/expenses/shell -> @wisave/expenses/plugins/list
+@wisave/expenses/shell -> @wisave/expenses/plugins/budget
+@wisave/expenses/shell -> @wisave/expenses/plugins/accounts
 ```
 
 Feature/plugin slices must not import sibling slices. Shared state/contracts belong in `libs/shared/*`, `libs/platform/*`, or the domain data-access library when domain-specific.

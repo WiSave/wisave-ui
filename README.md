@@ -29,7 +29,8 @@ This repository is an Nx workspace.
 - `libs/shared/*` contains cross-domain model and reusable UI primitives.
 - `libs/platform/*` contains runtime platform services such as auth, config, shell/layout, and SignalR.
 - Domain features are split by bounded area under `libs/<domain>/*`, for example `libs/expenses/*`, `libs/incomes/*`, `libs/stock/*`, `libs/settings/*`, and `libs/auth/feature`.
-- Domains with multiple routed slices expose a shell library as the app-facing entry point. For expenses, the app imports `@wisave/expenses/shell`, and that shell composes `@wisave/expenses/list`, `@wisave/expenses/budget`, and `@wisave/expenses/accounts`.
+- Expenses uses the shell/plugin folder convention: `libs/expenses/shell` is the app-facing domain shell, and actual routed feature slices live under `libs/expenses/plugins/*`.
+- Domains with multiple routed slices expose a shell library as the app-facing entry point. For expenses, the app imports `@wisave/expenses/shell`, and that shell composes `@wisave/expenses/plugins/list`, `@wisave/expenses/plugins/budget`, and `@wisave/expenses/plugins/accounts`.
 
 Common workspace commands:
 

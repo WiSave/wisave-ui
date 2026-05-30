@@ -4,7 +4,7 @@ import type { UserConfig } from 'vite';
 import type { InlineConfig } from 'vitest/node';
 
 const config: UserConfig & { test: InlineConfig } = {
-  cacheDir: '../../../node_modules/.vite/libs/expenses/accounts',
+  cacheDir: '../../../../node_modules/.vite/libs/expenses/plugins/accounts',
   plugins: [angular(), nxViteTsPaths()],
   test: {
     globals: true,
@@ -13,7 +13,7 @@ const config: UserConfig & { test: InlineConfig } = {
     include: ['src/**/*.spec.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../../coverage/libs/expenses/accounts',
+      reportsDirectory: '../../../../coverage/libs/expenses/plugins/accounts',
     },
   },
 };

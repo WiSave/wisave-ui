@@ -1,7 +1,7 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "../../../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../../dist/out-tsc/libs/expenses/accounts"
+    "outDir": "../../../../dist/out-tsc/libs/expenses/plugins/accounts"
   },
   "files": ["vite.config.ts"],
   "references": [

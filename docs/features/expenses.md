@@ -5,9 +5,9 @@ Expense transaction management — recording, filtering, sorting, and paginating
 ## Nx Libraries
 
 - `libs/expenses/shell` owns the `/expenses` shell component and child route composition.
-- `libs/expenses/list` owns the transaction list projection view, table/cards components, and list store.
-- `libs/expenses/budget` owns budget and insights views/stores.
-- `libs/expenses/accounts` owns funding account views, dialogs, account store, and account tests.
+- `libs/expenses/plugins/list` owns the transaction list projection view, table/cards components, and list store.
+- `libs/expenses/plugins/budget` owns budget and insights views/stores.
+- `libs/expenses/plugins/accounts` owns funding account views, dialogs, account store, and account tests.
 - `libs/expenses/data-access` owns expenses, budget, and account API services/mappers.
 
 ## Routes
